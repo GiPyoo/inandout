@@ -1,0 +1,95 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.4.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("com.moowork.gradle:gradle-node-plugin:1.2.0")
+    }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'idea'
+apply plugin: 'com.moowork.node'
+
+group = 'com.pictureonmap'
+version = '0.0.5'
+sourceCompatibility = '1.8'
+
+bootJar {
+    baseName "springboot-service"
+    launchScript()
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation group: 'net.rakugakibox.spring.boot', name: 'logback-access-spring-boot-starter', version: '2.7.1'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+
+    implementation 'io.springfox:springfox-swagger2:2.6.1'
+    implementation 'io.springfox:springfox-swagger-ui:2.6.1'
+
+    // DB
+    implementation 'com.h2database:h2'
+    implementation group: 'org.hibernate', name: 'hibernate-spatial'
+
+    // Utility
+    implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.238'
+    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
+
+    // Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.assertj:assertj-core:3.6.2'
+}
+
+task deleteWebFiles(type: Delete) {
+    delete fileTree('src/main/resources/static') {
+        include '*.html'
+        include '*.js'
+        include '*.css'
+    }
+}
+
+task installDependencies(type: NpmTask) {
+    args = ['install']
+    execOverrides {
+        it.workingDir = './frontend'
+    }
+}
+
+// Task for executing build:gradle in web
+task buildWeb(type: NpmTask) {
+    args = ['run', 'build']
+    execOverrides {
+        it.workingDir = './frontend'
+    }
+}
+
+task copyWebFiles(type: Copy) {
+    from 'frontend/dist'
+    into 'src/main/resources/static'
+    include '*.html'
+    include '*.js'
+    include '*.css'
+}
+
+installDependencies.dependsOn deleteWebFiles
+buildWeb.dependsOn installDependencies
+copyWebFiles.dependsOn buildWeb
+processResources.dependsOn copyWebFiles

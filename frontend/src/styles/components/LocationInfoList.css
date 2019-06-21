@@ -1,0 +1,5 @@
+.locationImagesWrapper{
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: stretch;
+  }
