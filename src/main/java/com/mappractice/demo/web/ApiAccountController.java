@@ -16,7 +16,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(UriResource.ACCOUNTS_V1_URI)
+@RequestMapping
 public class ApiAccountController {
 
     @Autowired
