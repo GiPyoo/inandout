@@ -1,29 +1,31 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import '../styles/pages/Map.css';
 
 // 각종 상태들을 관리하는 App 컴포넌트
-class Payment extends Component{
+class Payment extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {name: '',price:''};
-
+    this.state = { name: '', price: '' };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
-    this.setState({name: event.target.value, price: event.target.value});
+    this.setState({ name: event.target.value, price: event.target.value });
   }
 
   handleSubmit(event) {
     axios.post('/process/payment', this.state)
-  .then( response => {  this.props.callbackFromParent(response.data)} )
-  .catch( response => { console.log(response) } );
+      .then(response => {
+        console.log(response);
+        this.props.callbackFromParent(response.data)
+      })
+      .catch(response => { console.log(response) });
   }
 
-  render(){
+  render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
@@ -39,22 +41,22 @@ class Payment extends Component{
     );
   };
 
-  componentDidMount(){
+  componentDidMount() {
     console.log('Payment.js - componentDidMount()');
 
     // 로그인 되어 있는지 안되어 있는지 확인
     const loginUserId = sessionStorage.getItem('userId');
 
-    if(loginUserId !== null){
+    if (loginUserId !== null) {
       this.setState({
         userId: loginUserId
       });
-    }else{
+    } else {
       this.setState({
         userId: ''
       })
     }
-    
+
   }
 }
 
