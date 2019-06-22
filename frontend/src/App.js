@@ -4,9 +4,14 @@ import {Payment, CheckPayment , SignIn, SignUp, ImageStore} from './pages';
 
 class App extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {PaymentData: ''};
+  }
+
   PaymentCallBack = (dataFromChild) => {
     this.setState({
-      PaymentData : dataFromChild ? dataFromChild : ''
+      PaymentData : dataFromChild
     })
   }
 
