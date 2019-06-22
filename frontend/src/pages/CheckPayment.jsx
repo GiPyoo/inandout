@@ -1,20 +1,17 @@
 import React, { Component, Fragment } from 'react';
-import axios from 'axios';
+import PaymentInfo from '../components/PaymentInfo'
 
-// 각종 상태들을 관리하는 App 컴포넌트
 class CheckPayment extends Component {
-
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleSubmit(event) {
-  }
-
   render() {
+    const data = this.props.PaymentData;
+    const InfoList = Object.entries(data).map(([key,value])=>{
+        return (
+            <PaymentInfo label = {key} info = {value.toString()}/>
+        );
+      })
     return (
-      <h1>결제 완료</h1>
+      <h1>결제 완료</h1>,
+      <ul>{InfoList}</ul>
     );
   };
 
