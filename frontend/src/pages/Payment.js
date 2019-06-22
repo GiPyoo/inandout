@@ -1,10 +1,9 @@
 import React, {Component, Fragment} from 'react';
-import {RenderAfterNavermapsLoaded} from 'react-naver-maps';
 import axios from 'axios';
 import '../styles/pages/Map.css';
 
 // 각종 상태들을 관리하는 App 컴포넌트
-class Map extends Component{
+class Payment extends Component{
 
   constructor(props) {
     super(props);
@@ -59,6 +58,4 @@ class Map extends Component{
   }
 }
 
-
-
-export default Map;
+export default Payment;
