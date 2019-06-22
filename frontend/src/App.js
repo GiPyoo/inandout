@@ -3,10 +3,15 @@ import {Route, BrowserRouter} from 'react-router-dom';
 import {Payment, CheckPayment , SignIn, SignUp, ImageStore} from './pages';
 
 class App extends Component {
-
+  
   constructor(props) {
     super(props);
-    this.state = {PaymentData: ''};
+    var data = {
+      name : '',
+      price : ''
+    }
+    this.state = {PaymentData: data};
+    console.log(data);
   }
 
   PaymentCallBack = (dataFromChild) => {
@@ -19,8 +24,8 @@ class App extends Component {
     
     return (
       <BrowserRouter>
-        <Route exact path ="/payment" component={Payment} callbackFromParent = {this.PaymentCallBack}/>
-        <Route exact path ="/payment/result" component = {CheckPayment} data = {this.state.PaymentData}/>
+        <Route exact path ="/payment" render = {() => <Payment callbackFromParent = {this.PaymentCallBack} />}/>
+        <Route exact path ="/payment/result" render ={() => <CheckPayment data = {this.state.PaymentData} />}/>
         <Route exact path="/signIn" component={SignIn} />
         <Route exact path="/signUp" component={SignUp} />
         <Route exact path="/imageStore" component={ImageStore} />

@@ -3,8 +3,8 @@ import PaymentInfo from '../components/PaymentInfo'
 
 class CheckPayment extends Component {
   render() {
-    const data = this.props.PaymentData;
-    const InfoList = Object.entries(data).map(([key,value])=>{
+    console.log(this.props)
+    const InfoList = Object.keys(this.props.data).map((key,value)=>{
         return (
             <PaymentInfo label = {key} info = {value.toString()}/>
         );
@@ -12,7 +12,7 @@ class CheckPayment extends Component {
     return (
       <h1>결제 완료</h1>,
       <ul>{InfoList}</ul>
-    );
+    ); 
   };
 
   componentDidMount() {
