@@ -1,12 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {RenderAfterNavermapsLoaded} from 'react-naver-maps';
 import axios from 'axios';
-import MapBox from '../components/MapBox';
-import NavBar from '../components/NavBar';
 import '../styles/pages/Map.css';
-
-
-
 
 // 각종 상태들을 관리하는 App 컴포넌트
 class Map extends Component{
@@ -25,7 +20,7 @@ class Map extends Component{
 
   handleSubmit(event) {
     axios.post('/process/payment', this.state)
-  .then( response => { console.log(response) } )
+  .then( response => {  this.props.callbackFromParent(response.data)} )
   .catch( response => { console.log(response) } );
   }
 
@@ -43,7 +38,6 @@ class Map extends Component{
         <input type="submit" value="Submit" />
       </form>
     );
-  }
   };
 
   componentDidMount(){
@@ -61,8 +55,6 @@ class Map extends Component{
         userId: ''
       })
     }
-
-    this.getServerImageData();
     
   }
 }
