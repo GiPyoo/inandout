@@ -12,16 +12,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class AccountRepositoryTest {
+public class UserRepositoryTest {
 
     @Autowired
-    private AccountRepository accountRepository;
+    private UserRepository userRepository;
 
     @Test
     public void findByIdTest() {
-        Account account = new Account(1l, "test@naver.com", "!Test1234", "testName");
-        accountRepository.save(account);
-        Optional<Account> byId = accountRepository.findById(1l);
-        assertThat(byId.get().getEmail()).isEqualTo("test@naver.com");
+        User account = new User(1l, "test@naver.com", "!Test1234", "testName");
+        userRepository.save(account);
+        Optional<User> byId = userRepository.findById(1l);
+        assertThat(byId.get().getName()).isEqualTo("test@naver.com");
     }
 }

@@ -1,6 +1,6 @@
 package com.mappractice.demo.dto;
 
-import com.mappractice.demo.domain.Account;
+import com.mappractice.demo.domain.User;
 import com.mappractice.demo.exception.UnAuthorizedException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountSignUpDTO {
+public class UserSignUpDTO {
 
-    private String email;
+    private String account;
 
     private String password;
 
@@ -28,11 +28,11 @@ public class AccountSignUpDTO {
         return false;
     }
 
-    public Account toEntity() {
+    public User toEntity() {
         if (!passwordConfirm()) {
             throw new UnAuthorizedException("unmatch password");
         }
-        return new Account(email, password, name);
+        return new User(account, password, name);
     }
 
 }
