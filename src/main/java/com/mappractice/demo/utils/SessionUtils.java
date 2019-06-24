@@ -1,6 +1,6 @@
 package com.mappractice.demo.utils;
 
-import com.mappractice.demo.domain.Account;
+import com.mappractice.demo.domain.User;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +19,6 @@ public class SessionUtils {
         if (!isLogin(session)) {
             return null;
         }
-        return (Account) session.getAttribute(USER_SESSION_KEY);
+        return (User) session.getAttribute(USER_SESSION_KEY);
     }
 }
