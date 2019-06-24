@@ -1,6 +1,6 @@
 package com.mappractice.demo.dto;
 
-import com.mappractice.demo.domain.Account;
+import com.mappractice.demo.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class AccountReturnDTO implements UrlGeneratable{
+public class UserReturnDTO implements UrlGeneratable{
 
     private Long id;
 
@@ -19,10 +19,10 @@ public class AccountReturnDTO implements UrlGeneratable{
 
     private String name;
 
-    public AccountReturnDTO(Account account) {
-        this.id = account.getId();
-        this.email = account.getEmail();
-        this.name = account.getName();
+    public UserReturnDTO(User user) {
+        this.id = user.getId();
+        this.email = user.getAccount();
+        this.name = user.getName();
     }
 
     @Override

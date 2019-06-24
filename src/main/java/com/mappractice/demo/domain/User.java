@@ -1,6 +1,6 @@
 package com.mappractice.demo.domain;
 
-import com.mappractice.demo.dto.AccountSignUpDTO;
+import com.mappractice.demo.dto.UserSignUpDTO;
 import com.mappractice.demo.exception.UnAuthorizedException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,22 +8,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Account {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
-    @Email
-    private String email;
+    private String account;
 
     @Column(nullable = false)
     private String password;
@@ -31,8 +29,8 @@ public class Account {
     @Column(nullable = false)
     private String name;
 
-    public Account(String email, String password, String name) {
-        this.email = email;
+    public User(String account, String password, String name) {
+        this.account = account;
         this.password = password;
         this.name = name;
     }
@@ -44,12 +42,12 @@ public class Account {
         return false;
     }
 
-    public Account update(AccountSignUpDTO accountSignUpDTO) {
+    public User update(UserSignUpDTO userSignUpDTO) {
         if (!this.getPassword().equals(password)) {
             throw new UnAuthorizedException("unvalid password");
         }
-        email = accountSignUpDTO.getEmail();
-        name = accountSignUpDTO.getName();
+        account = userSignUpDTO.getAccount();
+        name = userSignUpDTO.getName();
         return this;
     }
 }

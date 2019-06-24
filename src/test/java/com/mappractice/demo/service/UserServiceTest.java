@@ -1,9 +1,9 @@
 package com.mappractice.demo.service;
 
-import com.mappractice.demo.domain.Account;
+import com.mappractice.demo.domain.User;
 import com.mappractice.demo.domain.AccountRepository;
-import com.mappractice.demo.dto.AccountReturnDTO;
-import com.mappractice.demo.dto.AccountSignUpDTO;
+import com.mappractice.demo.dto.UserReturnDTO;
+import com.mappractice.demo.dto.UserSignUpDTO;
 import com.mappractice.demo.dto.LoginDTO;
 import com.mappractice.demo.exception.UnAuthorizedException;
 import org.junit.Test;
@@ -17,20 +17,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.mappractice.demo.acceptanceTest.AcceptanceAccountTest.*;
+import static com.mappractice.demo.acceptanceTest.AcceptanceUserTest.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AccountServiceTest {
+public class UserServiceTest {
 
     @Mock
     private AccountRepository accountRepository;
 
     @InjectMocks
-    private AccountService accountService;
+    private UserService userService;
 
     @InjectMocks
     MockHttpSession session;
@@ -38,56 +38,56 @@ public class AccountServiceTest {
     @Test
     public void create_성공() {
         //given
-        when(accountRepository.save(any(Account.class))).thenReturn(account);
+        when(accountRepository.save(any(User.class))).thenReturn(account);
         //when
-        AccountReturnDTO accountReturnDTO = accountService.create(accountSignUpDTO);
+        UserReturnDTO userReturnDTO = userService.create(userSignUpDTO);
         //then
-        assertThat(accountReturnDTO.getName()).isEqualTo("testName");
+        assertThat(userReturnDTO.getName()).isEqualTo("testName");
     }
 
     @Test
     public void delete_성공() {
         //given
-        doNothing().when(accountRepository).delete(any(Account.class));
+        doNothing().when(accountRepository).delete(any(User.class));
         when(accountRepository.findById(1l)).thenReturn(Optional.of(account));
         //when
-        AccountReturnDTO accountReturnDTO = accountService.delete(1l);
+        UserReturnDTO userReturnDTO = userService.delete(1l);
         //then
-        assertThat(accountReturnDTO.getName()).isEqualTo("testName");
+        assertThat(userReturnDTO.getName()).isEqualTo("testName");
     }
 
     @Test
     public void update_성공() {
         //given
-        AccountSignUpDTO inputedSignUpDTO = AccountSignUpDTO.builder()
-                .email("changed@naver.com")
+        UserSignUpDTO inputedSignUpDTO = UserSignUpDTO.builder()
+                .account("changed@naver.com")
                 .name("changedName")
                 .password("!Test1234")
                 .passwordCheck("!Test1234")
                 .build();
-        Account originalAccount = new Account("original@test.com", "!Test1234", "originalName");
+        User originalAccount = new User("original@test.com", "!Test1234", "originalName");
 
-        Account changedAccount = new Account(
+        User changedAccount = new User(
                 1l,
-                inputedSignUpDTO.getEmail(),
+                inputedSignUpDTO.getAccount(),
                 inputedSignUpDTO.getPassword(),
                 inputedSignUpDTO.getName());
 
         when(accountRepository.findById(account.getId())).thenReturn(Optional.of(originalAccount));
-        when(accountRepository.save(any(Account.class))).thenReturn(changedAccount);
+        when(accountRepository.save(any(User.class))).thenReturn(changedAccount);
         //when
-        AccountReturnDTO accountReturnDTO = accountService.update(account.getId(), inputedSignUpDTO);
+        UserReturnDTO userReturnDTO = userService.update(account.getId(), inputedSignUpDTO);
         //then
-        assertThat(accountReturnDTO.getName()).isEqualTo("changedName");
+        assertThat(userReturnDTO.getName()).isEqualTo("changedName");
     }
 
     @Test
     public void getList_성공() {
-        List<Account> accounts = new ArrayList<>();
+        List<User> accounts = new ArrayList<>();
         accounts.add(account);
         when(accountRepository.findAll()).thenReturn(accounts);
         //when
-        List<AccountReturnDTO> list = accountService.getList();
+        List<UserReturnDTO> list = userService.getList();
         //then
         assertThat(list.size()).isEqualTo(1);
         assertThat(list.get(0).getName()).isEqualTo("testName");
@@ -98,17 +98,17 @@ public class AccountServiceTest {
         //given
         when(accountRepository.findById(1l)).thenReturn(Optional.of(account));
         //when
-        AccountReturnDTO accountReturnDTO = accountService.get(1l);
+        UserReturnDTO userReturnDTO = userService.get(1l);
         //then
-        assertThat(accountReturnDTO.getName()).isEqualTo("testName");
+        assertThat(userReturnDTO.getName()).isEqualTo("testName");
     }
 
     @Test
     public void login_성공() {
         //given
-        when(accountRepository.findByEmail(any(String.class))).thenReturn(Optional.of(account));
+        when(accountRepository.findByName(any(String.class))).thenReturn(Optional.of(account));
         //when
-        AccountReturnDTO account = accountService.login(session,loginDTO);
+        UserReturnDTO account = userService.login(session,loginDTO);
         //then
         assertThat(account.getName()).isEqualTo("testName");
     }
@@ -118,8 +118,8 @@ public class AccountServiceTest {
     public void login_실패() {
         //given
         LoginDTO loginDTO = new LoginDTO("test@naver.com", "unvalidpassword");
-        when(accountRepository.findByEmail(any(String.class))).thenReturn(Optional.of(account));
+        when(accountRepository.findByName(any(String.class))).thenReturn(Optional.of(account));
         //when
-        AccountReturnDTO account = accountService.login(session, loginDTO);
+        UserReturnDTO account = userService.login(session, loginDTO);
     }
 }
