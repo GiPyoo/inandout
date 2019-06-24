@@ -26,7 +26,7 @@ class App extends Component {
       <BrowserRouter>
         <Route exact path ="/payment" render = {() => <Payment callbackFromParent = {this.PaymentCallBack} />}/>
         <Route exact path ="/payment/result" render ={() => <CheckPayment data = {this.state.PaymentData} />}/>
-        <Route exact path="/signIn" component={SignIn} />
+        <Route exact path="/login" component={SignIn} />
         <Route exact path="/signUp" component={SignUp} />
         <Route exact path="/imageStore" component={ImageStore} />
       </BrowserRouter>

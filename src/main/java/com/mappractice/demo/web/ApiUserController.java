@@ -12,20 +12,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping
+@RequestMapping(UriResource.ACCOUNTS_V1_URI)
 public class ApiUserController {
 
     @Autowired
     private UserService userService;
 
-//    @GetMapping("")
-//    public ResponseEntity<RestResponse<List<AccountReturnDTO>>> getList() {
-//        List<AccountReturnDTO> accountList = userService.getList();
-//        return ResponseGenerator.generateListResponseEntity(accountList, HttpStatus.OK);
-//    }
+    @GetMapping("")
+    public ResponseEntity<RestResponse<List<UserReturnDTO>>> getList() {
+        List<UserReturnDTO> accountList = userService.getList();
+        return ResponseGenerator.generateListResponseEntity(accountList, HttpStatus.OK);
+    }
 
     @GetMapping("/{userId}")
     public ResponseEntity<RestResponse<UserReturnDTO>> getUser(@PathVariable Long userId) {
@@ -36,13 +37,13 @@ public class ApiUserController {
                 , HttpStatus.OK);
     }
 
-//    @PostMapping("")
-//    public ResponseEntity<RestResponse<AccountReturnDTO>> create(@RequestBody AccountSignUpDTO accountSignUpDTO) {
-//        AccountReturnDTO accountReturnDTO = userService.create(accountSignUpDTO);
-//        return ResponseGenerator.generateCreatedResponseEntity(
-//                accountReturnDTO,
-//                accountReturnDTO.generateUrl(UriResource.ACCOUNTS_V1_URI));
-//    }
+    @PostMapping("")
+    public ResponseEntity<RestResponse<UserReturnDTO>> create(@RequestBody UserSignUpDTO accountSignUpDTO) {
+        UserReturnDTO accountReturnDTO = userService.create(accountSignUpDTO);
+        return ResponseGenerator.generateCreatedResponseEntity(
+                accountReturnDTO,
+                accountReturnDTO.generateUrl(UriResource.ACCOUNTS_V1_URI));
+    }
 
     @PutMapping("/{userId}")
     public ResponseEntity<RestResponse<UserReturnDTO>> update(@PathVariable Long userId, @RequestBody UserSignUpDTO userSignUpDTO) {
@@ -67,6 +68,7 @@ public class ApiUserController {
         UserReturnDTO userReturnDTO =  userService.login(session, loginDTO);
         return ResponseGenerator.generateResponseEntity(
                 userReturnDTO,
+                UriResource.ACCOUNTS_V1_URI,
                 HttpStatus.OK);
     }
 }
