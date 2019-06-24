@@ -1,13 +1,13 @@
 package com.mappractice.demo.acceptanceTest;
 
-import com.mappractice.demo.domain.User;
+import com.mappractice.demo.domain.Account;
 import com.mappractice.demo.domain.AccountRepository;
-import com.mappractice.demo.dto.UserReturnDTO;
-import com.mappractice.demo.dto.UserSignUpDTO;
+import com.mappractice.demo.dto.AccountReturnDTO;
+import com.mappractice.demo.dto.AccountSignUpDTO;
 import com.mappractice.demo.dto.LoginDTO;
 import com.mappractice.demo.response.RestResponse;
 import com.mappractice.demo.support.AcceptanceTest;
-import com.mappractice.demo.web.ApiUserController;
+import com.mappractice.demo.web.ApiAccountController;
 import com.mappractice.demo.web.UriResource;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -18,31 +18,31 @@ import org.springframework.http.ResponseEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AcceptanceUserTest extends AcceptanceTest {
-    private final Logger log = LoggerFactory.getLogger(AcceptanceUserTest.class);
+public class AcceptanceAccountTest extends AcceptanceTest {
+    private final Logger log = LoggerFactory.getLogger(AcceptanceAccountTest.class);
     private final String ACCOUNT_URI = UriResource.ACCOUNTS_V1_URI;
 
     @Autowired
-    private ApiUserController apiUserController;
+    private ApiAccountController apiAccountController;
 
     @Autowired
     private AccountRepository accountRepository;
 
-    public static UserSignUpDTO userSignUpDTO;
-    public static User account;
-    public static UserReturnDTO userReturnDTO;
+    public static AccountSignUpDTO accountSignUpDTO;
+    public static Account account;
+    public static AccountReturnDTO accountReturnDTO;
     public static LoginDTO loginDTO;
 
     static {
-        userSignUpDTO = UserSignUpDTO.builder()
-                .account("test@naver.com")
+        accountSignUpDTO = AccountSignUpDTO.builder()
+                .email("test@naver.com")
                 .name("testName")
                 .password("!Test1234")
                 .passwordCheck("!Test1234")
                 .build();
 
-        account = new User(2l, "test@naver.com", "!Test1234", "testName");
-        userReturnDTO = new UserReturnDTO(2l, "test@naver.com", "testName");
+        account = new Account(2l, "test@naver.com", "!Test1234", "testName");
+        accountReturnDTO = new AccountReturnDTO(2l, "test@naver.com", "testName");
         loginDTO = new LoginDTO("test@naver.com", "!Test1234");
     }
 
@@ -56,8 +56,8 @@ public class AcceptanceUserTest extends AcceptanceTest {
 
     @Test
     public void get_user_성공() {
-        UserSignUpDTO accountDTO = UserSignUpDTO.builder()
-                .account("test3@naver.com")
+        AccountSignUpDTO accountDTO = AccountSignUpDTO.builder()
+                .email("test3@naver.com")
                 .name("testName")
                 .password("!Test1234")
                 .passwordCheck("!Test1234")
@@ -72,8 +72,8 @@ public class AcceptanceUserTest extends AcceptanceTest {
 
     @Test
     public void post_login_성공() {
-        UserSignUpDTO accountDTO = UserSignUpDTO.builder()
-                .account("test4@naver.com")
+        AccountSignUpDTO accountDTO = AccountSignUpDTO.builder()
+                .email("test4@naver.com")
                 .name("testName")
                 .password("!Test1234")
                 .passwordCheck("!Test1234")
@@ -91,8 +91,8 @@ public class AcceptanceUserTest extends AcceptanceTest {
 
     @Test
     public void create_성공() {
-        UserSignUpDTO accountDTO = UserSignUpDTO.builder()
-                .account("test1@naver.com")
+        AccountSignUpDTO accountDTO = AccountSignUpDTO.builder()
+                .email("test1@naver.com")
                 .name("testName")
                 .password("!Test1234")
                 .passwordCheck("!Test1234")
@@ -101,13 +101,13 @@ public class AcceptanceUserTest extends AcceptanceTest {
 
         log.info("body : {}", responseEntity.getBody());
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(accountRepository.findByName(accountDTO.getAccount()).isPresent()).isEqualTo(true);
+        assertThat(accountRepository.findByEmail(accountDTO.getEmail()).isPresent()).isEqualTo(true);
     }
 
     @Test
     public void update_성공() {
-        UserSignUpDTO accountDTO = UserSignUpDTO.builder()
-                .account("test2@naver.com")
+        AccountSignUpDTO accountDTO = AccountSignUpDTO.builder()
+                .email("test2@naver.com")
                 .name("testName")
                 .password("!Test1234")
                 .passwordCheck("!Test1234")
@@ -115,8 +115,8 @@ public class AcceptanceUserTest extends AcceptanceTest {
 
         String resourceURI = createResource(ACCOUNT_URI, accountDTO);
 
-        UserSignUpDTO changedAccountDTO = UserSignUpDTO.builder()
-                .account("test3@naver.com")
+        AccountSignUpDTO changedAccountDTO = AccountSignUpDTO.builder()
+                .email("test3@naver.com")
                 .name("changedName")
                 .password("!Test1234")
                 .passwordCheck("!Test1234")
@@ -126,13 +126,13 @@ public class AcceptanceUserTest extends AcceptanceTest {
 
         log.info("body : {}", responseEntity.getBody());
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(accountRepository.findByName(changedAccountDTO.getAccount()).get().getName()).isEqualTo("changedName");
+        assertThat(accountRepository.findByEmail(changedAccountDTO.getEmail()).get().getName()).isEqualTo("changedName");
     }
 
     @Test
     public void delete_성공() {
-        UserSignUpDTO accountDTO = UserSignUpDTO.builder()
-                .account("test2@naver.com")
+        AccountSignUpDTO accountDTO = AccountSignUpDTO.builder()
+                .email("test2@naver.com")
                 .name("testName")
                 .password("!Test1234")
                 .passwordCheck("!Test1234")
@@ -142,10 +142,10 @@ public class AcceptanceUserTest extends AcceptanceTest {
 
         log.info("body : {}", responseEntity.getBody());
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(accountRepository.findByName(accountDTO.getAccount()).isPresent()).isEqualTo(false);
+        assertThat(accountRepository.findByEmail(accountDTO.getEmail()).isPresent()).isEqualTo(false);
     }
 
-    protected String createResource(String uri, UserSignUpDTO accountDTO) {
+    protected String createResource(String uri, AccountSignUpDTO accountDTO) {
         ResponseEntity<RestResponse> restResponseResponseEntity = sendPost(uri, accountDTO, RestResponse.class);
         return restResponseResponseEntity.getHeaders().getLocation().getPath();
     }
