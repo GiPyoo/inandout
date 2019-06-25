@@ -27,8 +27,7 @@ class SignIn extends Component {
             name: this.state.name,
             password: this.state.password
         }).then(function (res) {
-            console.log('성공')
-            console.log(res);
+            location.href = '/payment'
         }).catch(function (err) {
             console.log(err.response);
         });
@@ -36,14 +35,19 @@ class SignIn extends Component {
     }
 
     render() {
-        return (
-            <form className={"login-box"}>
-                <h1>Login</h1>
-                <input type={"text"} onChange={this.handleNameChange} id={'username'} placeholder={"Username"} autoFocus autoComplete={"on"} />
-                <input type={"password"} onChange={this.handlePasswordChange} id={'password'} placeholder={"password"} autoFocus autoComplete={"off"} />
-                <button onClick={this.handleSubmit}>로그인</button>
-            </form>
-        );
+        if (this.state.isSignedUp) {
+            return(<Redirect to={{ pathname: "/payment" }} />);
+        } else {
+            return (
+
+                <form className={"login-box"}>
+                    <h1>Login</h1>
+                    <input type={"text"} onChange={this.handleNameChange} id={'username'} placeholder={"Username"} autoFocus autoComplete={"on"} />
+                    <input type={"password"} onChange={this.handlePasswordChange} id={'password'} placeholder={"password"} autoFocus autoComplete={"off"} />
+                    <button onClick={this.handleSubmit}>로그인</button>
+                </form>
+            );
+        }
     }
 }
 
