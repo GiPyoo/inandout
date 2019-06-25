@@ -10,8 +10,10 @@ class SignIn extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
         this.state = {
             name: '',
-            password: ''
+            password: '',
+            isSignedUp: false,
         };
+        
     }
 
     handleNameChange(e) {
@@ -27,7 +29,9 @@ class SignIn extends Component {
             name: this.state.name,
             password: this.state.password
         }).then(function (res) {
-            location.href = '/payment'
+            console.log(res);
+            this.setState({isSignedUp : true})
+            //location.href = '/payment'
         }).catch(function (err) {
             console.log(err.response);
         });
@@ -36,7 +40,7 @@ class SignIn extends Component {
 
     render() {
         if (this.state.isSignedUp) {
-            return(<Redirect to={{ pathname: "/payment" }} />);
+            return <Redirect to={{ pathname: "/payment" }} />;
         } else {
             return (
 
