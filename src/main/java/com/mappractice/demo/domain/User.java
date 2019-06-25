@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,6 +29,10 @@ public class User {
 
     @Column(nullable = false)
     private String name;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @Column
+    private List<VirtualAccount> virtualAccounts;
 
     public User(String account, String password, String name) {
         this.account = account;

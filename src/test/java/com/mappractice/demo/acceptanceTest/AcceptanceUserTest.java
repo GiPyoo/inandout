@@ -41,7 +41,7 @@ public class AcceptanceUserTest extends AcceptanceTest {
                 .passwordCheck("!Test1234")
                 .build();
 
-        user = new User(2l, "test@naver.com", "!Test1234", "testName");
+        user = new User(2l, "test@naver.com", "!Test1234", "testName", null);
         userReturnDTO = new UserReturnDTO(2l, "test@naver.com", "testName");
         loginDTO = new LoginDTO("test@naver.com", "!Test1234");
     }

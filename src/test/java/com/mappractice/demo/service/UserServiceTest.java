@@ -72,7 +72,7 @@ public class UserServiceTest {
                 1l,
                 inputedSignUpDTO.getAccount(),
                 inputedSignUpDTO.getPassword(),
-                inputedSignUpDTO.getName());
+                inputedSignUpDTO.getName(), null);
 
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(originalUser));
         when(userRepository.save(any(User.class))).thenReturn(changedUser);

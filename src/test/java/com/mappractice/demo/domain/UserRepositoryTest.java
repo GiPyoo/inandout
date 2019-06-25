@@ -19,7 +19,7 @@ public class UserRepositoryTest {
 
     @Test
     public void findByIdTest() {
-        User account = new User(1l, "test@naver.com", "!Test1234", "testName");
+        User account = new User(1l, "test@naver.com", "!Test1234", "testName", null);
         userRepository.save(account);
         Optional<User> byId = userRepository.findById(1l);
         assertThat(byId.get().getName()).isEqualTo("test@naver.com");
