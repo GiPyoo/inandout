@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -18,7 +19,7 @@ public class AccountHistory {
     private Category category;
 
     @Column
-    private String date;
+    private LocalDateTime date;
 
     @Column
     private String client;

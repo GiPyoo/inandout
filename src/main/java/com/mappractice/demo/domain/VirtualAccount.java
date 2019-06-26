@@ -1,5 +1,6 @@
 package com.mappractice.demo.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,11 +12,13 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class VirtualAccount {
 
     @Id
+    @ManyToOne
     @Column(nullable = false)
-    private String account;
+    private User user;
 
     @Id
     @OneToOne

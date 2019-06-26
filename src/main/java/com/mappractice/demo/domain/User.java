@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -33,6 +34,9 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     @Column
     private List<VirtualAccount> virtualAccounts;
+
+    @Column
+    private LocalDateTime userLatestTime;
 
     public User(String account, String password, String name) {
         this.account = account;
