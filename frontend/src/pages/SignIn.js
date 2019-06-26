@@ -13,7 +13,7 @@ class SignIn extends Component {
             password: '',
             isSignedUp: false,
         };
-        
+
     }
 
     handleNameChange(e) {
@@ -30,8 +30,7 @@ class SignIn extends Component {
             password: this.state.password
         }).then(function (res) {
             console.log(res);
-            this.setState({isSignedUp : true})
-            //location.href = '/payment'
+            location.href = '/payment'
         }).catch(function (err) {
             console.log(err.response);
         });
@@ -39,19 +38,14 @@ class SignIn extends Component {
     }
 
     render() {
-        if (this.state.isSignedUp) {
-            return <Redirect to={{ pathname: "/payment" }} />;
-        } else {
-            return (
-
-                <form className={"login-box"}>
-                    <h1>Login</h1>
-                    <input type={"text"} onChange={this.handleNameChange} id={'username'} placeholder={"Username"} autoFocus autoComplete={"on"} />
-                    <input type={"password"} onChange={this.handlePasswordChange} id={'password'} placeholder={"password"} autoFocus autoComplete={"off"} />
-                    <button onClick={this.handleSubmit}>로그인</button>
-                </form>
-            );
-        }
+        return (
+            <form className={"login-box"}>
+                <h1>Login</h1>
+                <input type={"text"} onChange={this.handleNameChange} id={'username'} placeholder={"Username"} autoFocus autoComplete={"on"} />
+                <input type={"password"} onChange={this.handlePasswordChange} id={'password'} placeholder={"password"} autoFocus autoComplete={"off"} />
+                <button onClick={this.handleSubmit}>로그인</button>
+            </form>
+        );
     }
 }
 

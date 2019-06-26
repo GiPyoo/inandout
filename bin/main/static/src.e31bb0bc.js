@@ -39501,7 +39501,6 @@ class Payment extends _react.Component {
       name: '',
       price: ''
     };
-    console.log(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -39559,14 +39558,81 @@ class Payment extends _react.Component {
 
 var _default = Payment;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","../styles/pages/Map.css":"styles/pages/Map.css"}],"styles/pages/Login.css":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","../styles/pages/Map.css":"styles/pages/Map.css"}],"components/PaymentInfo.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+class PaymentInfo extends _react.Component {
+  render() {
+    return _react.default.createElement("li", null, this.props.label, ":", this.props.info);
+  }
+
+}
+
+var _default = PaymentInfo;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"pages/CheckPayment.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _PaymentInfo = _interopRequireDefault(require("../components/PaymentInfo"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+class CheckPayment extends _react.Component {
+  render() {
+    console.log(this.props);
+    const InfoList = Object.keys(this.props.data).map((key, value) => {
+      return _react.default.createElement(_PaymentInfo.default, {
+        label: key,
+        info: value.toString()
+      });
+    });
+    return _react.default.createElement("h1", null, "\uACB0\uC81C \uC644\uB8CC"), _react.default.createElement("ul", null, InfoList);
+  }
+
+  componentDidMount() {
+    console.log('Payment.js - componentDidMount()'); // 로그인 되어 있는지 안되어 있는지 확인
+
+    const loginUserId = sessionStorage.getItem('userId');
+
+    if (loginUserId !== null) {
+      this.setState({
+        userId: loginUserId
+      });
+    } else {
+      this.setState({
+        userId: ''
+      });
+    }
+  }
+
+}
+
+var _default = CheckPayment;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","../components/PaymentInfo":"components/PaymentInfo.jsx"}],"styles/pages/Login.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"styles/img/salad.svg":[function(require,module,exports) {
-module.exports = "/salad.0e6ee91e.svg";
-},{}],"pages/SignIn.js":[function(require,module,exports) {
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"pages/SignIn.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39579,8 +39645,6 @@ var _react = _interopRequireWildcard(require("react"));
 var _reactRouterDom = require("react-router-dom");
 
 require("../styles/pages/Login.css");
-
-var _salad = _interopRequireDefault(require("../styles/img/salad.svg"));
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -39595,12 +39659,13 @@ class SignIn extends _react.Component {
     this.doSignIn = async event => {
       event.preventDefault();
       const requestData = {
-        email: document.getElementById('signInEmail').value,
-        password: document.getElementById('signInPassword').value
+        email: document.getElementById('username').value,
+        password: document.getElementById('password').value
       };
 
       try {
-        const signInResponse = await _axios.default.post('http://106.10.56.117:8080/picture-on-map/v1/accounts/login', requestData); // 브라우저의 세션 스토리지에 로그인 정보 저장
+        const signInResponse = await _axios.default.post('/login/process', requestData);
+        console.log(signInResponse); // 브라우저의 세션 스토리지에 로그인 정보 저장
 
         sessionStorage.setItem('userId', signInResponse.data.data.id);
         this.props.history.push("/");
@@ -39615,56 +39680,32 @@ class SignIn extends _react.Component {
       'color': 'white',
       'textDecoration': 'none'
     };
-    return _react.default.createElement("div", {
-      className: "text-center",
-      id: "loginContainer"
-    }, _react.default.createElement("form", {
-      className: "form-signin"
-    }, _react.default.createElement("img", {
-      src: _salad.default,
-      alt: "",
-      width: "70",
-      height: "70"
-    }), _react.default.createElement("h1", {
-      className: "h3 mb-3 font-weight-normal"
-    }, "Login"), _react.default.createElement("input", {
-      type: "email",
-      id: "signInEmail",
-      className: "form-control",
+    return _react.default.createElement("form", {
+      className: "login-box"
+    }, _react.default.createElement("h1", null, "Login"), _react.default.createElement("input", {
+      type: "text",
+      id: 'username',
       name: "id",
-      placeholder: "이메일",
+      placeholder: "Username",
       autoFocus: true,
       autoComplete: "on"
     }), _react.default.createElement("input", {
       type: "password",
-      id: "signInPassword",
-      className: "form-control",
+      id: 'password',
       name: "password",
-      placeholder: "비밀번호",
+      placeholder: "password",
       autoFocus: true,
       autoComplete: "off"
     }), _react.default.createElement("button", {
-      className: "btn btn-lg btn-dark btn-block",
-      type: "submit",
-      id: "btn-login",
       onClick: this.doSignIn
-    }, "\uB85C\uADF8\uC778"), _react.default.createElement("button", {
-      className: "btn btn-lg btn-dark btn-block",
-      type: "button",
-      id: "btn-signup"
-    }, _react.default.createElement(_reactRouterDom.Link, {
-      to: "/signUp",
-      style: signUpButtonStyle
-    }, "\uD68C\uC6D0\uAC00\uC785")), _react.default.createElement("p", {
-      className: "mt-5 mb-3 text-muted"
-    }, "picture on map")));
+    }, "\uB85C\uADF8\uC778"));
   }
 
 }
 
 var _default = SignIn;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../styles/pages/Login.css":"styles/pages/Login.css","../styles/img/salad.svg":"styles/img/salad.svg","axios":"../node_modules/axios/index.js"}],"pages/SignUp.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../styles/pages/Login.css":"styles/pages/Login.css","axios":"../node_modules/axios/index.js"}],"pages/SignUp.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39922,6 +39963,12 @@ Object.defineProperty(exports, "Payment", {
     return _Payment.default;
   }
 });
+Object.defineProperty(exports, "CheckPayment", {
+  enumerable: true,
+  get: function () {
+    return _CheckPayment.default;
+  }
+});
 Object.defineProperty(exports, "SignIn", {
   enumerable: true,
   get: function () {
@@ -39943,6 +39990,8 @@ Object.defineProperty(exports, "ImageStore", {
 
 var _Payment = _interopRequireDefault(require("./Payment"));
 
+var _CheckPayment = _interopRequireDefault(require("./CheckPayment"));
+
 var _SignIn = _interopRequireDefault(require("./SignIn"));
 
 var _SignUp = _interopRequireDefault(require("./SignUp"));
@@ -39950,7 +39999,7 @@ var _SignUp = _interopRequireDefault(require("./SignUp"));
 var _ImageStore = _interopRequireDefault(require("./ImageStore"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Payment":"pages/Payment.js","./SignIn":"pages/SignIn.js","./SignUp":"pages/SignUp.js","./ImageStore":"pages/ImageStore.js"}],"App.js":[function(require,module,exports) {
+},{"./Payment":"pages/Payment.js","./CheckPayment":"pages/CheckPayment.jsx","./SignIn":"pages/SignIn.js","./SignUp":"pages/SignUp.js","./ImageStore":"pages/ImageStore.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39967,17 +40016,38 @@ var _pages = require("./pages");
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 class App extends _react.Component {
-  constructor(...args) {
-    super(...args);
+  constructor(props) {
+    super(props);
 
-    this.myCallback = dataFromChild => {};
+    this.PaymentCallBack = dataFromChild => {
+      this.setState({
+        PaymentData: dataFromChild
+      });
+    };
+
+    var data = {
+      name: '',
+      price: ''
+    };
+    this.state = {
+      PaymentData: data
+    };
+    console.log(data);
   }
 
   render() {
     return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement(_reactRouterDom.Route, {
       exact: true,
-      path: "/",
-      component: _pages.Payment
+      path: "/payment",
+      render: () => _react.default.createElement(_pages.Payment, {
+        callbackFromParent: this.PaymentCallBack
+      })
+    }), _react.default.createElement(_reactRouterDom.Route, {
+      exact: true,
+      path: "/payment/result",
+      render: () => _react.default.createElement(_pages.CheckPayment, {
+        data: this.state.PaymentData
+      })
     }), _react.default.createElement(_reactRouterDom.Route, {
       exact: true,
       path: "/signIn",
@@ -40176,7 +40246,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57413" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63222" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
