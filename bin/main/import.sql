@@ -1,0 +1,1 @@
+INSERT INTO USER (id, name, password, account) VALUES (1,'kiki', '1111','111-111-111');

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -13,8 +12,7 @@ import javax.validation.constraints.NotNull;
 public class LoginDTO {
 
     @NotNull
-    @Email
-    private String email;
+    private String name;
 
     @NotNull
     private String password;
