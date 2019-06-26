@@ -5,7 +5,9 @@ import rightarrow from '../../public/rightarrow.png'
 class LeftArrow extends Component {
     render() {
         return (
-            <img src={leftarrow}></img>
+            <div onClick ={this.props.handlePreAccount}>
+            <img src={leftarrow} ></img>
+            </div>
         )
     }
 }
@@ -13,7 +15,9 @@ class LeftArrow extends Component {
 class RightArrow extends Component {
     render() {
         return (
-            <img src={rightarrow}></img>
+            <div onClick ={this.props.handleNextAccount}>
+            <img src={rightarrow} ></img>
+            </div>
         )
     }
 }
