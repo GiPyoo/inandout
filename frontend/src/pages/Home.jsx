@@ -6,7 +6,7 @@ class Home extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { account: []};
+    this.state = { account: [] };
   }
 
   componentDidMount() {
@@ -22,9 +22,13 @@ class Home extends Component {
 
   render() {
     return (
-        <div>홈입니다. 
-            {this.state.account[0]}
-        </div>
+      <div>
+        <section>
+          <article className = {'slider'}>
+
+          </article>
+        </section>
+      </div>
     );
   };
 }
