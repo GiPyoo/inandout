@@ -21,7 +21,6 @@ class App extends Component {
   }
 
   render(){
-    
     return (
       <BrowserRouter>
         <Route exact path ="/payment" render = {() => <Payment callbackFromParent = {this.PaymentCallBack} />}/>
