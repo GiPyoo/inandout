@@ -3,6 +3,7 @@ import Slide from '../components/Slide'
 import axios from 'axios';
 import * as category from '../module/ImageList'
 import { LeftArrow, RightArrow } from '../components/Arrow'
+import NavBar from '../components/NavBar'
 
 // 각종 상태들을 관리하는 App 컴포넌트
 class Home extends Component {
@@ -31,13 +32,13 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    axios.get('/picture-on-map/v1/accounts/virtualAccount/')
+    axios.get('/picture-on-map/v1/accounts/virtualAccounts/')
       .then(res => {
         const account = res.data;
         this.setState({ account });
         console.log(account);
       }).catch(error => {
-        console.log(실패);
+        console.log('실패');
       })
   }
 
@@ -45,7 +46,9 @@ class Home extends Component {
     const item = category.lists();
 
     return (
+      
       <div>
+        <NavBar/>
         <section>
           <article className={'slider'}>
             <LeftArrow handlePreAccount = {this.handlePreAccount.bind(this)}></LeftArrow>
