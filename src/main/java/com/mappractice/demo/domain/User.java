@@ -19,7 +19,7 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -31,12 +31,11 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @Column
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<VirtualAccount> virtualAccounts;
 
-    @Column
-    private LocalDateTime userLatestTime;
+    @Column(nullable = false)
+    private LocalDateTime userLatestTime = LocalDateTime.now();
 
     public User(String account, String password, String name) {
         this.account = account;

@@ -1,6 +1,5 @@
 INSERT INTO USER (id, name, password, account) VALUES (1,'kiki', '1111','111-111-111');
 
-INSERT INTO CATEGORY (id, name) VALUES (0, '미분류')
 INSERT INTO CATEGORY (id, name) VALUES (1, '식비')
 INSERT INTO CATEGORY (id, name) VALUES (2, '취미/여가')
 INSERT INTO CATEGORY (id, name) VALUES (3, '카페/간식')

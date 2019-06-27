@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Getter
@@ -16,23 +15,18 @@ import java.util.List;
 public class VirtualAccount {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(name="user_id", nullable = false)
     private User user;
 
-    @Id
-    @OneToOne
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name="fk_virtual_category"))
     private Category category;
 
     @Column(nullable = false)
     private Long amount;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @Column
-    private List<AccountHistory> histories;
-
-    public boolean isSameId(Long accountId) {
-        return category.getId() == accountId;
-    }
 }
