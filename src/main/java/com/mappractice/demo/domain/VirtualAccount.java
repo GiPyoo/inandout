@@ -29,4 +29,7 @@ public class VirtualAccount {
     @Column(nullable = false)
     private Long amount;
 
+    public boolean isSameId(Long accountId) {
+        return category.getId() == accountId;
+    }
 }
