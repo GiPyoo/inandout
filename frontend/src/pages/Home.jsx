@@ -34,9 +34,9 @@ class Home extends Component {
   componentDidMount() {
     axios.get('/picture-on-map/v1/virtualAccounts')
       .then(res => {
+        console.log(res);
         const account = res.data;
         this.setState({ account });
-        console.log(account);
       }).catch(error => {
         console.log(error.res);
       })
@@ -44,9 +44,7 @@ class Home extends Component {
 
   render() {
     const item = category.lists();
-
     return (
-      
       <div>
         <NavBar/>
         <section>
