@@ -15,7 +15,7 @@ public class SessionUtils {
         return true;
     }
 
-    public static User getLoginUser(HttpSession session) {
+    public static Object getLoginUser(HttpSession session) {
         if (!isLogin(session)) {
             return null;
         }
