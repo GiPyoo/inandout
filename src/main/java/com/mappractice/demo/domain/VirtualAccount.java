@@ -31,8 +31,4 @@ public class VirtualAccount {
     @OneToMany(cascade = CascadeType.ALL)
     @Column
     private List<AccountHistory> histories;
-
-    public boolean isSameId(Long accountId) {
-        return category.getId() == accountId;
-    }
 }
