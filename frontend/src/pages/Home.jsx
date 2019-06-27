@@ -32,13 +32,13 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    axios.get('/picture-on-map/v1/accounts/virtualAccounts/')
+    axios.get('/picture-on-map/v1/virtualAccounts')
       .then(res => {
         const account = res.data;
         this.setState({ account });
         console.log(account);
       }).catch(error => {
-        console.log('실패');
+        console.log(error.res);
       })
   }
 
