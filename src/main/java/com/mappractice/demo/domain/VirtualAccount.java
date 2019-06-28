@@ -32,4 +32,8 @@ public class VirtualAccount {
     public boolean isSameId(Long accountId) {
         return category.getId() == accountId;
     }
+
+    public void updateAmount(Long amount) {
+        this.amount = amount;
+    }
 }

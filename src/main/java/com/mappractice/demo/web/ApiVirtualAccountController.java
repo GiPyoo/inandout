@@ -56,4 +56,13 @@ public class ApiVirtualAccountController {
                 HttpStatus.OK);
     }
 
+    @PostMapping("/{accountId}/deposit")
+    public ResponseEntity<RestResponse<VirtualAccount>> deposit(HttpSession session, @PathVariable Long accountId, Long money) {
+        virtualAccountService.deposit(session, accountId, money);
+
+        return ResponseGenerator.generateResponseEntity(
+                virtualAccountService.getAccount(accountId),
+                HttpStatus.OK);
+    }
+
 }
