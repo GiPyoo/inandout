@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -57,5 +58,9 @@ public class User {
         account = userSignUpDTO.getAccount();
         name = userSignUpDTO.getName();
         return this;
+    }
+
+    public void updateLatestTime(String latestDate) {
+        this.userLatestTime = LocalDateTime.parse(latestDate);
     }
 }

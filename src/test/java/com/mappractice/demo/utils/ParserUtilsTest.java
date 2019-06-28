@@ -5,6 +5,8 @@ import com.mappractice.demo.service.ApiRequestService;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.servlet.http.HttpSession;
+
 @SpringBootTest
 public class ParserUtilsTest {
     @Test
@@ -19,7 +21,8 @@ public class ParserUtilsTest {
         ApiRequestService apiRequestService = new ApiRequestService();
         TransactionHistoryResponseDTO jsonByRestTemplate = RequestGenerator.getJsonByRestTemplate("http://localhost:8080" + "/hackathonApi/getAccountTransactionHistory");
 
-        apiRequestService.test(jsonByRestTemplate);
+        // 잠깐 주석
+//        apiRequestService.updateHistory(jsonByRestTemplate, session);
         //        ParserUtils.parseStringToJson(str);
     }
 }
