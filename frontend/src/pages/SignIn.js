@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/pages/Login.css';
 import axios from 'axios';
+import NavBar from "../components/NavBar";
 
 class SignIn extends Component {
     constructor(props) {
@@ -46,12 +47,15 @@ class SignIn extends Component {
 
     render() {
         return (
+            <div>
+                <NavBar/>
             <form className={"login-box"}>
                 <h1>Login</h1>
                 <input type={"text"} onChange={this.handleNameChange} id={'username'} placeholder={"Username"} autoFocus autoComplete={"on"} />
                 <input type={"password"} onChange={this.handlePasswordChange} id={'password'} placeholder={"password"} autoFocus autoComplete={"off"} />
                 <button onClick={this.handleSubmit}>로그인</button>
             </form>
+            </div>
         );
     }
 }
