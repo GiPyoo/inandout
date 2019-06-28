@@ -1,7 +1,8 @@
-package com.mappractice.demo.web;
+package com.mappractice.demo.hackaton;
 
-import com.mappractice.demo.dto.TransactionHistoryDTO;
-import com.mappractice.demo.service.ApiHackathonService;
+import com.mappractice.demo.hackaton.dto.TransactionHistoryRequestDTO;
+import com.mappractice.demo.hackaton.dto.TransactionHistoryResponseDTO;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +18,9 @@ public class ApiHackathonController {
     }
 
     @PostMapping("/getAccountTransactionHistory")
-    public TransactionHistoryDTO getAccountHistory(){
-
+    public TransactionHistoryResponseDTO getAccountHistory(
+            @ModelAttribute(value = "dataBody") TransactionHistoryRequestDTO requestDTO){
+        System.out.println("getAccountHistory method : " + requestDTO);
         return apiHackathonService.getAccountHistory();
     }
 }

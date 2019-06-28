@@ -1,4 +1,4 @@
-package com.mappractice.demo.hackaton;
+package com.mappractice.demo.hackaton.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -22,10 +21,10 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long gridInfo;
-    private Long amount;
+    private String gridInfo;
+    private String amount;
     private String amountNumber;
-    private Long withdrawableAmount;
-    private LocalDate nextTransactionDate;
+    private String withdrawableAmount;
+    private String nextTransactionDate;
 
 }

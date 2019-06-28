@@ -1,15 +1,30 @@
-package com.mappractice.demo.hackaton;
+package com.mappractice.demo.hackaton.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class TransactionHistoryRequestDTO {
 
-    private String temp;
+    private String account;
+
+    private String contractNumber;
+
+    @DateTimeFormat(pattern = "yyyyMMdd")
+    private LocalDate from;
+
+    @DateTimeFormat(pattern = "yyyyMMdd")
+    private LocalDate to;
+
+    @DateTimeFormat(pattern = "yyyyMMdd")
+    private LocalDate nextFrom;
+
+    @DateTimeFormat(pattern = "yyyyMMdd")
+    private LocalDate nextTo;
 }
