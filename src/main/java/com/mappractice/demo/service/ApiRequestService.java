@@ -30,7 +30,6 @@ public class ApiRequestService {
                 return i;
             }
         }
-
         return -1;
     }
 }
