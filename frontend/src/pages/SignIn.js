@@ -30,7 +30,7 @@ class SignIn extends Component {
             password: this.state.password
         }).then(function (res) {
             console.log(res);
-            location.href = '/payment'
+            location.href = '/home'
         }).catch(function (err) {
             console.log(err.response);
         });

@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import '../styles/components/NavBar.css';
+import "../styles/components/NavBar.css";
 
 class NavBar extends Component {
   render() {
     return (
-      <nav className = {"navigation"}>
+      <nav className={"navigation"}>
         <ul>
           <li>
-            <a >123123</a>
+            <a>123123</a>
           </li>
           <li>
             <a>123123</a>
