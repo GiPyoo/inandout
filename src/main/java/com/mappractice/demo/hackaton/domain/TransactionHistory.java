@@ -1,10 +1,7 @@
 package com.mappractice.demo.hackaton.domain;
 
 import com.mappractice.demo.support.AbstractEntity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,6 +9,7 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 @AllArgsConstructor
 public class TransactionHistory extends AbstractEntity {
 

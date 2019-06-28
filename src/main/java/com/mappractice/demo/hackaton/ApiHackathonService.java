@@ -8,7 +8,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ApiHackathonService {
 
-    public TransactionHistoryResponseDTO getAccountHistory() {
+    private TransactionHistoryRepository transactionHistoryRepository;
+
+    public ApiHackathonService(TransactionHistoryRepository transactionHistoryRepository) {
+        this.transactionHistoryRepository = transactionHistoryRepository;
+    }
+
+    public TransactionHistoryResponseDTO getAccountHistory(String accountNumber) {
         TransactionHistoryResponseDTO transactionHistoryResponseDTO
                 = new TransactionHistoryResponseDTO();
 
@@ -17,4 +23,9 @@ public class ApiHackathonService {
         transactionHistoryResponseDTO.getDatas().add(new TransactionHistory(0l,"20170316","9581237","종암동","111","0","","111","0"));
         return transactionHistoryResponseDTO;
     }
+
+    public TransactionHistory saveAccountHistory(TransactionHistory transactionHistory) {
+        return transactionHistoryRepository.save(transactionHistory);
+    }
+
 }
