@@ -34,8 +34,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<VirtualAccount> virtualAccounts;
 
-//    @Column(nullable = false)
-//    private LocalDateTime userLatestTime = LocalDateTime.now();
+    @Column(nullable = false)
+    private LocalDateTime userLatestTime = LocalDateTime.now();
 
     public User(String account, String password, String name) {
         this.account = account;
