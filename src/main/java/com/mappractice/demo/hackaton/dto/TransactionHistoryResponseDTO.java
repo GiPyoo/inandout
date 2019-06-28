@@ -1,20 +1,19 @@
-package com.mappractice.demo.hackaton;
+package com.mappractice.demo.hackaton.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.mappractice.demo.hackaton.domain.Account;
+import com.mappractice.demo.hackaton.domain.TransactionHistory;
+import lombok.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransactionHistoryDTO {
+@ToString
+public class TransactionHistoryResponseDTO {
 
-    private Map<String, String> dataHeader = new HashMap<>();
+    private Account account;
 
-    private Map<String, String> dataBody = new HashMap<>();
+    private List<TransactionHistory> datas;
 }

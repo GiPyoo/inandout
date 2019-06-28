@@ -1,4 +1,4 @@
-package com.mappractice.demo.hackaton;
+package com.mappractice.demo.hackaton.domain;
 
 import com.mappractice.demo.support.AbstractEntity;
 import lombok.AllArgsConstructor;
@@ -15,16 +15,16 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class TransactionHistory extends AbstractEntity {
 
-
-    //"의뢰인":"", "거래일시":"20170316", "잔액":"9581237", "취급점":"종암동",
+    // "의뢰인":"", "거래일시":"20170316", "잔액":"9581237", "취급점":"종암동",
     // "거래금액":"111", "입금금액":"0", "통장적요":"", "지급금액":"111", "거래원금":"0"
+
     @Id
     @GeneratedValue
     private Long id;
 
     private String client;
 
-    private Long amount;
+    private String amount;
 
     private String place;
 
