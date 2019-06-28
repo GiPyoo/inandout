@@ -4,6 +4,7 @@ import com.mappractice.demo.hackaton.domain.Account;
 import com.mappractice.demo.hackaton.domain.TransactionHistory;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,5 +16,5 @@ public class TransactionHistoryResponseDTO {
 
     private Account account;
 
-    private List<TransactionHistory> datas;
+    private List<TransactionHistory> datas = new ArrayList<>();
 }

@@ -1,14 +1,11 @@
 package com.mappractice.demo.hackaton;
 
-import com.mappractice.demo.hackaton.dto.TransactionHistoryRequestDTO;
+import com.mappractice.demo.hackaton.domain.TransactionHistory;
 import com.mappractice.demo.hackaton.dto.TransactionHistoryResponseDTO;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/hackathon", produces = "text/plain;charset=UTF-8")
+@RequestMapping("/hackathonApi")
 public class ApiHackathonController {
 
     private ApiHackathonService apiHackathonService;
@@ -17,10 +14,15 @@ public class ApiHackathonController {
         this.apiHackathonService = apiHackathonService;
     }
 
-    @PostMapping("/getAccountTransactionHistory")
-    public TransactionHistoryResponseDTO getAccountHistory(
-            @ModelAttribute(value = "dataBody") TransactionHistoryRequestDTO requestDTO){
-        System.out.println("getAccountHistory method : " + requestDTO);
+    @GetMapping("/getAccountTransactionHistory")
+    public TransactionHistoryResponseDTO getAccountHistory(){
         return apiHackathonService.getAccountHistory();
+    }
+
+    @PostMapping("/saveAccountTransactionHistory")
+    public TransactionHistory saveAccountHistory(
+            @ModelAttribute TransactionHistory transactionHistory){
+        System.out.println("getAccountHistory method : " + transactionHistory);
+        return apiHackathonService.saveAccountHistory(transactionHistory);
     }
 }
