@@ -8,6 +8,7 @@ import Addition from "../components/Addition";
 
 import * as category from "../module/ImageList";
 import "../styles/pages/home.css";
+import 'bootstrap/dist/css/bootstrap.css';
 
 // 각종 상태들을 관리하는 App 컴포넌트
 class Home extends Component {
@@ -77,8 +78,8 @@ class Home extends Component {
           </div>
           <div className={"bottom"}>
             <p>{real_item[this.state.curruntindex]}</p>
-            <button>조회</button>
-            <button onClick={this.handleAddAccount.bind(this)}>추가</button>
+            <button className="btn btn-outline-secondary">조회</button>
+            <button className="btn btn-outline-dark" onClick={this.handleAddAccount.bind(this)}>추가</button>
           </div>
         </article>
       );
