@@ -1,11 +1,14 @@
 .slider{
     margin: auto;
     width: 900px;
-    height: 600px;
+    height: 400px;
+}
+.middle{
+    height: 300px;
 }
 .cardbox{
     float: left;
-    line-height: 300px;
+    line-height: 400px;
 }
 .cardbox.left-arrow {
     text-align: center;
@@ -22,3 +25,9 @@
     text-align: center;
     width: 10%;
 }
+
+.bottom{
+    height: 50px;
+    text-align: center;
+}
+
