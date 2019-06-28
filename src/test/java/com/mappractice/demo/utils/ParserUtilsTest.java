@@ -13,4 +13,13 @@ public class ParserUtilsTest {
 
         //        ParserUtils.parseStringToJson(str);
     }
+
+    @Test
+    public void get2() throws Exception {
+        ApiRequestService apiRequestService = new ApiRequestService();
+        TransactionHistoryResponseDTO jsonByRestTemplate = RequestGenerator.getJsonByRestTemplate("http://localhost:8080" + "/hackathonApi/getAccountTransactionHistory");
+
+        apiRequestService.test(jsonByRestTemplate);
+        //        ParserUtils.parseStringToJson(str);
+    }
 }
