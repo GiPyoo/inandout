@@ -37,7 +37,7 @@ class Home extends Component {
     axios
       .get("/picture-on-map/v1/accounts/virtualAccounts/")
       .then(function(res) {
-        console.log("성공");
+        console.log("성공"); 
         const account = res.data.body;
         this.setState({ account: account.virtualAccount });
       })
