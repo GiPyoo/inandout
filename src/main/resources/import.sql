@@ -1,4 +1,4 @@
-INSERT INTO USER (id, name, password, account, userLatestTime) VALUES (1,'kiki', '1111','1234567890', CURRENT_TIMESTAMP() );
+INSERT INTO USER (id, name, password, account, user_latest_time) VALUES (1,'kiki', '1111','1234567890', CURRENT_TIMESTAMP() );
 
 INSERT INTO CATEGORY (id, name) VALUES (0, '미분류')
 INSERT INTO CATEGORY (id, name) VALUES (1, '식비')

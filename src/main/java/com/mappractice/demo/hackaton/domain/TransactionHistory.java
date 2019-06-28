@@ -1,17 +1,17 @@
 package com.mappractice.demo.hackaton.domain;
 
 import com.mappractice.demo.support.AbstractEntity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 @AllArgsConstructor
 public class TransactionHistory extends AbstractEntity {
 
@@ -24,6 +24,8 @@ public class TransactionHistory extends AbstractEntity {
 
     private String client;
 
+    private String transactionDate;
+
     private String amount;
 
     private String place;
@@ -32,7 +34,7 @@ public class TransactionHistory extends AbstractEntity {
 
     private String inputCash;
 
-    private String TransactionType;
+    private String transactionType;
 
     private String outputCash;
 
