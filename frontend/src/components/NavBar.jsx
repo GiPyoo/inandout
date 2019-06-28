@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import NavBtn from './NavBtn'
 import "../styles/components/NavBar.css";
 
 class NavBar extends Component {
@@ -7,16 +8,22 @@ class NavBar extends Component {
       <nav className={"navigation"}>
         <ul>
           <li>
-            <a>123123</a>
+          <NavBtn url="/home" name="Home"/>
           </li>
           <li>
-            <a>123123</a>
+            <NavBtn url="/login" name="Login"/>
           </li>
           <li>
-            <a>123123</a>
+          <NavBtn url="/signUp" name="SignUp"/>
           </li>
           <li>
-            <a>123123</a>
+          <NavBtn url="/imageStore" name="ImageStore"/>
+          </li>
+          <li>
+          <NavBtn url="/payment" name="Payment"/>
+          </li>
+          <li>
+          <NavBtn url="/payment/result" name="Payment-Result"/>
           </li>
         </ul>
       </nav>
