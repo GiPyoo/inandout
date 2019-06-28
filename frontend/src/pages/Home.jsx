@@ -4,6 +4,7 @@ import axios from 'axios';
 import * as category from '../module/ImageList'
 import { LeftArrow, RightArrow } from '../components/Arrow'
 import NavBar from '../components/NavBar'
+import '../styles/pages/home.css'
 
 // 각종 상태들을 관리하는 App 컴포넌트
 class Home extends Component {

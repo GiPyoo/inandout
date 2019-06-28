@@ -1,0 +1,24 @@
+.slider{
+    margin: auto;
+    width: 900px;
+    height: 600px;
+}
+.cardbox{
+    float: left;
+    line-height: 300px;
+}
+.cardbox.left-arrow {
+    text-align: center;
+    width: 10%;
+}
+
+.cardbox.virtual-acc{
+    text-align: center;
+    margin : auto;
+    width : 80%;
+}
+
+.cardbox.left-arrow {
+    text-align: center;
+    width: 10%;
+}
