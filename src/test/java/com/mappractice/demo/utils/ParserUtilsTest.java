@@ -1,6 +1,7 @@
 package com.mappractice.demo.utils;
 
 import com.mappractice.demo.hackaton.dto.TransactionHistoryResponseDTO;
+import com.mappractice.demo.service.ApiRequestService;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
