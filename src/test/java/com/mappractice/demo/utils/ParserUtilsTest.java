@@ -1,31 +1,14 @@
 package com.mappractice.demo.utils;
 
+import com.mappractice.demo.web.UriResource;
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 public class ParserUtilsTest {
     @Test
-    public void get() {
-        String str = "{" +
-                "\"account\": {" +
-                "\"amount\": \"string\"," +
-                "\"amountNumber\": \"string\"," +
-                "\"gridInfo\": \"string\"," +
-                "\"id\": 0," +
-                "\"nextTransactionDate\": \"string\"," +
-                "\"withdrawableAmount\": \"string\"" +
-                "}," +
-                "\"datas\": [" +
-                "{" +
-                "\"amount\": \"string\"," +
-                "\"cash\": \"string\"," +
-                "\"client\": \"string\"," +
-                "\"id\": 0," +
-                "\"inputCash\": \"string\"," +
-                "\"originalCash\": \"string\"," +
-                "\"outputCash\": \"string\"," +
-                "\"place\": \"string\"," +
-                "\"transactionType\": \"string\"" +
-                "}]}";
+    public void get() throws Exception {
+        String str = RequestGenerator.getJson("http://localhost:8080" + UriResource.ACCOUNTS_V1_URI);
 
         ParserUtils.parseStringToJson(str);
     }
