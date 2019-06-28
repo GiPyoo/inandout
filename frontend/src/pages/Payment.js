@@ -7,34 +7,78 @@ class Payment extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { name: '', price: '' };
+    this.state = {
+        client:"",
+        transactionDate:"" ,
+        place:"",
+        cash:"",
+        inputCash:"",
+        transactionType:"",
+        outputCash:"",
+        originalCash:""
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
-    this.setState({ name: event.target.value, price: event.target.value });
+      const tempObject = {}
+      tempObject[event.target.name] = event.target.value;
+    this.setState(tempObject);
   }
 
-  handleSubmit(event) {
-    axios.post('/process/payment', this.state)
+  async handleSubmit(event) {
+      const saveTransactionResponse = await axios({
+        method: 'post',
+        url: '/hackathonApi/saveAccountTransactionHistory',
+        data: this.state
+      })
       .then(response => {
         console.log(response);
-        this.props.callbackFromParent(response.data)
+        // this.props.callbackFromParent(response.data);
       })
-      .catch(response => { console.log(response) });
+      .catch(response => { console.log(response);
+      });
+
+      console.log(saveTransactionResponse);
   }
 
   render() {
-    return (
+      console.log("난 바뀐 API야");
+      console.log(this.state);
+      return (
       <form onSubmit={this.handleSubmit}>
         <label>
-          Name:
-          <input type="text" value={this.state.name} onChange={this.handleChange} />
+          client(의뢰인):
+          <input type="text" name="client" value={this.state.client} onChange={this.handleChange} />
         </label>
         <label>
-          Price:
-          <input type="text" value={this.state.price} onChange={this.handleChange} />
+          transactionDate(거래일):
+          <input type="text" name="transactionDate" value={this.state.transactionDate} onChange={this.handleChange} />
+        </label>
+        <label>
+          place(취급점):
+          <input type="text" name="place" value={this.state.place} onChange={this.handleChange} />
+        </label>
+        <label>
+          cash(거래금액):
+          <input type="text" name="cash" value={this.state.cash} onChange={this.handleChange} />
+        </label>
+        <label>
+          inputCash(입금금액):
+          <input type="text" name="inputCash" value={this.state.inputCash} onChange={this.handleChange} />
+        </label>
+        <label>
+          transactionType(통장적요):
+          <input type="text" name="transactionType" value={this.state.transactionType} onChange={this.handleChange} />
+        </label>
+        <label>
+          outputCash(지급금액):
+          <input type="text" name="outputCash" value={this.state.outputCash} onChange={this.handleChange} />
+        </label>
+        <label>
+          originalCash(거래원금, 안써도됨):
+          <input type="text" name="originalCash" value={this.state.originalCash} onChange={this.handleChange} />
         </label>
         <input type="submit" value="Submit" />
       </form>

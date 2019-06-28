@@ -5,7 +5,7 @@ import com.mappractice.demo.hackaton.dto.TransactionHistoryResponseDTO;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/hackathon", produces = "text/plain;charset=UTF-8")
+@RequestMapping(value = "/hackathonApi", produces = "text/plain;charset=UTF-8")
 public class ApiHackathonController {
 
     private ApiHackathonService apiHackathonService;
