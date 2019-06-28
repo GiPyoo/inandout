@@ -33,6 +33,10 @@ class SignIn extends Component {
 
         if( logisState.status == 200 ){
             console.log("성공");
+            this.setState({
+                isSignedUp : true
+            })
+            console.log(this.state.isSignedUp);
             this.props.history.push("/home")
         }else{
             console.log(logisState);
