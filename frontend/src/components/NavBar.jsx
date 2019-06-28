@@ -1,32 +1,31 @@
 import React, { Component } from "react";
-import NavBtn from './NavBtn'
-import "../styles/components/NavBar.css";
+import 'bootstrap/dist/css/bootstrap.css';
 
 class NavBar extends Component {
   render() {
     return (
-      <nav className={"navigation"}>
-        <ul>
-          <li>
-          <NavBtn url="/home" name="Home"/>
-          </li>
-          <li>
-            <NavBtn url="/login" name="Login"/>
-          </li>
-          <li>
-          <NavBtn url="/signUp" name="SignUp"/>
-          </li>
-          <li>
-          <NavBtn url="/imageStore" name="ImageStore"/>
-          </li>
-          <li>
-          <NavBtn url="/payment" name="Payment"/>
-          </li>
-          <li>
-          <NavBtn url="/payment/result" name="Payment-Result"/>
-          </li>
-        </ul>
-      </nav>
+      <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/signUp">SignUp</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/payment">Payment</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/payment/result">Payment-Result</a>
+        </li>
+    
+      </ul>
+    
+    </nav>
     );
   }
 }

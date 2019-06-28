@@ -5,11 +5,11 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #191919;
+    background: white;
     text-align: center;
 }
 .login-box h1{
-    color: white;
+    color: black;
     text-transform: uppercase;
     font-weight: 300;
 }
@@ -42,7 +42,7 @@
     border: 2px solid #e67e22;
     padding: 14px 40px;
     outline: none;
-    color: white;
+    color: rgba(255, 166, 0, 0.753);
     border-radius: 24px;
     transition: 0.25s;
     cursor: pointer;
