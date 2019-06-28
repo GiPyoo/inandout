@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
-@RequestMapping("/virtualAccounts")
+@RequestMapping(UriResource.ACCOUNTS_V1_URI + "/virtualAccounts")
 public class ApiVirtualAccountController {
 
     @Autowired

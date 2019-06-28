@@ -32,21 +32,19 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    axios.get('/picture-on-map/v1/accounts/virtualAccounts/')
-      .then(res => {
+      axios.get('/picture-on-map/v1/accounts/virtualAccounts/')
+      .then(function(res){
+        console.log("성공");
         const account = res.data;
-        this.setState({ account });
-        console.log(account);
-      }).catch(error => {
-        console.log('실패');
+        this.setState({ account : account });
+      }).catch(function(error){
+        console.log(error.res);
       })
   }
 
   render() {
     const item = category.lists();
-
     return (
-      
       <div>
         <NavBar/>
         <section>

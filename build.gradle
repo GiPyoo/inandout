@@ -87,6 +87,7 @@ task copyWebFiles(type: Copy) {
     include '*.html'
     include '*.js'
     include '*.css'
+    include '*.png'
 }
 
 installDependencies.dependsOn deleteWebFiles
