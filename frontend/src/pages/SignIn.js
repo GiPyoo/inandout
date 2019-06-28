@@ -23,17 +23,24 @@ class SignIn extends Component {
         this.setState({ password: e.target.value })
     }
 
-    handleSubmit() {
+    handleSubmit = async (event) => {
+        event.preventDefault();
         console.log(this.state);
-        axios.post('/picture-on-map/v1/accounts/login/process/', {
+        const logisState = await axios.post('/picture-on-map/v1/accounts/login/process/', {
             name: this.state.name,
             password: this.state.password
-        }).then(function (res) {
-            console.log(res);
-            location.href = '/home'
-        }).catch(function (err) {
-            console.log(err.response);
-        });
+        })
+
+        if( logisState.status == 200 ){
+            console.log("성공");
+            this.setState({
+                isSignedUp : true
+            })
+            console.log(this.state.isSignedUp);
+            this.props.history.push("/home")
+        }else{
+            console.log(logisState);
+        }
 
     }
 
