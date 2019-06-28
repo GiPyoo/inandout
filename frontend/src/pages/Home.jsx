@@ -38,7 +38,7 @@ class Home extends Component {
       .get("/picture-on-map/v1/accounts/virtualAccounts/")
       .then(function(res) {
         console.log("성공");
-        const account = res.data;
+        const account = res.data.body;
         this.setState({ account: account });
       })
       .catch(function(error) {
@@ -53,6 +53,9 @@ class Home extends Component {
         <NavBar />
         <section>
           <article className={"slider"}>
+            <div className = {'top'}>
+              {this.state.account.name} 계좌
+            </div>
             <div className = {'middle'}>
               <LeftArrow handlePreAccount={this.handlePreAccount.bind(this)} />
               <Slide index={item[this.state.curruntindex]} />

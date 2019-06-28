@@ -1,11 +1,18 @@
 .slider{
     margin: auto;
     width: 900px;
-    height: 400px;
+    height: 10000px;
 }
+
+.top{
+    line-height: 100px;
+    text-align: center;
+}
+
 .middle{
-    height: 300px;
+    
 }
+
 .cardbox{
     float: left;
     line-height: 400px;
@@ -27,7 +34,7 @@
 }
 
 .bottom{
-    height: 50px;
+    height: 200px;
     text-align: center;
 }
 
