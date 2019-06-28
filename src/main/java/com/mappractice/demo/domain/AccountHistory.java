@@ -37,4 +37,5 @@ public class AccountHistory {
 
     @Column
     private Long amount;
+
 }
