@@ -5,7 +5,7 @@ import com.mappractice.demo.hackaton.dto.TransactionHistoryResponseDTO;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/hackathonApi", produces = "text/plain;charset=UTF-8")
+@RequestMapping("/hackathonApi")
 public class ApiHackathonController {
 
     private ApiHackathonService apiHackathonService;
@@ -15,9 +15,8 @@ public class ApiHackathonController {
     }
 
     @GetMapping("/getAccountTransactionHistory")
-    public TransactionHistoryResponseDTO getAccountHistory(
-            @RequestParam(name="account", required = true) String account){
-        return apiHackathonService.getAccountHistory(account);
+    public TransactionHistoryResponseDTO getAccountHistory(){
+        return apiHackathonService.getAccountHistory();
     }
 
     @PostMapping("/saveAccountTransactionHistory")

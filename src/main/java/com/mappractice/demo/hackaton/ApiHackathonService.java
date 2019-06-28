@@ -14,7 +14,7 @@ public class ApiHackathonService {
         this.transactionHistoryRepository = transactionHistoryRepository;
     }
 
-    public TransactionHistoryResponseDTO getAccountHistory(String accountNumber) {
+    public TransactionHistoryResponseDTO getAccountHistory() {
         TransactionHistoryResponseDTO transactionHistoryResponseDTO
                 = new TransactionHistoryResponseDTO();
 

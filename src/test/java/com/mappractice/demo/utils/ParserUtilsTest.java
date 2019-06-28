@@ -1,6 +1,6 @@
 package com.mappractice.demo.utils;
 
-import com.mappractice.demo.web.UriResource;
+import com.mappractice.demo.hackaton.dto.TransactionHistoryResponseDTO;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -8,8 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class ParserUtilsTest {
     @Test
     public void get() throws Exception {
-        String str = RequestGenerator.getJson("http://localhost:8080" + UriResource.ACCOUNTS_V1_URI);
+        TransactionHistoryResponseDTO jsonByRestTemplate = RequestGenerator.getJsonByRestTemplate("http://localhost:8080" + "/hackathonApi/getAccountTransactionHistory");
 
-        ParserUtils.parseStringToJson(str);
+        //        ParserUtils.parseStringToJson(str);
     }
 }
