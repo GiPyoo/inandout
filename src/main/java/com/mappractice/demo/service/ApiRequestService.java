@@ -19,6 +19,11 @@ import java.util.List;
 @Service
 public class ApiRequestService {
 
+    private final static long category =1;
+
+    @Autowired
+    VirtualAccountRepository virtualAccountRepository;
+
     @Autowired
     UserRepository userRepository;
 
@@ -54,9 +59,9 @@ public class ApiRequestService {
     private AccountHistory makeAccountHistory(Account account, TransactionHistory history) {
 
         String tmpAccount = account.getGridInfo();
-        VirtualAccount VA = new VirtualAccount();
         LocalDateTime createdAt = LocalDateTime.now();
         int transaction = -1;
+
         Long deposit = Long.parseLong(history.getOutputCash());
         Long withdraw = Long.parseLong(history.getInputCash());
 
@@ -67,7 +72,12 @@ public class ApiRequestService {
         }
         Long amount = Long.parseLong(history.getAmount());
 
-        return new AccountHistory(tmpAccount, VA, createdAt, transaction, deposit, withdraw, amount);
+        return new AccountHistory(tmpAccount, findVirtualAccount(category), createdAt, transaction, deposit, withdraw, amount);
+    }
+
+    private VirtualAccount findVirtualAccount(long accountId){
+        VirtualAccount virtualAccount = virtualAccountRepository.findById(accountId).orElseThrow(RuntimeException::new);
+        return virtualAccount;
     }
 
     private void updateUser(HttpSession session, String latestDate) {
