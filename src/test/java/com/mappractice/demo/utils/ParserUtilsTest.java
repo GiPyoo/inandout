@@ -11,15 +11,15 @@ import javax.servlet.http.HttpSession;
 public class ParserUtilsTest {
     @Test
     public void get() throws Exception {
-        TransactionHistoryResponseDTO jsonByRestTemplate = RequestGenerator.getJsonByRestTemplate("http://localhost:8080" + "/hackathonApi/getAccountTransactionHistory");
+//        TransactionHistoryResponseDTO jsonByRestTemplate = RequestGenerator.getJsonByRestTemplate("http://localhost:8080" + "/hackathonApi/getAccountTransactionHistory");
 
         //        ParserUtils.parseStringToJson(str);
     }
 
     @Test
     public void get2() throws Exception {
-        ApiRequestService apiRequestService = new ApiRequestService();
-        TransactionHistoryResponseDTO jsonByRestTemplate = RequestGenerator.getJsonByRestTemplate("http://localhost:8080" + "/hackathonApi/getAccountTransactionHistory");
+//        ApiRequestService apiRequestService = new ApiRequestService();
+//        TransactionHistoryResponseDTO jsonByRestTemplate = RequestGenerator.getJsonByRestTemplate("http://localhost:8080" + "/hackathonApi/getAccountTransactionHistory");
 
         // 잠깐 주석
 //        apiRequestService.updateHistory(jsonByRestTemplate, session);

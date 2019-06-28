@@ -4,6 +4,7 @@ import axios from "axios";
 import NavBar from "../components/NavBar";
 import Slide from "../components/Slide";
 import { LeftArrow, RightArrow } from "../components/Arrow";
+import Addition from "../components/Addition";
 
 import * as category from "../module/ImageList";
 import "../styles/pages/home.css";
@@ -14,7 +15,8 @@ class Home extends Component {
     super(props);
     this.state = {
       account: [],
-      curruntindex: 0
+      curruntindex: 0,
+      add: false
     };
   }
 
@@ -33,43 +35,58 @@ class Home extends Component {
     }
   }
 
+  handleAddAccount() {
+    this.setState({ add: true });
+  }
+
+  addCallback = CallFromChild => {
+    this.setState({
+      add: CallFromChild
+    });
+  };
+
   componentDidMount() {
     axios
       .get("/picture-on-map/v1/accounts/virtualAccounts/")
-      .then(function(res) {
-        console.log("성공"); 
+      .then(res => {
+        console.log("성공");
+        console.log(res);
+        console.log(JSON.parse(res.data));
         const account = res.data.body;
         this.setState({ account: account.virtualAccount });
       })
-      .catch(function(error) {
-        console.log(error.res);
+      .catch(error => {
+        console.log(error);
       });
   }
 
   render() {
     const item = category.lists();
-    const real_item = this.state.account
+    const real_item = this.state.account;
+    var template;
+    if (this.state.add) {
+      template = <Addition parent={this.addCallback} />;
+    } else {
+      template = (
+        <article className={"slider"}>
+          <div className={"top"}>{real_item[this.state.curruntindex]} 계좌</div>
+          <div className={"middle"}>
+            <LeftArrow handlePreAccount={this.handlePreAccount.bind(this)} />
+            <Slide index={item[this.state.curruntindex]} />
+            <RightArrow handleNextAccount={this.handleNextAccount.bind(this)} />
+          </div>
+          <div className={"bottom"}>
+            <p>{real_item[this.state.curruntindex]}</p>
+            <button>조회</button>
+            <button onClick={this.handleAddAccount.bind(this)}>추가</button>
+          </div>
+        </article>
+      );
+    }
     return (
       <div>
         <NavBar />
-        <section>
-          <article className={"slider"}>
-            <div className = {'top'}>
-              {real_item[this.state.curruntindex].name} 계좌
-            </div>
-            <div className = {'middle'}>
-              <LeftArrow handlePreAccount={this.handlePreAccount.bind(this)} />
-              <Slide index={item[this.state.curruntindex]} />
-              <RightArrow
-                handleNextAccount={this.handleNextAccount.bind(this)}
-              />
-            </div>
-            <div className={"bottom"}>
-              <p>{real_item[this.state.curruntindex].amount}</p>
-              <button>조회</button>
-            </div>
-          </article>
-        </section>
+        <section>{template}</section>
       </div>
     );
   }
