@@ -6,6 +6,7 @@ class CheckPayment extends Component {
     console.log(this.props)
     const InfoList = Object.keys(this.props.data).map((key,value)=>{
         return (
+          
             <PaymentInfo label = {key} info = {value.toString()}/>
         );
       })

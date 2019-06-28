@@ -14,13 +14,13 @@ class NavBar extends Component {
           <a class="nav-link" href="/login">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="=/signUp">SignUp</a>
+          <a class="nav-link" href="/signUp">SignUp</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="=/payment">Payment</a>
+          <a class="nav-link" href="/payment">Payment</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="=/payment/result">Payment-Result</a>
+          <a class="nav-link" href="/payment/result">Payment-Result</a>
         </li>
     
       </ul>

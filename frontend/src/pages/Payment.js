@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import '../styles/pages/Map.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import NavBar from "../components/NavBar";
 
 // 각종 상태들을 관리하는 App 컴포넌트
 class Payment extends Component {
@@ -48,6 +49,8 @@ class Payment extends Component {
       console.log("난 바뀐 API야");
       console.log(this.state);
       return (
+      <div>
+      <NavBar/>
       <form onSubmit={this.handleSubmit} className="form-group">
         <label>
           client(의뢰인):
@@ -83,6 +86,7 @@ class Payment extends Component {
         </label>
         <input type="submit" value="Submit" className="btn btn-primary" />
       </form>
+      </div>
     );
   };
 
