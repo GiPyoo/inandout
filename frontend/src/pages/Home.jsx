@@ -39,7 +39,7 @@ class Home extends Component {
       .then(function(res) {
         console.log("성공");
         const account = res.data.body;
-        this.setState({ account: account });
+        this.setState({ account: account.virtualAccount });
       })
       .catch(function(error) {
         console.log(error.res);
@@ -48,13 +48,14 @@ class Home extends Component {
 
   render() {
     const item = category.lists();
+    const real_item = this.state.account
     return (
       <div>
         <NavBar />
         <section>
           <article className={"slider"}>
             <div className = {'top'}>
-              {this.state.account.name} 계좌
+              {real_item[this.state.curruntindex].name} 계좌
             </div>
             <div className = {'middle'}>
               <LeftArrow handlePreAccount={this.handlePreAccount.bind(this)} />
@@ -64,6 +65,7 @@ class Home extends Component {
               />
             </div>
             <div className={"bottom"}>
+              <p>{real_item[this.state.curruntindex].amount}</p>
               <button>조회</button>
             </div>
           </article>

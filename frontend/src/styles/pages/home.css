@@ -9,10 +9,6 @@
     text-align: center;
 }
 
-.middle{
-    
-}
-
 .cardbox{
     float: left;
     line-height: 400px;
@@ -38,3 +34,6 @@
     text-align: center;
 }
 
+.bottom p{
+    padding: 8px;
+}
