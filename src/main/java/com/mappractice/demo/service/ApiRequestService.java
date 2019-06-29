@@ -21,8 +21,6 @@ import static com.mappractice.demo.utils.SessionUtils.isLoginUser;
 @Service
 public class ApiRequestService {
 
-    private final static long category = 1;
-
     @Autowired
     VirtualAccountRepository virtualAccountRepository;
 
@@ -33,7 +31,7 @@ public class ApiRequestService {
     AccountHistoryRepository accountHistoryRepository;
 
     @Transactional
-    public void updateLocalTransactionHistory(HttpSession httpSession){
+    public void updateLocalTransactionHistory(HttpSession httpSession) {
         String hackathonApiRequestURI = "http://localhost:8080/hackathonApi/getAccountTransactionHistory";
         //요청 가져와서
         TransactionHistoryResponseDTO response = getJsonByRestTemplate(hackathonApiRequestURI,
@@ -48,15 +46,15 @@ public class ApiRequestService {
         int index = getFirstIndexNeedUpdate(apiHistories, latestJoinTime);
 
         // 최신시간 넘는 애들 업데이트
-        updateHistories(apiHistories, index , user);
+        updateHistories(apiHistories, index, user);
 
         //유저 업데이터
         updateLatestJoinTime(user);
     }
 
-    private User getLoginUserByAccountNumber(HttpSession httpSession, String accountNumber){
+    private User getLoginUserByAccountNumber(HttpSession httpSession, String accountNumber) {
         User accountOnwer = userRepository.findByAccount(accountNumber).orElseThrow(UnAuthorizedException::new);
-        if(isLoginUser(httpSession, accountOnwer)){
+        if (isLoginUser(httpSession, accountOnwer)) {
             return accountOnwer;
         }
         throw new UnAuthorizedException();
@@ -76,7 +74,7 @@ public class ApiRequestService {
 
 
     public void updateHistories(List<TransactionHistory> apiHistories, int updateStartIndex, User user) {
-        if (updateStartIndex == -1){
+        if (updateStartIndex == -1) {
             return;
         }
         for (int i = updateStartIndex; i < apiHistories.size(); i++) {
@@ -94,7 +92,6 @@ public class ApiRequestService {
 
         LocalDateTime createdAt = LocalDateTime.parse(apiHistory.getTransactionDate());
 
-        String tmpAccount = account.getGridInfo();
         Long deposit = Long.parseLong(apiHistory.getOutputCash());
         Long withdraw = Long.parseLong(apiHistory.getInputCash());
 
@@ -110,11 +107,11 @@ public class ApiRequestService {
         //카테고리 판단
         // if category 가 나올경우 categoryId = 리턴값으로
 
-        return new AccountHistory(tmpAccount, findVirtualAccount(account, categoryId), createdAt, transaction, deposit, withdraw, amount);
+        return new AccountHistory(user.getAccount(), findVirtualAccount(user, categoryId), createdAt, transaction, deposit, withdraw, amount);
     }
 
-    private VirtualAccount findVirtualAccount(Account account, long category) {
-        List<VirtualAccount> virtualAccountList = virtualAccountRepository.findAllByUserId(account.getId()); //사용자가 가지고 있는 가상계좌들
+    private VirtualAccount findVirtualAccount(User user, long category) {
+        List<VirtualAccount> virtualAccountList = virtualAccountRepository.findAllByUserId(user.getId()); //사용자가 가지고 있는 가상계좌들
         int zero = -1;
 
         List<Long> index = new ArrayList<>();
