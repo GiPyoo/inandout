@@ -5,6 +5,7 @@ import com.mappractice.demo.exception.UnAuthorizedException;
 import com.mappractice.demo.hackaton.domain.TransactionHistory;
 import com.mappractice.demo.hackaton.dto.TransactionHistoryResponseDTO;
 import com.mappractice.demo.utils.DateUtils;
+import com.mappractice.demo.utils.FakeMachineLearning;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,7 +89,7 @@ public class ApiRequestService {
     }
 
     private void reflectVirtualAccount(AccountHistory accountHistory) {
-      VirtualAccount virtualAccount = accountHistory.getVirtualAccount();
+        VirtualAccount virtualAccount = accountHistory.getVirtualAccount();
         virtualAccount.reflectHistory(accountHistory);
 
         virtualAccountRepository.save(virtualAccount);
@@ -105,7 +106,7 @@ public class ApiRequestService {
         long moneyChange = deposit - withdraw;
         //Long totleAmount = Long.parseLong(apiHistory.getAmount());
 
-        Long categoryId = 0l;
+        Long categoryId = FakeMachineLearning.findMachineLearning(apiHistory.getClient());
 
         //카테고리 판단
         // if category 가 나올경우 categoryId = 리턴값으로

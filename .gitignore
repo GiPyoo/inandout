@@ -33,7 +33,7 @@ HELP.md
 ### api key ###
 application-local.properties
 
-## src/main/resources/static ##
+src/main/resources/static
 
 
 ## frontend ##

@@ -58,7 +58,7 @@ public class AccountHistory {
         this.transaction = 0;
         this.deposit = money;
         this.withdraw = 0l;
-        this.amount = virtualAccount.getAmount() + money;
+        this.amount = virtualAccount.getAmount();
     }
 
     public void createWithDraw(String account, VirtualAccount virtualAccount, Long money) {

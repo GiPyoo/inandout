@@ -8,6 +8,8 @@ import com.mappractice.demo.hackaton.dto.TransactionHistoryResponseDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 public class ApiHackathonService {
 
@@ -32,6 +34,9 @@ public class ApiHackathonService {
 
     @Transactional
     public TransactionHistory saveAccountHistory(TransactionHistory transactionHistory) {
+        if(transactionHistory.getTransactionDate()==null){
+         transactionHistory.setTransactionDate(LocalDateTime.now());
+        }
         ApiAccount apiAccount = apiAccountRepository.findById(1l).orElseThrow(UnAuthorizedException::new);
         int amount = Integer.parseInt(apiAccount.getAmount());
         int inputCash = Integer.parseInt(transactionHistory.getInputCash());

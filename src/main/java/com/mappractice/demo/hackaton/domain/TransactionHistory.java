@@ -1,5 +1,6 @@
 package com.mappractice.demo.hackaton.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mappractice.demo.support.AbstractEntity;
 import lombok.*;
 
@@ -26,6 +27,7 @@ public class TransactionHistory extends AbstractEntity implements Comparable<Tra
 
     private String client;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmmss", timezone ="Asia/Seoul")
     private LocalDateTime transactionDate;
 
     private String amount;
