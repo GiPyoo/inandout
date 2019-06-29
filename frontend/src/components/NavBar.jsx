@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.css";
+import "../styles/components/NavBar.css";
 
 class NavBar extends Component {
   render() {
     return (
-      <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <nav class="navbar navbar-expand-sm bg-dark navbar-dark navs">
         <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link" href="/home">
