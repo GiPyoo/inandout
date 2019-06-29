@@ -35,7 +35,7 @@ article {
 .good.day {
     color: black;
     text-align: right;
-    width: 80%
+    width: 60%
 }
 
 .day .withdraw {
@@ -55,15 +55,15 @@ article {
 }
 
 .good.side {
-    width: 20%;
+    width: 40%;
     text-align: center;
 }
 
 .side .accountname {
     position: relative;
-    top: 40px;
+    top: 50px;
     font-family: happyhappy;
-    font-size: 30px;
+    font-size: 20px;
 }
 
 .side .category {
