@@ -77,7 +77,6 @@ class Home extends Component {
   }
 
   componentDidMount = async event => {
-    event.preventDefault();
     const response = await axios.get(
       "/picture-on-map/v1/accounts/virtualAccounts/"
     );
