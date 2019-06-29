@@ -1,18 +1,17 @@
 import React, { Component } from "react";
-import Axios from "axios";
+import axios from "axios";
 
 class Addition extends Component {
   constructor(props) {
     super(props);
     this.state = { name: "", amount: 0, categoryId: 0 };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
-  handleChange = contents => {
-    event => {
-      var targetInput = {};
-      targetInput[contents] = event.target.value;
-      this.setState({ targetInput });
-    };
+  handleChange = event => {
+    var targetInput = {};
+    targetInput[event.target.name] = event.target.value;
+    this.setState(targetInput);
   };
   handleSubmit = async event => {
     const data = {
@@ -21,10 +20,12 @@ class Addition extends Component {
       categoryId: this.state.categoryId
     };
     console.log(data);
-    const response = await Axios.post(
-      "/picture-on-map/v1/accounts/virtualAccounts/",
-      data
-    );
+    const response = await axios
+      .post("/picture-on-map/v1/accounts/virtualAccounts/", data)
+      .catch(e => {
+        console.log(e);
+      });
+
     if (response === 200) {
       this.props.parent(false);
     }
@@ -40,22 +41,28 @@ class Addition extends Component {
             <br />
             <input
               type={"text"}
+              name={"name"}
               value={this.state.name}
-              onChange={this.handleChange("name")}
+              onChange={this.handleChange}
             />
             <br />
             <label> 설정금액 </label>
             <br />
             <input
               type={"text"}
+              name={"amount"}
               value={this.state.amount}
-              onChange={this.handleChange("amount")}
+              onChange={this.handleChange}
             />
 
             <br />
             <label>카테고리</label>
             <br />
-            <select value={this.state.categoryId} onChange={this.handleChange}>
+            <select
+              name={"categoryId"}
+              value={this.state.categoryId}
+              onChange={this.handleChange}
+            >
               <option value="1">식비</option>
               <option value="2">취미/여가</option>
               <option value="3">편의점/마트/잡화</option>
@@ -65,7 +72,9 @@ class Addition extends Component {
             </select>
           </div>
           <div className={"bottom"}>
-            <button type={"submit"}>확인!</button>
+            <button type={"submit"} onClick={this.handleSubmit}>
+              확인!
+            </button>
           </div>
         </form>
       </article>
