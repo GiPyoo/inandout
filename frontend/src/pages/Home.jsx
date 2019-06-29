@@ -80,8 +80,8 @@ class Home extends Component {
     const response = await axios.get(
       "/picture-on-map/v1/accounts/virtualAccounts/"
     );
-    console.log(response.data);
-    console.log(response.data.data[0].amount);
+    console.log(response);
+    console.log(response.data.data[0].id);
     console.log(response.data.data[0].category.name);
     if (response.status == 200) {
       this.createAccountObject(response.data.data);
@@ -99,9 +99,11 @@ class Home extends Component {
           categoryId={this.state.categoryId}
           category={this.state.category}
           name={this.state.name}
+          accountID={this.state.accountID}
           handlePreAccount={this.handlePreAccount}
           handleNextAccount={this.handleNextAccount}
           handleAddAccount={this.handleAddAccount}
+          VAIDCallBack={this.props.VAIDCallBack}
         />
       );
     }

@@ -1,0 +1,61 @@
+article {
+    max-width: 60%;
+    margin: auto;
+    top: 100px;
+    position: relative;
+}
+
+.card {
+    padding: 4px;
+    margin: 8px;
+    height: 150px;
+}
+
+.big.top {
+    height: 80%;
+}
+
+.big.bottom {
+    height: 20%;
+}
+
+.good {
+    float: left;
+}
+
+.good.withdraw {
+    text-align: right;
+    color: black;
+    font-size: 3em;
+    line-height: 150px;
+    font-family: happyhappy;
+    width: 80%
+}
+
+.good.side {
+    width: 20%;
+    text-align: center;
+}
+
+.side .accountname {
+    position: relative;
+    top: 40px;
+    font-family: happyhappy;
+    font-size: 40px;
+}
+
+.side .category {
+    position: relative;
+    top: 35px;
+    font-family: happyhappy;
+    font-size: 15px;
+}
+
+.good.deposit {
+    text-align: right;
+    font-size: 3em;
+    color: blue;
+    width: 80%;
+    line-height: 150px;
+    font-family: happyhappy;
+}

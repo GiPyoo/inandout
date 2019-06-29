@@ -6,43 +6,46 @@ import {
   CheckPayment,
   SignIn,
   SignUp,
-  ImageStore
+  ImageStore,
+  AccountDetail
 } from "./pages";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    var data = {
-      name: "",
-      price: ""
+    this.state = {
+      id: 0
     };
-    this.state = { PaymentData: data };
-    console.log(data);
+    this.VAIDCallBack = this.VAIDCallBack.bind(this);
   }
 
-  PaymentCallBack = dataFromChild => {
+  VAIDCallBack = dataFromChild => {
     this.setState({
-      PaymentData: dataFromChild
+      id: dataFromChild
     });
   };
 
   render() {
     return (
       <BrowserRouter>
-        <Route
-          exact
-          path="/payment"
-          render={() => <Payment callbackFromParent={this.PaymentCallBack} />}
-        />
+        <Route exact path="/payment" render={() => <Payment />} />
         <Route
           exact
           path="/payment/result"
           render={() => <CheckPayment data={this.state.PaymentData} />}
         />
-        <Route exact path="/home" component={Home} />
+        <Route
+          exact
+          path="/home"
+          render={() => <Home VAIDCallBack={this.VAIDCallBack} />}
+        />
         <Route exact path="/login" component={SignIn} />
         <Route exact path="/signUp" component={SignUp} />
-        <Route exact path="/AccountDetail" component={SignUp} />
+        <Route
+          exact
+          path="/AccountDetail/:id"
+          render={() => <AccountDetail acountsId={this.state.id} />}
+        />
         <Route exact path="/imageStore" component={ImageStore} />
       </BrowserRouter>
     );
