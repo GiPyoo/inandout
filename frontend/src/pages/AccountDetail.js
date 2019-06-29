@@ -16,7 +16,6 @@ class AccountDetail extends Component {
 
   componentDidMount = async event => {
     console.log(this.props.match.params.id);
-    event.preventDefault();
     const response = await axios.get(
       "/picture-on-map/v1/accounts/virtualAccounts/" +
         this.props.match.params.id
