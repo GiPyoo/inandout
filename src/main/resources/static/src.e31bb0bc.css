@@ -1,7 +1,7 @@
 @charset "utf-8";
 @font-face {
   font-family: 'happyhappy';
-  src: url('/12롯데마트행복Medium.d495ea9d.ttf') format('truetype')
+  src: url('/12lotteMedium.4de06252.ttf') format('truetype')
 }
 
 code {
@@ -10063,16 +10063,20 @@ a.text-dark:hover, a.text-dark:focus {
     width: 500px;
     padding: 10px;
     position: absolute;
-    top: 50%;
+    top: 65%;
     left: 50%;
     transform: translate(-50%, -50%);
     background: white;
     text-align: center;
 }
-.login-box h1{
-    color: black;
+
+.login-box h1 {
+    font-size: 50px;
     text-transform: uppercase;
-    font-weight: 300;
+    font-weight: 700;
+    background: linear-gradient(to right, #fbcac9, #8ca6ce);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .login-box input[type="text"], .login-box input[type="password"] {
@@ -10085,21 +10089,22 @@ a.text-dark:hover, a.text-dark:focus {
     padding: 14px 10px;
     outline: none;
     width: 200px;
-    color: white;
+    color: black;
     border-radius: 25px;
     transition: 0.25s;
 }
 
 .login-box input[type="text"]:focus, .login-box input[type="password"]:focus {
-    width : 280px;
+    width: 280px;
     border-color: #e67e22;
 }
-.login-box button{
+
+.login-box button {
     border: 0;
     background: none;
     display: block;
     margin: 20px auto;
-    text-align: center; 
+    text-align: center;
     border: 2px solid #e67e22;
     padding: 14px 40px;
     outline: none;
@@ -10108,20 +10113,38 @@ a.text-dark:hover, a.text-dark:focus {
     transition: 0.25s;
     cursor: pointer;
 }
-.login-box button:hover{
+
+.login-box button:hover {
     background: #e67e22;
+    color: white;
 }
+img {
+    max-width: 90%;
+    max-height: 90%;
+    height: auto;
+}
+
 .slider {
     margin: auto;
-    width: 900px;
-    height: 10000px;
+    max-width: 80%;
+    max-height: 100%;
     font-family: happyhappy;
 }
 
-.top {
+.slider .top {
+    height: 10%;
     line-height: 100px;
     text-align: center;
     font-size: 3em;
+}
+
+.slider .middle {
+    height: 70%;
+}
+
+.slider .bottom {
+    height: 20%;
+    text-align: center;
 }
 
 .middle {
@@ -10156,7 +10179,14 @@ a.text-dark:hover, a.text-dark:focus {
 
 .cardbox {
     float: left;
-    line-height: 400px;
+    line-height: 200px;
+}
+
+@media screen and (min-width: 780px) {
+    .cardbox {
+        float: left;
+        line-height: 400px;
+    }
 }
 
 .cardbox.left-arrow {
@@ -10170,18 +10200,13 @@ a.text-dark:hover, a.text-dark:focus {
     width: 80%;
 }
 
-.cardbox.left-arrow {
+.cardbox.right-arrow {
     text-align: center;
     width: 10%;
 }
 
 .bottom {
-    height: 200px;
     text-align: center;
-}
-
-.bottom p {
-    padding: 8px;
 }
 
 /*# sourceMappingURL=/src.e31bb0bc.css.map */

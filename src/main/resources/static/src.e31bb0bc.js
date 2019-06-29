@@ -33818,7 +33818,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"./../public/12롯데마트행복Medium.ttf":[["12롯데마트행복Medium.d495ea9d.ttf","../public/12롯데마트행복Medium.ttf"],"../public/12롯데마트행복Medium.ttf"],"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js":[function(require,module,exports) {
+},{"./../public/12lotteMedium.ttf":[["12lotteMedium.4de06252.ttf","../public/12lotteMedium.ttf"],"../public/12lotteMedium.ttf"],"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39773,13 +39773,13 @@ class SignIn extends _react.Component {
     this.handleSubmit = async event => {
       event.preventDefault();
       console.log(this.state);
-      const logisState = await _axios.default.post('/picture-on-map/v1/accounts/login/process/', {
+      const logisState = await _axios.default.post("/picture-on-map/v1/accounts/login/process/", {
         name: this.state.name,
         password: this.state.password
       });
 
       if (logisState.status == 200) {
-        console.log("성공");
+        console.log("로그인 성공");
         this.setState({
           isSignedUp: true
         });
@@ -39794,8 +39794,8 @@ class SignIn extends _react.Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
-      name: '',
-      password: '',
+      name: "",
+      password: "",
       isSignedUp: false
     };
   }
@@ -39818,14 +39818,14 @@ class SignIn extends _react.Component {
     }, _react.default.createElement("h1", null, "Login"), _react.default.createElement("input", {
       type: "text",
       onChange: this.handleNameChange,
-      id: 'username',
+      id: "username",
       placeholder: "Username",
       autoFocus: true,
       autoComplete: "on"
     }), _react.default.createElement("input", {
       type: "password",
       onChange: this.handlePasswordChange,
-      id: 'password',
+      id: "password",
       placeholder: "password",
       autoFocus: true,
       autoComplete: "off"
@@ -40104,14 +40104,10 @@ class Addition extends _react.Component {
   constructor(props) {
     super(props);
 
-    this.handleChange = contents => {
-      event => {
-        var targetInput = {};
-        targetInput[contents] = event.target.value;
-        this.setState({
-          targetInput
-        });
-      };
+    this.handleChange = event => {
+      var targetInput = {};
+      targetInput[event.target.name] = event.target.value;
+      this.setState(targetInput);
     };
 
     this.handleSubmit = async event => {
@@ -40134,6 +40130,7 @@ class Addition extends _react.Component {
       categoryId: 0
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   render() {
@@ -40145,13 +40142,16 @@ class Addition extends _react.Component {
       className: "middle"
     }, _react.default.createElement("label", null, " \uD1B5\uC7A5\uC774\uB984 "), _react.default.createElement("br", null), _react.default.createElement("input", {
       type: "text",
+      name: "name",
       value: this.state.name,
-      onChange: this.handleChange("name")
+      onChange: this.handleChange
     }), _react.default.createElement("br", null), _react.default.createElement("label", null, " \uC124\uC815\uAE08\uC561 "), _react.default.createElement("br", null), _react.default.createElement("input", {
       type: "text",
+      name: "amount",
       value: this.state.amount,
-      onChange: this.handleChange("amount")
+      onChange: this.handleChange
     }), _react.default.createElement("br", null), _react.default.createElement("label", null, "\uCE74\uD14C\uACE0\uB9AC"), _react.default.createElement("br", null), _react.default.createElement("select", {
+      name: "categoryId",
       value: this.state.categoryId,
       onChange: this.handleChange
     }, _react.default.createElement("option", {
@@ -40160,16 +40160,19 @@ class Addition extends _react.Component {
       value: "2"
     }, "\uCDE8\uBBF8/\uC5EC\uAC00"), _react.default.createElement("option", {
       value: "3"
-    }, "\uD3B8\uC758\uC810/\uB9C8\uD2B8/\uC7A1\uD654"), _react.default.createElement("option", {
+    }, "\uCE74\uD398/\uAC04\uC2DD"), _react.default.createElement("option", {
       value: "4"
-    }, "\uC8FC\uAC70/\uD1B5\uC2E0"), _react.default.createElement("option", {
+    }, "\uD3B8\uC758\uC810/\uB9C8\uD2B8/\uC7A1\uD654"), _react.default.createElement("option", {
       value: "5"
-    }, "\uC1FC\uD551"), _react.default.createElement("option", {
+    }, "\uC8FC\uAC70/\uD1B5\uC2E0"), _react.default.createElement("option", {
       value: "6"
+    }, "\uC1FC\uD551"), _react.default.createElement("option", {
+      value: "7"
     }, "\uAD50\uC721"))), _react.default.createElement("div", {
       className: "bottom"
     }, _react.default.createElement("button", {
-      type: "submit"
+      type: "submit",
+      onClick: this.handleSubmit
     }, "\uD655\uC778!"))));
   }
 
@@ -40333,7 +40336,7 @@ class Card extends _react.Component {
       className: "slider"
     }, _react.default.createElement("div", {
       className: "top"
-    }, this.props.category, " \uACC4\uC88C"), _react.default.createElement("div", {
+    }, this.props.category, " ", this.props.name, " \uACC4\uC88C"), _react.default.createElement("div", {
       className: "middle"
     }, _react.default.createElement(_Arrow.LeftArrow, {
       handlePreAccount: this.props.handlePreAccount
@@ -40417,8 +40420,9 @@ class Home extends _react.Component {
 
     this.state = {
       accounts: [],
-      categoryId: -1,
+      categoryId: 0,
       category: "",
+      name: "",
       amount: 0,
       totalindex: 0,
       curruntindex: 0,
@@ -40441,8 +40445,9 @@ class Home extends _react.Component {
       this.setState({
         curruntindex: index
       });
-      this.componentDidMount();
     }
+
+    this.componentDidMount();
   }
 
   handlePreAccount() {
@@ -40456,8 +40461,9 @@ class Home extends _react.Component {
       this.setState({
         curruntindex: index
       });
-      this.componentDidMount();
     }
+
+    this.componentDidMount();
   }
 
   createAccountObject(obj) {
@@ -40465,6 +40471,7 @@ class Home extends _react.Component {
       amount: obj[this.state.curruntindex].amount,
       categoryId: obj[this.state.curruntindex].category.id,
       category: obj[this.state.curruntindex].category.name,
+      name: obj[this.state.curruntindex].name,
       totalindex: obj.length
     });
   }
@@ -40481,6 +40488,7 @@ class Home extends _react.Component {
         amount: this.state.amount,
         categoryId: this.state.categoryId,
         category: this.state.category,
+        name: this.state.name,
         handlePreAccount: this.handlePreAccount,
         handleNextAccount: this.handleNextAccount,
         handleAddAccount: this.handleAddAccount
@@ -40577,8 +40585,8 @@ class App extends _react.Component {
     };
 
     var data = {
-      name: '',
-      price: ''
+      name: "",
+      price: ""
     };
     this.state = {
       PaymentData: data
@@ -40800,7 +40808,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56132" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64895" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
