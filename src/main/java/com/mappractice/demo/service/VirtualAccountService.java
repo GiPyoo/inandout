@@ -26,7 +26,7 @@ public class VirtualAccountService {
     }
 
     public void create(HttpSession session, Long categoryId) {
-        User loginUser = userRepository.findByName(SessionUtils.getLoginUser(session).getName()).orElseThrow(UnAuthorizedException::new);
+        User loginUser = SessionUtils.getLoginUser(session);
         VirtualAccount account = new VirtualAccount();
         account.setUser(loginUser);
         account.setCategory(categoryRepository.findById(categoryId).orElseThrow(RuntimeException::new));
