@@ -23,6 +23,8 @@ public class ApiHackathonController {
     public TransactionHistory saveTransactionHistory(
             @RequestBody TransactionHistory transactionHistory){
         System.out.println("getAccountHistory method : " + transactionHistory);
-        return apiHackathonService.saveAccountHistory(transactionHistory);
+        TransactionHistory transactionHistory1 = apiHackathonService.saveAccountHistory(transactionHistory);
+        System.out.println("madeHistory: " + transactionHistory1);
+        return transactionHistory1;
     }
 }
