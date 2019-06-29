@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
+import javax.swing.text.DateFormatter;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,8 +99,8 @@ public class ApiRequestService {
     private AccountHistory makeAccountHistory(TransactionHistory apiHistory, User user) {
 
         int transaction = -1;
-
-        LocalDateTime createdAt = LocalDateTime.parse(apiHistory.getTransactionDate());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        LocalDateTime createdAt = LocalDateTime.parse(apiHistory.getTransactionDate(),formatter);
 
         Long deposit = Long.parseLong(apiHistory.getOutputCash());
         Long withdraw = Long.parseLong(apiHistory.getInputCash());

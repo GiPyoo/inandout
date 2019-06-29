@@ -14,7 +14,9 @@ class Card extends Component {
     console.log(this.props.info);
     return (
       <article className={"slider"}>
-        <div className={"top"}>{this.props.category} 계좌</div>
+        <div className={"top"}>
+          {this.props.category} {this.props.name} 계좌
+        </div>
         <div className={"middle"}>
           <LeftArrow handlePreAccount={this.props.handlePreAccount} />
           <Slide categoryId={this.props.categoryId} />
