@@ -53,9 +53,9 @@ public class ApiRequestService {
     }
 
     private User getLoginUserByAccountNumber(HttpSession httpSession, String accountNumber) {
-        User accountOnwer = userRepository.findByAccount(accountNumber).orElseThrow(UnAuthorizedException::new);
-        if (isLoginUser(httpSession, accountOnwer)) {
-            return accountOnwer;
+        User accountOwner = userRepository.findByAccount(accountNumber).orElseThrow(UnAuthorizedException::new);
+        if (isLoginUser(httpSession, accountOwner)) {
+            return accountOwner;
         }
         throw new UnAuthorizedException();
     }
@@ -83,7 +83,15 @@ public class ApiRequestService {
     }
 
     private void updateAccountHistory(AccountHistory accountHistory) {
+        reflectVirtualAccount(accountHistory);
         accountHistoryRepository.save(accountHistory);
+    }
+
+    private void reflectVirtualAccount(AccountHistory accountHistory) {
+        VirtualAccount virtualAccount = accountHistory.getVirtualAccount();
+        virtualAccount.reflectHistory(accountHistory);
+
+        virtualAccountRepository.save(virtualAccount);
     }
 
     private AccountHistory makeAccountHistory(TransactionHistory apiHistory, User user) {
