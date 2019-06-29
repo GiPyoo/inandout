@@ -9,9 +9,11 @@ import com.mappractice.demo.utils.DateUtils;
 import com.mappractice.demo.utils.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,7 +22,7 @@ import static com.mappractice.demo.utils.RequestGenerator.getJsonByRestTemplate;
 @Service
 public class ApiRequestService {
 
-    private final static long category =1;
+    private final static long category = 1;
 
     @Autowired
     VirtualAccountRepository virtualAccountRepository;
@@ -74,39 +76,64 @@ public class ApiRequestService {
             return;
 
         for (int i = latestHistoryIndex; i < datas.size(); i++) {
-            accountHistoryRepository.save(datas.get(i));
             updateAccountHistory(makeAccountHistory(transactionHistoryResponseDTO.getAccount(), datas.get(i)));
         }
         String latestDate = datas.get(datas.size() - 1).getTransactionDate();
         updateUser(session, latestDate);
     }
 
-    private void updateAccountHistory(AccountHistory accountHistory){
+    private void updateAccountHistory(AccountHistory accountHistory) {
         accountHistoryRepository.save(accountHistory);
     }
 
     private AccountHistory makeAccountHistory(Account account, TransactionHistory history) {
 
-        String tmpAccount = account.getGridInfo();
-        LocalDateTime createdAt = LocalDateTime.now();
         int transaction = -1;
 
+        LocalDateTime createdAt = LocalDateTime.parse(history.getTransactionDate());
+        ;
+        String tmpAccount = account.getGridInfo();
         Long deposit = Long.parseLong(history.getOutputCash());
         Long withdraw = Long.parseLong(history.getInputCash());
 
-        if (deposit > 0) //입금 1 출금 0
-            transaction = 1;
-        else {
+        if (deposit > 0) //입금 0 출금 1
             transaction = 0;
+        else {
+            transaction = 1;
         }
         Long amount = Long.parseLong(history.getAmount());
 
-        return new AccountHistory(tmpAccount, findVirtualAccount(category), createdAt, transaction, deposit, withdraw, amount);
+        Long categoryId = 0l;
+
+        //카테고리 판단
+        // if category 가 나올경우 categoryId = 리턴값으로
+
+        return new AccountHistory(tmpAccount, findVirtualAccount(account, categoryId), createdAt, transaction, deposit, withdraw, amount);
     }
 
-    private VirtualAccount findVirtualAccount(long accountId){
-        VirtualAccount virtualAccount = virtualAccountRepository.findById(accountId).orElseThrow(RuntimeException::new);
-        return virtualAccount;
+    private VirtualAccount findVirtualAccount(Account account, long category) {
+        List<VirtualAccount> virtualAccountList = virtualAccountRepository.findAllByUserId(account.getId()); //사용자가 가지고 있는 가상계좌들
+        int zero = -1;
+
+        List<Long> index = new ArrayList<>();
+        for (int i = 0; i < virtualAccountList.size(); i++) {
+            index.add(virtualAccountList.get(i).getCategory().getId());
+        }
+
+        for (int i = 0; i < index.size(); i++) {
+            if (index.get(i) == 0)
+                zero = i;
+
+            if (index.get(i) == category) {
+                return virtualAccountList.get(i);
+            }
+        }
+
+        if (zero == -1) {
+            return null;
+        }
+
+        return virtualAccountList.get(zero);
     }
 
     private void updateUser(HttpSession session, String latestDate) {
