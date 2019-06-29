@@ -6,7 +6,6 @@ import com.mappractice.demo.hackaton.domain.Account;
 import com.mappractice.demo.hackaton.domain.TransactionHistory;
 import com.mappractice.demo.hackaton.dto.TransactionHistoryResponseDTO;
 import com.mappractice.demo.utils.DateUtils;
-import com.mappractice.demo.utils.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static com.mappractice.demo.utils.RequestGenerator.getJsonByRestTemplate;
+import static com.mappractice.demo.utils.SessionUtils.isLoginUser;
 
 @Service
 public class ApiRequestService {
@@ -33,27 +32,37 @@ public class ApiRequestService {
     @Autowired
     AccountHistoryRepository accountHistoryRepository;
 
-    public void updateLocalTransactionHistory(){
+    @Transactional
+    public void updateLocalTransactionHistory(HttpSession httpSession){
         String hackathonApiRequestURI = "http://localhost:8080/hackathonApi/getAccountTransactionHistory";
         //요청 가져와서
         TransactionHistoryResponseDTO response = getJsonByRestTemplate(hackathonApiRequestURI,
                 TransactionHistoryResponseDTO.class);
 
-        //유저판단
-        User userByAccountNumber = getUserByAccountNumber(response.getAccount().getAmountNumber());
-
-
+        //유저판단 + 로그인 유저와 일치하는지
+        User user = getLoginUserByAccountNumber(httpSession, response.getAccount().getAmountNumber());
 
         // 그 최신시간과 유저 최신시간 비교
+        List<TransactionHistory> apiHistories = response.getDatas();
+        String latestJoinTime = user.getUserLatestTime().toString();
+        int index = getFirstIndexNeedUpdate(apiHistories, latestJoinTime);
 
         // 최신시간 넘는 애들 업데이트
+        updateHistories(apiHistories, index , user);
+
+        //유저 업데이터
+        updateLatestJoinTime(user);
     }
 
-    private User getUserByAccountNumber(String accountNumber){
-        return userRepository.findByAccount(accountNumber).orElseThrow(UnAuthorizedException::new);
+    private User getLoginUserByAccountNumber(HttpSession httpSession, String accountNumber){
+        User accountOnwer = userRepository.findByAccount(accountNumber).orElseThrow(UnAuthorizedException::new);
+        if(isLoginUser(httpSession, accountOnwer)){
+            return accountOnwer;
+        }
+        throw new UnAuthorizedException();
     }
 
-    private int getOldestHistoryIndexNeedUpdate(List<TransactionHistory> histories, String userLatestDate) {
+    private int getFirstIndexNeedUpdate(List<TransactionHistory> histories, String userLatestDate) {
 
         for (int i = 0; i < histories.size(); i++) {
             if (DateUtils.checkNewModification(
@@ -65,43 +74,36 @@ public class ApiRequestService {
         return -1;
     }
 
-    public void updateHistory(TransactionHistoryResponseDTO transactionHistoryResponseDTO, HttpSession session) {
-        //TODO : Session 아님, 밖에서 getUserByAccountNumber 메서드를 통해서 User 객체로 입력받겠음.
-        List<TransactionHistory> datas = transactionHistoryResponseDTO.getDatas();
-        Collections.sort(datas);
 
-        int latestHistoryIndex = getOldestHistoryIndexNeedUpdate(datas, loadUserLatestTime(session));
-
-        if (latestHistoryIndex == -1)
+    public void updateHistories(List<TransactionHistory> apiHistories, int updateStartIndex, User user) {
+        if (updateStartIndex == -1){
             return;
-
-        for (int i = latestHistoryIndex; i < datas.size(); i++) {
-            updateAccountHistory(makeAccountHistory(transactionHistoryResponseDTO.getAccount(), datas.get(i)));
         }
-        String latestDate = datas.get(datas.size() - 1).getTransactionDate();
-        updateUser(session, latestDate);
+        for (int i = updateStartIndex; i < apiHistories.size(); i++) {
+            updateAccountHistory(makeAccountHistory(apiHistories.get(i), user));
+        }
     }
 
     private void updateAccountHistory(AccountHistory accountHistory) {
         accountHistoryRepository.save(accountHistory);
     }
 
-    private AccountHistory makeAccountHistory(Account account, TransactionHistory history) {
+    private AccountHistory makeAccountHistory(TransactionHistory apiHistory, User user) {
 
         int transaction = -1;
 
-        LocalDateTime createdAt = LocalDateTime.parse(history.getTransactionDate());
-        ;
+        LocalDateTime createdAt = LocalDateTime.parse(apiHistory.getTransactionDate());
+
         String tmpAccount = account.getGridInfo();
-        Long deposit = Long.parseLong(history.getOutputCash());
-        Long withdraw = Long.parseLong(history.getInputCash());
+        Long deposit = Long.parseLong(apiHistory.getOutputCash());
+        Long withdraw = Long.parseLong(apiHistory.getInputCash());
 
         if (deposit > 0) //입금 0 출금 1
             transaction = 0;
         else {
             transaction = 1;
         }
-        Long amount = Long.parseLong(history.getAmount());
+        Long amount = Long.parseLong(apiHistory.getAmount());
 
         Long categoryId = 0l;
 
@@ -136,16 +138,8 @@ public class ApiRequestService {
         return virtualAccountList.get(zero);
     }
 
-    private void updateUser(HttpSession session, String latestDate) {
-        User loginUser = userRepository.findByName(SessionUtils.getLoginUser(session).getName()).orElseThrow(UnAuthorizedException::new);
-
-        loginUser.updateLatestTime(latestDate);
-        userRepository.save(loginUser);
-    }
-
-    private String loadUserLatestTime(HttpSession session) {
-        User loginUser = userRepository.findByName(SessionUtils.getLoginUser(session).getName()).orElseThrow(UnAuthorizedException::new);
-
-        return loginUser.getUserLatestTime().toString();
+    private void updateLatestJoinTime(User user) {
+        user.setUserLatestTime(LocalDateTime.now());
+        userRepository.save(user);
     }
 }

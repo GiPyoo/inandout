@@ -21,4 +21,10 @@ public class SessionUtils {
         }
         return (User) session.getAttribute(USER_SESSION_KEY);
     }
+
+    public static boolean isLoginUser(HttpSession httpSession, User user){
+        return SessionUtils.getLoginUser(httpSession).getId().equals(user);
+    }
+
+
 }
