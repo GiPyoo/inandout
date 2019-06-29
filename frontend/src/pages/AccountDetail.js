@@ -10,24 +10,7 @@ class AccountDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      histories: [
-        {
-          createdAt: "k",
-          amount: 123,
-          withdraw: 10,
-          deposit: 0,
-          category: "미분류",
-          accountname: "기타"
-        },
-        {
-          createdAt: "ㅇㅁ",
-          amount: 1122,
-          withdraw: 0,
-          deposit: 100,
-          category: "미분류",
-          accountname: "기타"
-        }
-      ]
+      histories: []
     };
   }
 
