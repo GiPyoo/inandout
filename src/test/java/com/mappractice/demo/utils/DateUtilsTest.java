@@ -8,9 +8,9 @@ public class DateUtilsTest {
 
     @Test
     public void checkNewModificationTest() {
-        String LatestLoginTimeOfUser = "20190628095011";
-        String LatestModificationTimeOfTransactionHistory = "20190628095200";
-        assertEquals(true, DateUtils.checkNewModification(LatestLoginTimeOfUser, LatestModificationTimeOfTransactionHistory));
+        String latestLoginTimeOfUser = "20190628095011";
+        String latestModificationTimeOfTransactionHistory = "20190628095200";
+        assertEquals(true, DateUtils.checkNewModification(latestModificationTimeOfTransactionHistory, latestLoginTimeOfUser));
     }
 
 
