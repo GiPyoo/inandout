@@ -6,6 +6,9 @@ import com.google.gson.JsonParser;
 import com.mappractice.demo.hackaton.domain.Account;
 import com.mappractice.demo.hackaton.domain.TransactionHistory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ParserUtils {
     private static final String DATAS = "datas"; /* json형식 정해지면 수정*/
@@ -27,9 +30,11 @@ public class ParserUtils {
         }
     }
 
-    private static void sendAccountJson(JsonArray accountArray) {
+    private static List<Account> sendAccountJson(JsonArray accountArray) {
+        List<Account> accounts = new ArrayList<>();
         for (int i = 0; i < accountArray.size(); i++) {
             JsonObject jsonObject = (JsonObject) accountArray.get(i);
+
             Account account = new Account();
             account.setAmount(jsonObject.get("amount").toString());
             account.setAmountNumber(jsonObject.get("amountNumber").toString());
@@ -37,12 +42,18 @@ public class ParserUtils {
             account.setId(Long.parseLong(jsonObject.get("id").toString()));
             account.setNextTransactionDate(jsonObject.get("nextTransactionDate").toString());
             account.setWithdrawableAmount(jsonObject.get("withdrawableAmount").toString());
+
+            accounts.add(account);
         }
+        return accounts;
     }
 
-    private static void sendDatasJson(JsonArray datasArray) {
+    private static List<TransactionHistory> sendDatasJson(JsonArray datasArray) {
+        List<TransactionHistory> histories = new ArrayList<>();
+
         for (int i = 0; i < datasArray.size(); i++) {
             JsonObject jsonObject = (JsonObject) datasArray.get(i);
+
             TransactionHistory transactionHistory = new TransactionHistory();
             transactionHistory.setAmount(jsonObject.get("amount").toString());
             transactionHistory.setCash(jsonObject.get("cash").toString());
@@ -53,6 +64,9 @@ public class ParserUtils {
             transactionHistory.setOutputCash(jsonObject.get("outputCash").toString());
             transactionHistory.setPlace(jsonObject.get("place").toString());
             transactionHistory.setTransactionType(jsonObject.get("transactionType").toString());
+
+            histories.add(transactionHistory);
         }
+        return histories;
     }
 }

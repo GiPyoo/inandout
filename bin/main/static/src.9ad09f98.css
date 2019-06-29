@@ -1,0 +1,22 @@
+@charset "utf-8";
+@font-face {
+  font-family: 'happyhappy';
+  src: url('/12롯데마트행복Medium.d495ea9d.ttf') format('truetype')
+}
+
+code {
+  font-family: happyhappy, source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+html, body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+/*# sourceMappingURL=/src.9ad09f98.css.map */

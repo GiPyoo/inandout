@@ -1,11 +1,17 @@
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+@charset "utf-8";
+@font-face {
+  font-family: 'happyhappy';
+  src: url('../public/12롯데마트행복Medium.ttf') format('truetype')
 }
 
-html, body{
+code {
+  font-family: happyhappy, source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+html, body {
   height: 100%;
 }
+
 #root {
   height: 100%;
   margin: 0;

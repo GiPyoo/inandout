@@ -1,5 +1,6 @@
 package com.mappractice.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ public class VirtualAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
     private User user;
@@ -31,5 +33,9 @@ public class VirtualAccount {
 
     public boolean isSameId(Long accountId) {
         return category.getId() == accountId;
+    }
+
+    public void updateAmount(Long amount) {
+        this.amount = amount;
     }
 }

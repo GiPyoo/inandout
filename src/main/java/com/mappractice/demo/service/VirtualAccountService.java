@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VirtualAccountService {
@@ -21,8 +22,13 @@ public class VirtualAccountService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private AccountHistoryRepository accountHistoryRepository;
+
     public List<VirtualAccount> getList(HttpSession session) {
-        return userRepository.findByName(SessionUtils.getLoginUser(session).getName()).orElseThrow(UnAuthorizedException::new).getVirtualAccounts();
+        User loginUser = userRepository.findByName(SessionUtils.getLoginUser(session).getName()).orElseThrow(UnAuthorizedException::new);
+
+        return virtualAccountRepository.findAll().stream().filter(virtualAccount -> virtualAccount.getUser().equals(loginUser)).collect(Collectors.toList());
     }
 
     public void create(HttpSession session, Long categoryId) {
@@ -65,5 +71,40 @@ public class VirtualAccountService {
 
         loginUser.setVirtualAccounts(accounts);
         userRepository.save(loginUser);
+    }
+
+    public void deposit(HttpSession session, Long accountId, Long money) {
+        User loginUser = userRepository.findByName(SessionUtils.getLoginUser(session).getName()).orElseThrow(UnAuthorizedException::new);
+        VirtualAccount account = virtualAccountRepository.findById(accountId).orElseThrow(RuntimeException::new);
+
+        transferMoney(loginUser, account, virtualAccountRepository.findById(0l).orElseThrow(RuntimeException::new), money);
+    }
+
+    private void transferMoney(User loginUser, VirtualAccount to, VirtualAccount from, Long money) {
+        AccountHistory depositHistory = createAccountHistory(loginUser.getAccount(), to, money, AccountHistory.DEPOSIT_CODE);
+        AccountHistory withdrawHistory = createAccountHistory(loginUser.getAccount(), from, money, AccountHistory.WITHDRAW_CODE);
+
+        adjustAccount(depositHistory);
+        adjustAccount(withdrawHistory);
+    }
+
+    private void adjustAccount(AccountHistory history) {
+        VirtualAccount account = history.getVirtualAccount();
+        account.updateAmount(history.getAmount());
+
+        virtualAccountRepository.save(account);
+    }
+
+    private AccountHistory createAccountHistory(String account, VirtualAccount virtualAccount, Long money, int transactionType) {
+        AccountHistory history = new AccountHistory();
+
+        if (transactionType == AccountHistory.DEPOSIT_CODE) {
+            history.createDeposit(account, virtualAccount, money);
+        }
+        if (transactionType == AccountHistory.WITHDRAW_CODE) {
+            history.createWithDraw(account, virtualAccount, money);
+        }
+
+        return accountHistoryRepository.save(history);
     }
 }
