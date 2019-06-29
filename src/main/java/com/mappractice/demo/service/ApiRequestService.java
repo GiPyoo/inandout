@@ -2,7 +2,6 @@ package com.mappractice.demo.service;
 
 import com.mappractice.demo.domain.*;
 import com.mappractice.demo.exception.UnAuthorizedException;
-import com.mappractice.demo.hackaton.TransactionHistoryRepository;
 import com.mappractice.demo.hackaton.domain.Account;
 import com.mappractice.demo.hackaton.domain.TransactionHistory;
 import com.mappractice.demo.hackaton.dto.TransactionHistoryResponseDTO;
@@ -18,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.mappractice.demo.utils.RequestGenerator.getJsonByRestTemplate;
+
 @Service
 public class ApiRequestService {
 
@@ -32,14 +33,44 @@ public class ApiRequestService {
     @Autowired
     AccountHistoryRepository accountHistoryRepository;
 
-    @Autowired
-    TransactionHistoryRepository transactionHistoryRepository;
+    public void updateLocalTransactionHistory(){
+        String hackathonApiRequestURI = "http://localhost:8080/hackathonApi/getAccountTransactionHistory";
+        //요청 가져와서
+        TransactionHistoryResponseDTO response = getJsonByRestTemplate(hackathonApiRequestURI,
+                TransactionHistoryResponseDTO.class);
+
+        //유저판단
+        User userByAccountNumber = getUserByAccountNumber(response.getAccount().getAmountNumber());
+
+
+
+        // 그 최신시간과 유저 최신시간 비교
+
+        // 최신시간 넘는 애들 업데이트
+    }
+
+    private User getUserByAccountNumber(String accountNumber){
+        return userRepository.findByAccount(accountNumber).orElseThrow(UnAuthorizedException::new);
+    }
+
+    private int getOldestHistoryIndexNeedUpdate(List<TransactionHistory> histories, String userLatestDate) {
+
+        for (int i = 0; i < histories.size(); i++) {
+            if (DateUtils.checkNewModification(
+                    histories.get(i).getTransactionDate()
+                    , userLatestDate)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     public void updateHistory(TransactionHistoryResponseDTO transactionHistoryResponseDTO, HttpSession session) {
+        //TODO : Session 아님, 밖에서 getUserByAccountNumber 메서드를 통해서 User 객체로 입력받겠음.
         List<TransactionHistory> datas = transactionHistoryResponseDTO.getDatas();
         Collections.sort(datas);
 
-        int latestHistoryIndex = checkTime(datas, loadUserLatestTime(session));
+        int latestHistoryIndex = getOldestHistoryIndexNeedUpdate(datas, loadUserLatestTime(session));
 
         if (latestHistoryIndex == -1)
             return;
@@ -47,10 +78,8 @@ public class ApiRequestService {
         for (int i = latestHistoryIndex; i < datas.size(); i++) {
             updateAccountHistory(makeAccountHistory(transactionHistoryResponseDTO.getAccount(), datas.get(i)));
         }
-
         String latestDate = datas.get(datas.size() - 1).getTransactionDate();
         updateUser(session, latestDate);
-
     }
 
     private void updateAccountHistory(AccountHistory accountHistory) {
@@ -112,19 +141,6 @@ public class ApiRequestService {
 
         loginUser.updateLatestTime(latestDate);
         userRepository.save(loginUser);
-    }
-
-    private int checkTime(List<TransactionHistory> histories, String userLatestDate) {
-
-        for (int i = 0; i < histories.size(); i++) {
-            if (DateUtils.checkNewModification(
-                    histories.get(i).getTransactionDate()
-                    , userLatestDate)) {
-                return i;
-            }
-        }
-
-        return -1;
     }
 
     private String loadUserLatestTime(HttpSession session) {
