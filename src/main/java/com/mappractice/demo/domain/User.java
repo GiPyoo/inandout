@@ -1,5 +1,6 @@
 package com.mappractice.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mappractice.demo.dto.UserSignUpDTO;
 import com.mappractice.demo.exception.UnAuthorizedException;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public class User {
     @Column(nullable = false)
     private String name;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<VirtualAccount> virtualAccounts;
 
