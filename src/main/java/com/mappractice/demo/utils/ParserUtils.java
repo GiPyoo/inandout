@@ -3,7 +3,7 @@ package com.mappractice.demo.utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.mappractice.demo.hackaton.domain.Account;
+import com.mappractice.demo.hackaton.domain.ApiAccount;
 import com.mappractice.demo.hackaton.domain.TransactionHistory;
 
 import java.util.ArrayList;
@@ -30,14 +30,14 @@ public class ParserUtils {
         }
     }
 
-    private static List<Account> sendAccountJson(JsonArray accountArray) {
-        List<Account> accounts = new ArrayList<>();
+    private static List<ApiAccount> sendAccountJson(JsonArray accountArray) {
+        List<ApiAccount> accounts = new ArrayList<>();
         for (int i = 0; i < accountArray.size(); i++) {
             JsonObject jsonObject = (JsonObject) accountArray.get(i);
 
-            Account account = new Account();
+            ApiAccount account = new ApiAccount();
             account.setAmount(jsonObject.get("amount").toString());
-            account.setAmountNumber(jsonObject.get("amountNumber").toString());
+            account.setAccountNumber(jsonObject.get("accountNumber").toString());
             account.setGridInfo(jsonObject.get("gridInfo").toString());
             account.setId(Long.parseLong(jsonObject.get("id").toString()));
             account.setNextTransactionDate(jsonObject.get("nextTransactionDate").toString());

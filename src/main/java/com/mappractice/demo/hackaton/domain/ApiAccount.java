@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Account {
+public class ApiAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
