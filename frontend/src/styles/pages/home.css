@@ -24,6 +24,15 @@
     padding: 0px;
 }
 
+.middle select {
+    width: 100%;
+    border-radius: 4px;
+    height: 40px;
+    margin-bottom: 8px;
+    margin-top: 0px;
+    padding: 0px;
+}
+
 .middle label {
     font-size: 2em;
     padding-bottom: 0px;

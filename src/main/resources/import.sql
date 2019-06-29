@@ -15,6 +15,6 @@ INSERT INTO CATEGORY (id, name) VALUES (5, '주거/통신')
 INSERT INTO CATEGORY (id, name) VALUES (6, '쇼핑')
 INSERT INTO CATEGORY (id, name) VALUES (7, '교육')
 
-INSERT INTO virtual_account (id, category_id, user_id, name, amount) VALUES (1, 0, 1,'귀찮음의 산물', 1000000);
-INSERT INTO virtual_account (id, category_id, user_id,name, amount) VALUES (2, 1, 1, '병재의 허세용 식비 통장', 200000);
+INSERT INTO virtual_account (id, category_id, user_id,amount, name) VALUES (1, 0, 1, 950000, '기타');
+INSERT INTO virtual_account (id, category_id, user_id,amount, name) VALUES (2, 1, 1, 200000,'점심밥값');
 
