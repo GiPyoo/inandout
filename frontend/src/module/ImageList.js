@@ -1,22 +1,23 @@
-import food from "../../public/식비.png"
-import free from "../../public/취미:여가.png"
-import shopping from "../../public/쇼핑.png"
-import education from "../../public/교육.png"
-import dessert from "../../public/카페:간식.png"
-import stuff from "../../public/편의점:마트:잡화.png"
-import living from "../../public/주거:통신.png"
+import food from "../../public/1.png";
+import free from "../../public/2.png";
+import shopping from "../../public/6.png";
+import education from "../../public/7.png";
+import dessert from "../../public/3.png";
+import stuff from "../../public/4.png";
+import living from "../../public/5.png";
+import unClassified from "../../public/0.png";
 
 const category = [
-    food,
-    free,
-    shopping,
-    education,
-    dessert,
-    stuff,
-    living
-]
+  unClassified,
+  food,
+  free,
+  dessert,
+  stuff,
+  living,
+  shopping,
+  education
+];
 
-export function lists(){
-    return category;
+export function lists(id) {
+  return category[id];
 }
-
