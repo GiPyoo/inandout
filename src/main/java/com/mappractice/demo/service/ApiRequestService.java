@@ -40,13 +40,11 @@ public class ApiRequestService {
         //유저판단
         User userByAccountNumber = getUserByAccountNumber(response.getAccount().getAmountNumber());
 
-        // 최신시간 판단후
-        getOldestHistoryIndexNeedUpdate(response.getDatas(),
-                //String formatter 거쳐야함
-                userByAccountNumber.getUserLatestTime().toString());
+
+
         // 그 최신시간과 유저 최신시간 비교
+
         // 최신시간 넘는 애들 업데이트
-        //
     }
 
     private User getUserByAccountNumber(String accountNumber){
@@ -66,6 +64,7 @@ public class ApiRequestService {
     }
 
     public void updateHistory(TransactionHistoryResponseDTO transactionHistoryResponseDTO, HttpSession session) {
+        //TODO : Session 아님, 밖에서 getUserByAccountNumber 메서드를 통해서 User 객체로 입력받겠음.
         List<TransactionHistory> datas = transactionHistoryResponseDTO.getDatas();
         Collections.sort(datas);
 
@@ -75,7 +74,7 @@ public class ApiRequestService {
             return;
 
         for (int i = latestHistoryIndex; i < datas.size(); i++) {
-//            accountHistoryRepository.save(datas.get(i));
+            accountHistoryRepository.save(datas.get(i));
             updateAccountHistory(makeAccountHistory(transactionHistoryResponseDTO.getAccount(), datas.get(i)));
         }
         String latestDate = datas.get(datas.size() - 1).getTransactionDate();
