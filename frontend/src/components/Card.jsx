@@ -5,10 +5,15 @@ import { LeftArrow, RightArrow } from "./Arrow";
 class Card extends Component {
   constructor(props) {
     super(props);
+    this.handleCall = this.handleCall.bind(this);
   }
 
   handleonClick = event => {
     this.props.handleAddAccount(true);
+  };
+
+  handleCall = event => {
+    location.href = "/AccountDetail/" + this.props.accountID;
   };
   render() {
     console.log(this.props.info);
@@ -24,7 +29,12 @@ class Card extends Component {
         </div>
         <div className={"bottom"}>
           <p>{this.props.amount}</p>
-          <button className="btn btn-outline-secondary">조회</button>
+          <button
+            className="btn btn-outline-secondary"
+            onClick={this.handleCall}
+          >
+            조회
+          </button>
           <button
             className="btn btn-outline-dark"
             onClick={this.handleonClick.bind(this)}
