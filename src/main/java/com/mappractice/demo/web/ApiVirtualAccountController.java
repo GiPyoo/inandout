@@ -1,6 +1,7 @@
 package com.mappractice.demo.web;
 
 import com.mappractice.demo.domain.VirtualAccount;
+import com.mappractice.demo.dto.VirtualAccountCreateDTO;
 import com.mappractice.demo.response.ResponseGenerator;
 import com.mappractice.demo.response.RestResponse;
 import com.mappractice.demo.service.ApiRequestService;
@@ -32,8 +33,8 @@ public class ApiVirtualAccountController {
     }
 
     @PostMapping("/")
-    public ResponseEntity createAccount(HttpSession session, String name, Long amount, Long categoryId) {
-        virtualAccountService.create(session, name, amount, categoryId);
+    public ResponseEntity createAccount(HttpSession session, @RequestBody VirtualAccountCreateDTO virtualAccountCreateDTO) {
+        virtualAccountService.create(session, virtualAccountCreateDTO);
 
         return new ResponseEntity(HttpStatus.OK);
     }
