@@ -18,8 +18,13 @@ img {
     font-size: 3em;
 }
 
-.slider .middle {
-    height: 70%;
+@media screen and (max-width: 780px) {
+    .slider .top {
+        height: 10%;
+        line-height: 40px;
+        text-align: center;
+        font-size: 1em;
+    }
 }
 
 .slider .bottom {
