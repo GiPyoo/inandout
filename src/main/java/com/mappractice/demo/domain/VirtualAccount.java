@@ -24,6 +24,9 @@ public class VirtualAccount {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(nullable = false)
+    private String name;
+
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_virtual_category"))
     private Category category;
