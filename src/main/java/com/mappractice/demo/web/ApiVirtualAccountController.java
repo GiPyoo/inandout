@@ -32,8 +32,8 @@ public class ApiVirtualAccountController {
     }
 
     @PostMapping("/")
-    public ResponseEntity createAccount(HttpSession session, Long categoryId) {
-        virtualAccountService.create(session, categoryId);
+    public ResponseEntity createAccount(HttpSession session, String name, Long amount, Long categoryId) {
+        virtualAccountService.create(session, name, amount, categoryId);
 
         return new ResponseEntity(HttpStatus.OK);
     }
