@@ -1,15 +1,10 @@
 package com.mappractice.demo.utils;
 
-import com.mappractice.demo.hackaton.dto.TransactionHistoryResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URL;
 
 public class RequestGenerator {
 //    public static String getJson(String url) throws Exception {
@@ -33,12 +28,12 @@ public class RequestGenerator {
 //        return response.toString();
 //    }
 
-    public static TransactionHistoryResponseDTO getJsonByRestTemplate(String url) {
+    public static <T> T getJsonByRestTemplate(String url ,Class<T> responseType) {
         RestTemplate restTemplate = new RestTemplate();
         URI uri = UriComponentsBuilder.fromHttpUrl(url)
                 .build().toUri();
 
-        ResponseEntity<TransactionHistoryResponseDTO> response = restTemplate.getForEntity(uri, TransactionHistoryResponseDTO.class);
+        ResponseEntity<T> response = restTemplate.getForEntity(uri, responseType);
         return response.getBody();
 
 //

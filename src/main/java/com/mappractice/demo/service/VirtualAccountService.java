@@ -28,6 +28,11 @@ public class VirtualAccountService {
     public List<VirtualAccount> getList(HttpSession session) {
         User loginUser = userRepository.findByName(SessionUtils.getLoginUser(session).getName()).orElseThrow(UnAuthorizedException::new);
 
+
+
+
+
+
         return virtualAccountRepository.findAll().stream().filter(virtualAccount -> virtualAccount.getUser().equals(loginUser)).collect(Collectors.toList());
     }
 

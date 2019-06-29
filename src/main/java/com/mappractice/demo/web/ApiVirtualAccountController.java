@@ -3,6 +3,7 @@ package com.mappractice.demo.web;
 import com.mappractice.demo.domain.VirtualAccount;
 import com.mappractice.demo.response.ResponseGenerator;
 import com.mappractice.demo.response.RestResponse;
+import com.mappractice.demo.service.ApiRequestService;
 import com.mappractice.demo.service.VirtualAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,12 @@ public class ApiVirtualAccountController {
     @Autowired
     private VirtualAccountService virtualAccountService;
 
+    @Autowired
+    private ApiRequestService apiRequestService;
+
     @GetMapping("/")
     public ResponseEntity<RestResponse<List<VirtualAccount>>> getList(HttpSession session) {
+        apiRequestService.updateLocalTransactionHistory();
         return ResponseGenerator.generateResponseEntity(
                 virtualAccountService.getList(session),
                 HttpStatus.OK);
