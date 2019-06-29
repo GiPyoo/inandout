@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Account {
+public class ApiAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class Account {
 
     private String gridInfo;
     private String amount;
-    private String amountNumber;
+    private String accountNumber;
     private String withdrawableAmount;
     private String nextTransactionDate;
 

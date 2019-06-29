@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -19,7 +20,7 @@ public class TransactionHistory extends AbstractEntity implements Comparable<Tra
     // "거래금액":"111", "입금금액":"0", "통장적요":"", "지급금액":"111", "거래원금":"0"
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String client;

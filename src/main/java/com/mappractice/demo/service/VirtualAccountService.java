@@ -1,6 +1,7 @@
 package com.mappractice.demo.service;
 
 import com.mappractice.demo.domain.*;
+import com.mappractice.demo.dto.VirtualAccountCreateDTO;
 import com.mappractice.demo.exception.UnAuthorizedException;
 import com.mappractice.demo.utils.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +32,15 @@ public class VirtualAccountService {
         return virtualAccountRepository.findAll().stream().filter(virtualAccount -> virtualAccount.getUser().equals(loginUser)).collect(Collectors.toList());
     }
 
-    public void create(HttpSession session, String name, Long amount, Long categoryId) {
+    public void create(HttpSession session, VirtualAccountCreateDTO virtualAccountCreateDTO) {
         User loginUser = SessionUtils.getLoginUser(session);
         VirtualAccount virtualAccount = new VirtualAccount();
         virtualAccount.setUser(loginUser);
-        virtualAccount.setName(name);
-        virtualAccount.setAmount(amount);
-        virtualAccount.setCategory(categoryRepository.findById(categoryId).orElseThrow(RuntimeException::new));
+        virtualAccount.setName(virtualAccountCreateDTO.getName());
+        virtualAccount.setAmount(virtualAccountCreateDTO.getAmount());
+        virtualAccount.setCategory(categoryRepository.findById(virtualAccountCreateDTO.getCategoryId()).orElseThrow(RuntimeException::new));
 
-        transferMoney(loginUser, virtualAccount, virtualAccountRepository.findByCategoryId(0l).orElseThrow(RuntimeException::new), amount);
+        transferMoney(loginUser, virtualAccount, virtualAccountRepository.findByCategoryId(0l).orElseThrow(RuntimeException::new), virtualAccountCreateDTO.getAmount());
 
         loginUser.getVirtualAccounts().add(virtualAccount);
         userRepository.save(loginUser);

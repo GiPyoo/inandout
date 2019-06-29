@@ -2,7 +2,6 @@ package com.mappractice.demo.service;
 
 import com.mappractice.demo.domain.*;
 import com.mappractice.demo.exception.UnAuthorizedException;
-import com.mappractice.demo.hackaton.domain.Account;
 import com.mappractice.demo.hackaton.domain.TransactionHistory;
 import com.mappractice.demo.hackaton.dto.TransactionHistoryResponseDTO;
 import com.mappractice.demo.utils.DateUtils;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
-import javax.swing.text.DateFormatter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -40,7 +38,7 @@ public class ApiRequestService {
                 TransactionHistoryResponseDTO.class);
 
         //유저판단 + 로그인 유저와 일치하는지
-        User user = getLoginUserByAccountNumber(httpSession, response.getAccount().getAmountNumber());
+        User user = getLoginUserByAccountNumber(httpSession, response.getAccount().getAccountNumber());
 
         // 그 최신시간과 유저 최신시간 비교
         List<TransactionHistory> apiHistories = response.getDatas();
