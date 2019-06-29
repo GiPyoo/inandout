@@ -4,6 +4,7 @@ class HistoryDetail extends Component {
   render() {
     const {
       createdAt,
+      contents,
       amount,
       withdraw,
       deposit,
@@ -16,8 +17,10 @@ class HistoryDetail extends Component {
         <div className={"card"}>
           <div className={"big top"}>
             <div className={"good side"}>
-              <div className={"accountname"}>{accountname}</div>
-              <div className={"category"}>{category}</div>
+              <div className={"accountname"}>{contents}</div>
+              <div className={"category"}>
+                {accountname} {category}
+              </div>
             </div>
             <div className={"good day"}>
               <div className={"withdraw"}>- {withdraw} 원 </div>
@@ -32,8 +35,10 @@ class HistoryDetail extends Component {
         <div className={"card"}>
           <div className={"big top"}>
             <div className={"good side"}>
-              <div className={"accountname"}>{accountname}</div>
-              <div className={"category"}>{category}</div>
+              <div className={"accountname"}>{contents}</div>
+              <div className={"category"}>
+                {accountname} {category}
+              </div>
             </div>
             <div className={"good day"}>
               <div className={"deposit"}> {deposit} 원 </div>

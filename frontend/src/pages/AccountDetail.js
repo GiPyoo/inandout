@@ -29,6 +29,7 @@ class AccountDetail extends Component {
         //createdAt : 시간 , amount : 남은금액 , withdraw : 지출 , deposit : 수입
         var { histories } = this.state;
         var temp = {
+          contents: data[i].name,
           createdAt: data[i].createdAt,
           amount: data[i].amount,
           withdraw: data[i].withdraw,
