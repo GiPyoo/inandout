@@ -9,7 +9,11 @@ class Payment extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+    state = {
         client:"",
         transactionDate:"" ,
         place:"",
@@ -19,9 +23,6 @@ class Payment extends Component {
         outputCash:"",
         originalCash:""
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
 
   handleChange(event) {
       const tempObject = {}
