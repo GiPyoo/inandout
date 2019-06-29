@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 @SpringBootTest
 public class ParserUtilsTest {
+
     @Test
     public void get() throws Exception {
 //        TransactionHistoryResponseDTO jsonByRestTemplate = RequestGenerator.getJsonByRestTemplate("http://localhost:8080" + "/hackathonApi/getAccountTransactionHistory");
@@ -22,7 +23,8 @@ public class ParserUtilsTest {
 //        TransactionHistoryResponseDTO jsonByRestTemplate = RequestGenerator.getJsonByRestTemplate("http://localhost:8080" + "/hackathonApi/getAccountTransactionHistory");
 
         // 잠깐 주석
-//        apiRequestService.updateHistory(jsonByRestTemplate, session);
+//        apiRequestService.updateHistories(jsonByRestTemplate, session);
         //        ParserUtils.parseStringToJson(str);
     }
+
 }

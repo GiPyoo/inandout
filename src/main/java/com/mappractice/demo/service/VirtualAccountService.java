@@ -28,11 +28,16 @@ public class VirtualAccountService {
     public List<VirtualAccount> getList(HttpSession session) {
         User loginUser = userRepository.findByName(SessionUtils.getLoginUser(session).getName()).orElseThrow(UnAuthorizedException::new);
 
+
+
+
+
+
         return virtualAccountRepository.findAll().stream().filter(virtualAccount -> virtualAccount.getUser().equals(loginUser)).collect(Collectors.toList());
     }
 
     public void create(HttpSession session, Long categoryId) {
-        User loginUser = userRepository.findByName(SessionUtils.getLoginUser(session).getName()).orElseThrow(UnAuthorizedException::new);
+        User loginUser = SessionUtils.getLoginUser(session);
         VirtualAccount account = new VirtualAccount();
         account.setUser(loginUser);
         account.setCategory(categoryRepository.findById(categoryId).orElseThrow(RuntimeException::new));

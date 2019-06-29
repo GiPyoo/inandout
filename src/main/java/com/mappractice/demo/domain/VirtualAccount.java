@@ -21,11 +21,11 @@ public class VirtualAccount {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name="user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name="fk_virtual_category"))
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_virtual_category"))
     private Category category;
 
     @Column(nullable = false)
@@ -37,5 +37,14 @@ public class VirtualAccount {
 
     public void updateAmount(Long amount) {
         this.amount = amount;
+    }
+
+    public void reflectHistory(AccountHistory accountHistory) {
+        if (accountHistory.getTransaction() == 0) {
+            this.amount += accountHistory.getDeposit();
+        }
+        if (accountHistory.getTransaction() == 1) {
+            this.amount -= accountHistory.getWithdraw();
+        }
     }
 }
