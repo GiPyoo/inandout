@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VirtualAccountService {
@@ -25,7 +26,9 @@ public class VirtualAccountService {
     private AccountHistoryRepository accountHistoryRepository;
 
     public List<VirtualAccount> getList(HttpSession session) {
-        return userRepository.findByName(SessionUtils.getLoginUser(session).getName()).orElseThrow(UnAuthorizedException::new).getVirtualAccounts();
+        User loginUser = userRepository.findByName(SessionUtils.getLoginUser(session).getName()).orElseThrow(UnAuthorizedException::new);
+
+        return virtualAccountRepository.findAll().stream().filter(virtualAccount -> virtualAccount.getUser().equals(loginUser)).collect(Collectors.toList());
     }
 
     public void create(HttpSession session, Long categoryId) {
