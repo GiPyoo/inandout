@@ -1,9 +1,11 @@
 package com.mappractice.demo.web;
 
+import com.mappractice.demo.domain.AccountHistory;
 import com.mappractice.demo.domain.VirtualAccount;
 import com.mappractice.demo.dto.VirtualAccountCreateDTO;
 import com.mappractice.demo.response.ResponseGenerator;
 import com.mappractice.demo.response.RestResponse;
+import com.mappractice.demo.service.AccountHistoryService;
 import com.mappractice.demo.service.ApiRequestService;
 import com.mappractice.demo.service.VirtualAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class ApiVirtualAccountController {
 
     @Autowired
     private ApiRequestService apiRequestService;
+
+    @Autowired
+    private AccountHistoryService accountHistoryService;
 
     @GetMapping("/")
     public ResponseEntity<RestResponse<List<VirtualAccount>>> getList(HttpSession session) {
@@ -56,9 +61,9 @@ public class ApiVirtualAccountController {
     }
 
     @GetMapping("/{accountId}")
-    public ResponseEntity<RestResponse<VirtualAccount>> getAccount(@PathVariable Long accountId) {
+    public ResponseEntity<RestResponse<List<AccountHistory>>> getAccountHistory(@PathVariable Long accountId) {
         return ResponseGenerator.generateResponseEntity(
-                virtualAccountService.getAccount(accountId),
+                accountHistoryService.getHistories(accountId),
                 HttpStatus.OK);
     }
 
