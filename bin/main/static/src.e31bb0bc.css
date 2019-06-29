@@ -1,18 +1,23 @@
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+@charset "utf-8";
+@font-face {
+  font-family: 'happyhappy';
+  src: url('/12롯데마트행복Medium.d495ea9d.ttf') format('truetype')
 }
 
-html, body{
+code {
+  font-family: happyhappy, source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+html, body {
   height: 100%;
 }
+
 #root {
   height: 100%;
   margin: 0;
   padding: 0;
   font-family: sans-serif;
 }
-
 .container-fluid, .row {
     height: 100%;
 }
@@ -67,6 +72,89 @@ html, body{
 }
 .login-box button:hover{
     background: #e67e22;
+}
+.navigation ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  .navigation li {
+    float: left;
+    color: white;
+  }
+  
+  .navigation li a {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+.slider {
+    margin: auto;
+    width: 900px;
+    height: 10000px;
+    font-family: happyhappy;
+}
+
+.top {
+    line-height: 100px;
+    text-align: center;
+    font-size: 3em;
+}
+
+.middle {
+    margin: auto;
+}
+
+.middle input {
+    width: 100%;
+    border-radius: 4px;
+    height: 40px;
+    margin-bottom: 8px;
+    margin-top: 0px;
+    padding: 0px;
+}
+
+.middle label {
+    font-size: 2em;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+.cardbox {
+    float: left;
+    line-height: 400px;
+}
+
+.cardbox.left-arrow {
+    text-align: center;
+    width: 10%;
+}
+
+.cardbox.virtual-acc {
+    text-align: center;
+    margin: auto;
+    width: 80%;
+}
+
+.cardbox.left-arrow {
+    text-align: center;
+    width: 10%;
+}
+
+.bottom {
+    height: 200px;
+    text-align: center;
+}
+
+.bottom p {
+    padding: 8px;
 }
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
