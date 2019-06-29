@@ -23,6 +23,8 @@ public class AccountHistory {
 
     private String account;
 
+    private String name;
+
     @ManyToOne(cascade= {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_history_to_virtual"))
     private VirtualAccount virtualAccount;
@@ -42,7 +44,8 @@ public class AccountHistory {
     @Column
     private Long amount;
 
-    public AccountHistory(VirtualAccount virtualAccount, LocalDateTime createdAt, int transaction, Long deposit, Long withdraw, Long amount) {
+    public AccountHistory(String name, VirtualAccount virtualAccount, LocalDateTime createdAt, int transaction, Long deposit, Long withdraw, Long amount) {
+        this.name = name;
         this.virtualAccount = virtualAccount;
         this.createdAt = createdAt;
         this.transaction = transaction;
