@@ -10,11 +10,11 @@ import "bootstrap/dist/css/bootstrap.css";
 
 // 각종 상태들을 관리하는 App 컴포넌트
 class Home extends Component {
-  id = 0;
   constructor(props) {
     super(props);
 
     this.state = {
+      accountID: 0,
       accounts: [],
       categoryId: 0,
       category: "",
@@ -67,6 +67,7 @@ class Home extends Component {
 
   createAccountObject(obj) {
     this.setState({
+      accountID: obj[this.state.curruntindex].id,
       amount: obj[this.state.curruntindex].amount,
       categoryId: obj[this.state.curruntindex].category.id,
       category: obj[this.state.curruntindex].category.name,
@@ -79,7 +80,7 @@ class Home extends Component {
     const response = await axios.get(
       "/picture-on-map/v1/accounts/virtualAccounts/"
     );
-    console.log(response.data.data);
+    console.log(response.data);
     console.log(response.data.data[0].amount);
     console.log(response.data.data[0].category.name);
     if (response.status == 200) {
