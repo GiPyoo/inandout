@@ -73,7 +73,7 @@ public class ApiRequestService {
     }
 
 
-    public void updateHistories(List<TransactionHistory> apiHistories, int updateStartIndex, User user) {
+    private void updateHistories(List<TransactionHistory> apiHistories, int updateStartIndex, User user) {
         if (updateStartIndex == -1) {
             return;
         }
