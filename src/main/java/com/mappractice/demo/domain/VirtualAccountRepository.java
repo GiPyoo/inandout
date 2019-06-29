@@ -10,4 +10,6 @@ public interface VirtualAccountRepository extends JpaRepository<VirtualAccount, 
     Optional<VirtualAccount> findByUser(User user);
 
     List<VirtualAccount> findAllByUserId(Long userId);
+
+    Optional<VirtualAccount> findByCategoryId(long categoryId);
 }

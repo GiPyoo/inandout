@@ -28,24 +28,23 @@ public class VirtualAccountService {
     public List<VirtualAccount> getList(HttpSession session) {
         User loginUser = userRepository.findByName(SessionUtils.getLoginUser(session).getName()).orElseThrow(UnAuthorizedException::new);
 
-
-
-
-
-
         return virtualAccountRepository.findAll().stream().filter(virtualAccount -> virtualAccount.getUser().equals(loginUser)).collect(Collectors.toList());
     }
 
-    public void create(HttpSession session, Long categoryId) {
+    public void create(HttpSession session, String name, Long amount, Long categoryId) {
         User loginUser = SessionUtils.getLoginUser(session);
-        VirtualAccount account = new VirtualAccount();
-        account.setUser(loginUser);
-        account.setCategory(categoryRepository.findById(categoryId).orElseThrow(RuntimeException::new));
+        VirtualAccount virtualAccount = new VirtualAccount();
+        virtualAccount.setUser(loginUser);
+        virtualAccount.setName(name);
+        virtualAccount.setAmount(amount);
+        virtualAccount.setCategory(categoryRepository.findById(categoryId).orElseThrow(RuntimeException::new));
 
-        loginUser.getVirtualAccounts().add(account);
+        transferMoney(loginUser, virtualAccount, virtualAccountRepository.findByCategoryId(0l).orElseThrow(RuntimeException::new), amount);
+
+        loginUser.getVirtualAccounts().add(virtualAccount);
         userRepository.save(loginUser);
 
-        virtualAccountRepository.save(account);
+        virtualAccountRepository.save(virtualAccount);
     }
 
 
@@ -82,7 +81,7 @@ public class VirtualAccountService {
         User loginUser = userRepository.findByName(SessionUtils.getLoginUser(session).getName()).orElseThrow(UnAuthorizedException::new);
         VirtualAccount account = virtualAccountRepository.findById(accountId).orElseThrow(RuntimeException::new);
 
-        transferMoney(loginUser, account, virtualAccountRepository.findById(0l).orElseThrow(RuntimeException::new), money);
+        transferMoney(loginUser, account, virtualAccountRepository.findByCategoryId(0l).orElseThrow(RuntimeException::new), money);
     }
 
     private void transferMoney(User loginUser, VirtualAccount to, VirtualAccount from, Long money) {

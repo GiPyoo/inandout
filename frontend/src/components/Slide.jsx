@@ -1,13 +1,15 @@
-import React, {Component} from 'react';
-import food from '../../public/식비.png'
-class Slide extends Component{
-    render(){
-        return(
-            <div className = {"cardbox virtual-acc"}>
-                <img src={this.props.index} />
-            </div>
-        );
-    }
+import React, { Component } from "react";
+
+import * as category from "../module/ImageList";
+
+class Slide extends Component {
+  render() {
+    return (
+      <div className={"cardbox virtual-acc"}>
+        <img src={category.lists(this.props.categoryId)} />
+      </div>
+    );
+  }
 }
 
 export default Slide;

@@ -23,7 +23,7 @@ public class Account {
 
     private String gridInfo;
     private String amount;
-    private String amountNumber;
+    private String accountNumber;
     private String withdrawableAmount;
     private String nextTransactionDate;
 
