@@ -14,15 +14,15 @@ public class DateUtils {
         return now.format(formatter) + "/";
     }
 
-    public static boolean checkNewModification( String LatestModificationTimeOfTransactionHistory, String LatestLoginTimeOfUser) {
+    public static boolean checkNewModification( String latestModificationTimeOfTransactionHistory, String latestLoginTimeOfUser) {
         boolean needUpdate = false;
-        for (int i = 0; i < LatestLoginTimeOfUser.length(); i++) {
-            if (LatestLoginTimeOfUser.charAt(i) != LatestModificationTimeOfTransactionHistory.charAt(i)) {
-                if(LatestLoginTimeOfUser.charAt(i) < LatestModificationTimeOfTransactionHistory.charAt(i)) {
+        for (int i = 0; i < latestLoginTimeOfUser.length(); i++) {
+            if (latestLoginTimeOfUser.charAt(i) != latestModificationTimeOfTransactionHistory.charAt(i)) {
+                if(latestLoginTimeOfUser.charAt(i) < latestModificationTimeOfTransactionHistory.charAt(i)) {
                     needUpdate = true;
                     break;
                 }
-                if(LatestLoginTimeOfUser.charAt(i) > LatestModificationTimeOfTransactionHistory.charAt(i)) {
+                if(latestLoginTimeOfUser.charAt(i) > latestModificationTimeOfTransactionHistory.charAt(i)) {
                     break;
                 }
             }
