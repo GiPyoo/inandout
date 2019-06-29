@@ -8,11 +8,13 @@ public class FakeMachineLearning {
 
     public static void setting(){
         machine.put("아몰랑", 0L);
+        machine.put("월급", 0L);
 
         machine.put("BBQ", 1L);
         machine.put("BHC", 1L);
         machine.put("도미노피자", 1L);
         machine.put("PizzaHut", 1L);
+        machine.put("미스터피자", 1L);
 
         machine.put("메가박스", 2L);
         machine.put("CGV", 2L);
