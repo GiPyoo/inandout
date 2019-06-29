@@ -19,9 +19,11 @@ public class AccountHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String account;
 
-    @ManyToOne
+    @ManyToOne(cascade= {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_history_to_virtual"))
     private VirtualAccount virtualAccount;
 
@@ -39,6 +41,15 @@ public class AccountHistory {
 
     @Column
     private Long amount;
+
+    public AccountHistory(VirtualAccount virtualAccount, LocalDateTime createdAt, int transaction, Long deposit, Long withdraw, Long amount) {
+        this.virtualAccount = virtualAccount;
+        this.createdAt = createdAt;
+        this.transaction = transaction;
+        this.deposit = deposit;
+        this.withdraw = withdraw;
+        this.amount = amount;
+    }
 
     public void createDeposit(String account, VirtualAccount virtualAccount, Long money) {
         this.account = account;

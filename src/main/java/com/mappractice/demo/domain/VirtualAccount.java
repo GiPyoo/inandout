@@ -50,4 +50,8 @@ public class VirtualAccount {
             this.amount -= accountHistory.getWithdraw();
         }
     }
+    public void depositMoney(Long change){
+        amount= amount +change;
+    }
+
 }

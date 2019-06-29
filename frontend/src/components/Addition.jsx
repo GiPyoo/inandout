@@ -20,11 +20,10 @@ class Addition extends Component {
       categoryId: this.state.categoryId
     };
     console.log(data);
-    const response = await axios
-      .post("/picture-on-map/v1/accounts/virtualAccounts/", data)
-      .catch(e => {
-        console.log(e);
-      });
+    const response = await axios.post(
+      "/picture-on-map/v1/accounts/virtualAccounts/",
+      data
+    );
 
     if (response === 200) {
       this.props.parent(false);

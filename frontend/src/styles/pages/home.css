@@ -1,14 +1,30 @@
+img {
+    max-width: 90%;
+    max-height: 90%;
+    height: auto;
+}
+
 .slider {
     margin: auto;
-    width: 900px;
-    height: 10000px;
+    max-width: 80%;
+    max-height: 100%;
     font-family: happyhappy;
 }
 
-.top {
+.slider .top {
+    height: 10%;
     line-height: 100px;
     text-align: center;
     font-size: 3em;
+}
+
+.slider .middle {
+    height: 70%;
+}
+
+.slider .bottom {
+    height: 20%;
+    text-align: center;
 }
 
 .middle {
@@ -43,7 +59,14 @@
 
 .cardbox {
     float: left;
-    line-height: 400px;
+    line-height: 200px;
+}
+
+@media screen and (min-width: 780px) {
+    .cardbox {
+        float: left;
+        line-height: 400px;
+    }
 }
 
 .cardbox.left-arrow {
@@ -57,16 +80,11 @@
     width: 80%;
 }
 
-.cardbox.left-arrow {
+.cardbox.right-arrow {
     text-align: center;
     width: 10%;
 }
 
 .bottom {
-    height: 200px;
     text-align: center;
-}
-
-.bottom p {
-    padding: 8px;
 }

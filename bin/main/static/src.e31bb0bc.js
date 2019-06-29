@@ -25779,7 +25779,7 @@ module.exports = !require('./_fails')(function () {
 });
 
 },{"./_fails":"../node_modules/babel-polyfill/node_modules/core-js/modules/_fails.js"}],"../node_modules/babel-polyfill/node_modules/core-js/modules/_core.js":[function(require,module,exports) {
-var core = module.exports = { version: '2.6.9' };
+var core = module.exports = { version: '2.6.8' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 },{}],"../node_modules/babel-polyfill/node_modules/core-js/modules/_is-object.js":[function(require,module,exports) {
@@ -33831,14 +33831,6 @@ function _inheritsLoose(subClass, superClass) {
   subClass.prototype.constructor = subClass;
   subClass.__proto__ = superClass;
 }
-},{}],"../node_modules/@babel/runtime/helpers/inheritsLoose.js":[function(require,module,exports) {
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  subClass.__proto__ = superClass;
-}
-
-module.exports = _inheritsLoose;
 },{}],"../node_modules/react-is/cjs/react-is.development.js":[function(require,module,exports) {
 /** @license React v16.8.6
  * react-is.development.js
@@ -34760,58 +34752,166 @@ var key = '__global_unique_id__';
 module.exports = function () {
   return global[key] = (global[key] || 0) + 1;
 };
-},{}],"../node_modules/tiny-warning/dist/tiny-warning.esm.js":[function(require,module,exports) {
+},{}],"../node_modules/fbjs/lib/emptyFunction.js":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var isProduction = "development" === 'production';
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
 
-function warning(condition, message) {
-  if (!isProduction) {
-    if (condition) {
-      return;
+function makeEmptyFunction(arg) {
+  return function () {
+    return arg;
+  };
+}
+
+/**
+ * This function accepts and discards inputs; it has no side effects. This is
+ * primarily useful idiomatically for overridable function endpoints which
+ * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
+ */
+var emptyFunction = function emptyFunction() {};
+
+emptyFunction.thatReturns = makeEmptyFunction;
+emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
+emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
+emptyFunction.thatReturnsNull = makeEmptyFunction(null);
+emptyFunction.thatReturnsThis = function () {
+  return this;
+};
+emptyFunction.thatReturnsArgument = function (arg) {
+  return arg;
+};
+
+module.exports = emptyFunction;
+},{}],"../node_modules/fbjs/lib/warning.js":[function(require,module,exports) {
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+'use strict';
+
+var emptyFunction = require('./emptyFunction');
+/**
+ * Similar to invariant but only logs a warning if the condition is not met.
+ * This can be used to log issues in development environments in critical
+ * paths. Removing the logging code for production environments will keep the
+ * same logic and follow the same code paths.
+ */
+
+
+var warning = emptyFunction;
+
+if ("development" !== 'production') {
+  var printWarning = function printWarning(format) {
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
     }
 
-    var text = "Warning: " + message;
+    var argIndex = 0;
+    var message = 'Warning: ' + format.replace(/%s/g, function () {
+      return args[argIndex++];
+    });
 
     if (typeof console !== 'undefined') {
-      console.warn(text);
+      console.error(message);
     }
 
     try {
-      throw Error(text);
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+      throw new Error(message);
     } catch (x) {}
+  };
+
+  warning = function warning(condition, format) {
+    if (format === undefined) {
+      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
+    }
+
+    if (format.indexOf('Failed Composite propType: ') === 0) {
+      return; // Ignore CompositeComponent proptype check.
+    }
+
+    if (!condition) {
+      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+        args[_key2 - 2] = arguments[_key2];
+      }
+
+      printWarning.apply(undefined, [format].concat(args));
+    }
+  };
+}
+
+module.exports = warning;
+},{"./emptyFunction":"../node_modules/fbjs/lib/emptyFunction.js"}],"../node_modules/create-react-context/lib/implementation.js":[function(require,module,exports) {
+'use strict';
+
+exports.__esModule = true;
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _gud = require('gud');
+
+var _gud2 = _interopRequireDefault(_gud);
+
+var _warning = require('fbjs/lib/warning');
+
+var _warning2 = _interopRequireDefault(_warning);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
   }
 }
 
-var _default = warning;
-exports.default = _default;
-},{}],"../node_modules/mini-create-react-context/dist/esm/index.js":[function(require,module,exports) {
-"use strict";
+function _possibleConstructorReturn(self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
+  return call && (typeof call === "object" || typeof call === "function") ? call : self;
+}
 
-var _react = _interopRequireWildcard(require("react"));
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+  }
 
-var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _gud = _interopRequireDefault(require("gud"));
-
-var _tinyWarning = _interopRequireDefault(require("tiny-warning"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
-var MAX_SIGNED_31_BIT_INT = 1073741823;
+var MAX_SIGNED_31_BIT_INT = 1073741823; // Inlined Object.is polyfill.
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
 
 function objectIs(x, y) {
   if (x === y) {
@@ -34851,42 +34951,42 @@ function onlyChild(children) {
 function createReactContext(defaultValue, calculateChangedBits) {
   var _Provider$childContex, _Consumer$contextType;
 
-  var contextProp = '__create-react-context-' + (0, _gud.default)() + '__';
+  var contextProp = '__create-react-context-' + (0, _gud2.default)() + '__';
 
-  var Provider =
-  /*#__PURE__*/
-  function (_Component) {
-    (0, _inheritsLoose2.default)(Provider, _Component);
+  var Provider = function (_Component) {
+    _inherits(Provider, _Component);
 
     function Provider() {
-      var _this;
+      var _temp, _this, _ret;
 
-      _this = _Component.apply(this, arguments) || this;
-      _this.emitter = createEventEmitter(_this.props.value);
-      return _this;
+      _classCallCheck(this, Provider);
+
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.emitter = createEventEmitter(_this.props.value), _temp), _possibleConstructorReturn(_this, _ret);
     }
 
-    var _proto = Provider.prototype;
-
-    _proto.getChildContext = function getChildContext() {
+    Provider.prototype.getChildContext = function getChildContext() {
       var _ref;
 
       return _ref = {}, _ref[contextProp] = this.emitter, _ref;
     };
 
-    _proto.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+    Provider.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
       if (this.props.value !== nextProps.value) {
         var oldValue = this.props.value;
         var newValue = nextProps.value;
-        var changedBits;
+        var changedBits = void 0;
 
         if (objectIs(oldValue, newValue)) {
-          changedBits = 0;
+          changedBits = 0; // No change
         } else {
           changedBits = typeof calculateChangedBits === 'function' ? calculateChangedBits(oldValue, newValue) : MAX_SIGNED_31_BIT_INT;
 
           if ("development" !== 'production') {
-            (0, _tinyWarning.default)((changedBits & MAX_SIGNED_31_BIT_INT) === changedBits, 'calculateChangedBits: Expected the return value to be a ' + '31-bit integer. Instead received: ' + changedBits);
+            (0, _warning2.default)((changedBits & MAX_SIGNED_31_BIT_INT) === changedBits, 'calculateChangedBits: Expected the return value to be a ' + '31-bit integer. Instead received: %s', changedBits);
           }
 
           changedBits |= 0;
@@ -34898,29 +34998,30 @@ function createReactContext(defaultValue, calculateChangedBits) {
       }
     };
 
-    _proto.render = function render() {
+    Provider.prototype.render = function render() {
       return this.props.children;
     };
 
     return Provider;
   }(_react.Component);
 
-  Provider.childContextTypes = (_Provider$childContex = {}, _Provider$childContex[contextProp] = _propTypes.default.object.isRequired, _Provider$childContex);
+  Provider.childContextTypes = (_Provider$childContex = {}, _Provider$childContex[contextProp] = _propTypes2.default.object.isRequired, _Provider$childContex);
 
-  var Consumer =
-  /*#__PURE__*/
-  function (_Component2) {
-    (0, _inheritsLoose2.default)(Consumer, _Component2);
+  var Consumer = function (_Component2) {
+    _inherits(Consumer, _Component2);
 
     function Consumer() {
-      var _this2;
+      var _temp2, _this2, _ret2;
 
-      _this2 = _Component2.apply(this, arguments) || this;
-      _this2.state = {
+      _classCallCheck(this, Consumer);
+
+      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      return _ret2 = (_temp2 = (_this2 = _possibleConstructorReturn(this, _Component2.call.apply(_Component2, [this].concat(args))), _this2), _this2.state = {
         value: _this2.getValue()
-      };
-
-      _this2.onUpdate = function (newValue, changedBits) {
+      }, _this2.onUpdate = function (newValue, changedBits) {
         var observedBits = _this2.observedBits | 0;
 
         if ((observedBits & changedBits) !== 0) {
@@ -34928,34 +35029,32 @@ function createReactContext(defaultValue, calculateChangedBits) {
             value: _this2.getValue()
           });
         }
-      };
-
-      return _this2;
+      }, _temp2), _possibleConstructorReturn(_this2, _ret2);
     }
 
-    var _proto2 = Consumer.prototype;
-
-    _proto2.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+    Consumer.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
       var observedBits = nextProps.observedBits;
-      this.observedBits = observedBits === undefined || observedBits === null ? MAX_SIGNED_31_BIT_INT : observedBits;
+      this.observedBits = observedBits === undefined || observedBits === null ? MAX_SIGNED_31_BIT_INT // Subscribe to all changes by default
+      : observedBits;
     };
 
-    _proto2.componentDidMount = function componentDidMount() {
+    Consumer.prototype.componentDidMount = function componentDidMount() {
       if (this.context[contextProp]) {
         this.context[contextProp].on(this.onUpdate);
       }
 
       var observedBits = this.props.observedBits;
-      this.observedBits = observedBits === undefined || observedBits === null ? MAX_SIGNED_31_BIT_INT : observedBits;
+      this.observedBits = observedBits === undefined || observedBits === null ? MAX_SIGNED_31_BIT_INT // Subscribe to all changes by default
+      : observedBits;
     };
 
-    _proto2.componentWillUnmount = function componentWillUnmount() {
+    Consumer.prototype.componentWillUnmount = function componentWillUnmount() {
       if (this.context[contextProp]) {
         this.context[contextProp].off(this.onUpdate);
       }
     };
 
-    _proto2.getValue = function getValue() {
+    Consumer.prototype.getValue = function getValue() {
       if (this.context[contextProp]) {
         return this.context[contextProp].get();
       } else {
@@ -34963,24 +35062,69 @@ function createReactContext(defaultValue, calculateChangedBits) {
       }
     };
 
-    _proto2.render = function render() {
+    Consumer.prototype.render = function render() {
       return onlyChild(this.props.children)(this.state.value);
     };
 
     return Consumer;
   }(_react.Component);
 
-  Consumer.contextTypes = (_Consumer$contextType = {}, _Consumer$contextType[contextProp] = _propTypes.default.object, _Consumer$contextType);
+  Consumer.contextTypes = (_Consumer$contextType = {}, _Consumer$contextType[contextProp] = _propTypes2.default.object, _Consumer$contextType);
   return {
     Provider: Provider,
     Consumer: Consumer
   };
 }
 
-var index = _react.default.createContext || createReactContext;
-var _default = index;
+exports.default = createReactContext;
+module.exports = exports['default'];
+},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","gud":"../node_modules/gud/index.js","fbjs/lib/warning":"../node_modules/fbjs/lib/warning.js"}],"../node_modules/create-react-context/lib/index.js":[function(require,module,exports) {
+'use strict';
+
+exports.__esModule = true;
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _implementation = require('./implementation');
+
+var _implementation2 = _interopRequireDefault(_implementation);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _react2.default.createContext || _implementation2.default;
+module.exports = exports['default'];
+},{"react":"../node_modules/react/index.js","./implementation":"../node_modules/create-react-context/lib/implementation.js"}],"../node_modules/tiny-warning/dist/tiny-warning.esm.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var isProduction = "development" === 'production';
+
+function warning(condition, message) {
+  if (!isProduction) {
+    if (condition) {
+      return;
+    }
+
+    var text = "Warning: " + message;
+
+    if (typeof console !== 'undefined') {
+      console.warn(text);
+    }
+
+    try {
+      throw Error(text);
+    } catch (x) {}
+  }
+}
+
+var _default = warning;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","@babel/runtime/helpers/inheritsLoose":"../node_modules/@babel/runtime/helpers/inheritsLoose.js","prop-types":"../node_modules/prop-types/index.js","gud":"../node_modules/gud/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js"}],"../node_modules/@babel/runtime/helpers/esm/extends.js":[function(require,module,exports) {
+},{}],"../node_modules/@babel/runtime/helpers/esm/extends.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36081,7 +36225,7 @@ function createMemoryHistory(props) {
   };
   return history;
 }
-},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","resolve-pathname":"../node_modules/resolve-pathname/index.js","value-equal":"../node_modules/value-equal/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"../node_modules/path-to-regexp/node_modules/isarray/index.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","resolve-pathname":"../node_modules/resolve-pathname/index.js","value-equal":"../node_modules/value-equal/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"../node_modules/isarray/index.js":[function(require,module,exports) {
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
@@ -36514,7 +36658,7 @@ function pathToRegexp (path, keys, options) {
   return stringToRegexp(/** @type {string} */ (path), /** @type {!Array} */ (keys), options)
 }
 
-},{"isarray":"../node_modules/path-to-regexp/node_modules/isarray/index.js"}],"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js":[function(require,module,exports) {
+},{"isarray":"../node_modules/isarray/index.js"}],"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36655,7 +36799,7 @@ exports.matchPath = matchPath;
 exports.withRouter = withRouter;
 exports.__RouterContext = exports.Switch = exports.StaticRouter = exports.Router = exports.Route = exports.MemoryRouter = void 0;
 
-var _miniCreateReactContext = _interopRequireDefault(require("mini-create-react-context"));
+var _createReactContext = _interopRequireDefault(require("create-react-context"));
 
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/inheritsLoose"));
 
@@ -36683,14 +36827,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // TODO: Replace with React.createContext once we can assume React 16+
 var createNamedContext = function createNamedContext(name) {
-  var context = (0, _miniCreateReactContext.default)();
-  context.displayName = name;
+  var context = (0, _createReactContext.default)();
+  context.Provider.displayName = name + ".Provider";
+  context.Consumer.displayName = name + ".Consumer";
   return context;
 };
 
 var context =
 /*#__PURE__*/
-createNamedContext("Router");
+createNamedContext('Router');
 /**
  * The public API for putting history on context.
  */
@@ -36968,11 +37113,7 @@ function Redirect(_ref) {
         method(location);
       },
       onUpdate: function onUpdate(self, prevProps) {
-        var prevLocation = (0, _history.createLocation)(prevProps.to);
-
-        if (!(0, _history.locationsAreEqual)(prevLocation, (0, _extends2.default)({}, location, {
-          key: prevLocation.key
-        }))) {
+        if (!(0, _history.locationsAreEqual)(prevProps.to, location)) {
           method(location);
         }
       },
@@ -37034,7 +37175,6 @@ function matchPath(pathname, options) {
       sensitive = _options$sensitive === void 0 ? false : _options$sensitive;
   var paths = [].concat(path);
   return paths.reduce(function (matched, path) {
-    if (!path) return null;
     if (matched) return matched;
 
     var _compilePath = compilePath$1(path, {
@@ -37237,8 +37377,7 @@ function (_React$Component) {
     var _this$props = this.props,
         _this$props$basename = _this$props.basename,
         basename = _this$props$basename === void 0 ? "" : _this$props$basename,
-        _this$props$context = _this$props.context,
-        context = _this$props$context === void 0 ? {} : _this$props$context;
+        context = _this$props.context;
     context.action = action;
     context.location = addBasename(basename, (0, _history.createLocation)(location));
     context.url = createURL(context.location);
@@ -37355,25 +37494,24 @@ if ("development" !== "production") {
 
 
 function withRouter(Component) {
-  var displayName = "withRouter(" + (Component.displayName || Component.name) + ")";
-
   var C = function C(props) {
     var wrappedComponentRef = props.wrappedComponentRef,
         remainingProps = (0, _objectWithoutPropertiesLoose2.default)(props, ["wrappedComponentRef"]);
-    return _react.default.createElement(context.Consumer, null, function (context$$1) {
-      !context$$1 ? "development" !== "production" ? (0, _tinyInvariant.default)(false, "You should not use <" + displayName + " /> outside a <Router>") : (0, _tinyInvariant.default)(false) : void 0;
-      return _react.default.createElement(Component, (0, _extends2.default)({}, remainingProps, context$$1, {
-        ref: wrappedComponentRef
-      }));
+    return _react.default.createElement(Route, {
+      children: function children(routeComponentProps) {
+        return _react.default.createElement(Component, (0, _extends2.default)({}, remainingProps, routeComponentProps, {
+          ref: wrappedComponentRef
+        }));
+      }
     });
   };
 
-  C.displayName = displayName;
+  C.displayName = "withRouter(" + (Component.displayName || Component.name) + ")";
   C.WrappedComponent = Component;
 
   if ("development" !== "production") {
     C.propTypes = {
-      wrappedComponentRef: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.func, _propTypes.default.object])
+      wrappedComponentRef: _propTypes.default.func
     };
   }
 
@@ -37401,7 +37539,7 @@ if ("development" !== "production") {
     global[key] = "esm";
   }
 }
-},{"mini-create-react-context":"../node_modules/mini-create-react-context/dist/esm/index.js","@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","history":"../node_modules/history/esm/history.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js","path-to-regexp":"../node_modules/path-to-regexp/index.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","react-is":"../node_modules/react-is/index.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","hoist-non-react-statics":"../node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js"}],"../node_modules/react-router-dom/esm/react-router-dom.js":[function(require,module,exports) {
+},{"create-react-context":"../node_modules/create-react-context/lib/index.js","@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","history":"../node_modules/history/esm/history.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js","path-to-regexp":"../node_modules/path-to-regexp/index.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","react-is":"../node_modules/react-is/index.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","hoist-non-react-statics":"../node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js"}],"../node_modules/react-router-dom/esm/react-router-dom.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37563,12 +37701,7 @@ function (_React$Component) {
   var _proto = Link.prototype;
 
   _proto.handleClick = function handleClick(event, history) {
-    try {
-      if (this.props.onClick) this.props.onClick(event);
-    } catch (ex) {
-      event.preventDefault();
-      throw ex;
-    }
+    if (this.props.onClick) this.props.onClick(event);
 
     if (!event.defaultPrevented && // onClick prevented default
     event.button === 0 && ( // ignore everything but left clicks
@@ -37648,7 +37781,7 @@ function NavLink(_ref) {
       classNameProp = _ref.className,
       exact = _ref.exact,
       isActiveProp = _ref.isActive,
-      locationProp = _ref.location,
+      location = _ref.location,
       strict = _ref.strict,
       styleProp = _ref.style,
       to = _ref.to,
@@ -37656,23 +37789,24 @@ function NavLink(_ref) {
   var path = typeof to === "object" ? to.pathname : to; // Regex taken from: https://github.com/pillarjs/path-to-regexp/blob/master/index.js#L202
 
   var escapedPath = path && path.replace(/([.+*?=^!:${}()[\]|/\\])/g, "\\$1");
-  return _react.default.createElement(_reactRouter.__RouterContext.Consumer, null, function (context) {
-    !context ? "development" !== "production" ? (0, _tinyInvariant.default)(false, "You should not use <NavLink> outside a <Router>") : (0, _tinyInvariant.default)(false) : void 0;
-    var pathToMatch = locationProp ? locationProp.pathname : context.location.pathname;
-    var match = escapedPath ? (0, _reactRouter.matchPath)(pathToMatch, {
-      path: escapedPath,
-      exact: exact,
-      strict: strict
-    }) : null;
-    var isActive = !!(isActiveProp ? isActiveProp(match, context.location) : match);
-    var className = isActive ? joinClassnames(classNameProp, activeClassName) : classNameProp;
-    var style = isActive ? (0, _extends2.default)({}, styleProp, activeStyle) : styleProp;
-    return _react.default.createElement(Link, (0, _extends2.default)({
-      "aria-current": isActive && ariaCurrent || null,
-      className: className,
-      style: style,
-      to: to
-    }, rest));
+  return _react.default.createElement(_reactRouter.Route, {
+    path: escapedPath,
+    exact: exact,
+    strict: strict,
+    location: location,
+    children: function children(_ref2) {
+      var location = _ref2.location,
+          match = _ref2.match;
+      var isActive = !!(isActiveProp ? isActiveProp(match, location) : match);
+      var className = isActive ? joinClassnames(classNameProp, activeClassName) : classNameProp;
+      var style = isActive ? (0, _extends2.default)({}, styleProp, activeStyle) : styleProp;
+      return _react.default.createElement(Link, (0, _extends2.default)({
+        "aria-current": isActive && ariaCurrent || null,
+        className: className,
+        style: style,
+        to: to
+      }, rest));
+    }
   });
 }
 
@@ -37684,10 +37818,10 @@ if ("development" !== "production") {
     activeClassName: _propTypes.default.string,
     activeStyle: _propTypes.default.object,
     className: _propTypes.default.string,
-    exact: _propTypes.default.bool,
+    exact: _reactRouter.Route.propTypes.exact,
     isActive: _propTypes.default.func,
     location: _propTypes.default.object,
-    strict: _propTypes.default.bool,
+    strict: _reactRouter.Route.propTypes.strict,
     style: _propTypes.default.object
   });
 }
@@ -37704,16 +37838,29 @@ module.exports = function bind(fn, thisArg) {
   };
 };
 
-},{}],"../node_modules/axios/node_modules/is-buffer/index.js":[function(require,module,exports) {
+},{}],"../node_modules/is-buffer/index.js":[function(require,module,exports) {
 /*!
  * Determine if an object is a Buffer
  *
  * @author   Feross Aboukhadijeh <https://feross.org>
  * @license  MIT
  */
-module.exports = function isBuffer(obj) {
-  return obj != null && obj.constructor != null && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj);
-};
+
+// The _isBuffer check is for Safari 5-7 support, because it's missing
+// Object.prototype.constructor. Remove this eventually
+module.exports = function (obj) {
+  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
+}
+
+function isBuffer (obj) {
+  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+}
+
+// For Node v0.10 support. Remove this eventually.
+function isSlowBuffer (obj) {
+  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
+}
+
 },{}],"../node_modules/axios/lib/utils.js":[function(require,module,exports) {
 'use strict';
 
@@ -38019,7 +38166,7 @@ module.exports = {
   trim: trim
 };
 
-},{"./helpers/bind":"../node_modules/axios/lib/helpers/bind.js","is-buffer":"../node_modules/axios/node_modules/is-buffer/index.js"}],"../node_modules/axios/lib/helpers/normalizeHeaderName.js":[function(require,module,exports) {
+},{"./helpers/bind":"../node_modules/axios/lib/helpers/bind.js","is-buffer":"../node_modules/is-buffer/index.js"}],"../node_modules/axios/lib/helpers/normalizeHeaderName.js":[function(require,module,exports) {
 'use strict';
 
 var utils = require('../utils');
@@ -38297,7 +38444,45 @@ module.exports = (
   })()
 );
 
-},{"./../utils":"../node_modules/axios/lib/utils.js"}],"../node_modules/axios/lib/helpers/cookies.js":[function(require,module,exports) {
+},{"./../utils":"../node_modules/axios/lib/utils.js"}],"../node_modules/axios/lib/helpers/btoa.js":[function(require,module,exports) {
+'use strict';
+
+// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
+
+var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+function E() {
+  this.message = 'String contains an invalid character';
+}
+E.prototype = new Error;
+E.prototype.code = 5;
+E.prototype.name = 'InvalidCharacterError';
+
+function btoa(input) {
+  var str = String(input);
+  var output = '';
+  for (
+    // initialize result and counter
+    var block, charCode, idx = 0, map = chars;
+    // if the next str index does not exist:
+    //   change the mapping table to "="
+    //   check if d has no fractional digits
+    str.charAt(idx | 0) || (map = '=', idx % 1);
+    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
+    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
+  ) {
+    charCode = str.charCodeAt(idx += 3 / 4);
+    if (charCode > 0xFF) {
+      throw new E();
+    }
+    block = block << 8 | charCode;
+  }
+  return output;
+}
+
+module.exports = btoa;
+
+},{}],"../node_modules/axios/lib/helpers/cookies.js":[function(require,module,exports) {
 'use strict';
 
 var utils = require('./../utils');
@@ -38356,11 +38541,18 @@ module.exports = (
 'use strict';
 
 var utils = require('./../utils');
+
 var settle = require('./../core/settle');
+
 var buildURL = require('./../helpers/buildURL');
+
 var parseHeaders = require('./../helpers/parseHeaders');
+
 var isURLSameOrigin = require('./../helpers/isURLSameOrigin');
+
 var createError = require('../core/createError');
+
+var btoa = typeof window !== 'undefined' && window.btoa && window.btoa.bind(window) || require('./../helpers/btoa');
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -38372,87 +38564,93 @@ module.exports = function xhrAdapter(config) {
     }
 
     var request = new XMLHttpRequest();
+    var loadEvent = 'onreadystatechange';
+    var xDomain = false; // For IE 8/9 CORS support
+    // Only supports POST and GET calls and doesn't returns the response headers.
+    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
 
-    // HTTP basic authentication
+    if ("development" !== 'test' && typeof window !== 'undefined' && window.XDomainRequest && !('withCredentials' in request) && !isURLSameOrigin(config.url)) {
+      request = new window.XDomainRequest();
+      loadEvent = 'onload';
+      xDomain = true;
+
+      request.onprogress = function handleProgress() {};
+
+      request.ontimeout = function handleTimeout() {};
+    } // HTTP basic authentication
+
+
     if (config.auth) {
       var username = config.auth.username || '';
       var password = config.auth.password || '';
       requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
     }
 
-    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true); // Set the request timeout in MS
 
-    // Set the request timeout in MS
-    request.timeout = config.timeout;
+    request.timeout = config.timeout; // Listen for ready state
 
-    // Listen for ready state
-    request.onreadystatechange = function handleLoad() {
-      if (!request || request.readyState !== 4) {
+    request[loadEvent] = function handleLoad() {
+      if (!request || request.readyState !== 4 && !xDomain) {
         return;
-      }
-
-      // The request errored out and we didn't get a response, this will be
+      } // The request errored out and we didn't get a response, this will be
       // handled by onerror instead
       // With one exception: request that using file: protocol, most browsers
       // will return status as 0 even though it's a successful request
+
+
       if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
         return;
-      }
+      } // Prepare the response
 
-      // Prepare the response
+
       var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
       var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
       var response = {
         data: responseData,
-        status: request.status,
-        statusText: request.statusText,
+        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
+        status: request.status === 1223 ? 204 : request.status,
+        statusText: request.status === 1223 ? 'No Content' : request.statusText,
         headers: responseHeaders,
         config: config,
         request: request
       };
+      settle(resolve, reject, response); // Clean up request
 
-      settle(resolve, reject, response);
-
-      // Clean up request
       request = null;
-    };
+    }; // Handle low level network errors
 
-    // Handle low level network errors
+
     request.onerror = function handleError() {
       // Real errors are hidden from us by the browser
       // onerror should only fire if it's a network error
-      reject(createError('Network Error', config, null, request));
+      reject(createError('Network Error', config, null, request)); // Clean up request
 
-      // Clean up request
       request = null;
-    };
+    }; // Handle timeout
 
-    // Handle timeout
+
     request.ontimeout = function handleTimeout() {
-      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
-        request));
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED', request)); // Clean up request
 
-      // Clean up request
       request = null;
-    };
-
-    // Add xsrf header
+    }; // Add xsrf header
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
-    if (utils.isStandardBrowserEnv()) {
-      var cookies = require('./../helpers/cookies');
 
-      // Add xsrf header
-      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-          cookies.read(config.xsrfCookieName) :
-          undefined;
+
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = require('./../helpers/cookies'); // Add xsrf header
+
+
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ? cookies.read(config.xsrfCookieName) : undefined;
 
       if (xsrfValue) {
         requestHeaders[config.xsrfHeaderName] = xsrfValue;
       }
-    }
+    } // Add headers to the request
 
-    // Add headers to the request
+
     if ('setRequestHeader' in request) {
       utils.forEach(requestHeaders, function setRequestHeader(val, key) {
         if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
@@ -38463,14 +38661,14 @@ module.exports = function xhrAdapter(config) {
           request.setRequestHeader(key, val);
         }
       });
-    }
+    } // Add withCredentials to request if needed
 
-    // Add withCredentials to request if needed
+
     if (config.withCredentials) {
       request.withCredentials = true;
-    }
+    } // Add responseType to request if needed
 
-    // Add responseType to request if needed
+
     if (config.responseType) {
       try {
         request.responseType = config.responseType;
@@ -38481,14 +38679,14 @@ module.exports = function xhrAdapter(config) {
           throw e;
         }
       }
-    }
+    } // Handle progress if needed
 
-    // Handle progress if needed
+
     if (typeof config.onDownloadProgress === 'function') {
       request.addEventListener('progress', config.onDownloadProgress);
-    }
+    } // Not all browsers support upload events
 
-    // Not all browsers support upload events
+
     if (typeof config.onUploadProgress === 'function' && request.upload) {
       request.upload.addEventListener('progress', config.onUploadProgress);
     }
@@ -38501,22 +38699,21 @@ module.exports = function xhrAdapter(config) {
         }
 
         request.abort();
-        reject(cancel);
-        // Clean up request
+        reject(cancel); // Clean up request
+
         request = null;
       });
     }
 
     if (requestData === undefined) {
       requestData = null;
-    }
+    } // Send the request
 
-    // Send the request
+
     request.send(requestData);
   });
 };
-
-},{"./../utils":"../node_modules/axios/lib/utils.js","./../core/settle":"../node_modules/axios/lib/core/settle.js","./../helpers/buildURL":"../node_modules/axios/lib/helpers/buildURL.js","./../helpers/parseHeaders":"../node_modules/axios/lib/helpers/parseHeaders.js","./../helpers/isURLSameOrigin":"../node_modules/axios/lib/helpers/isURLSameOrigin.js","../core/createError":"../node_modules/axios/lib/core/createError.js","./../helpers/cookies":"../node_modules/axios/lib/helpers/cookies.js"}],"../node_modules/process/browser.js":[function(require,module,exports) {
+},{"./../utils":"../node_modules/axios/lib/utils.js","./../core/settle":"../node_modules/axios/lib/core/settle.js","./../helpers/buildURL":"../node_modules/axios/lib/helpers/buildURL.js","./../helpers/parseHeaders":"../node_modules/axios/lib/helpers/parseHeaders.js","./../helpers/isURLSameOrigin":"../node_modules/axios/lib/helpers/isURLSameOrigin.js","../core/createError":"../node_modules/axios/lib/core/createError.js","./../helpers/btoa":"../node_modules/axios/lib/helpers/btoa.js","./../helpers/cookies":"../node_modules/axios/lib/helpers/cookies.js"}],"../node_modules/process/browser.js":[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
@@ -39278,7 +39475,64 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"pages/Payment.js":[function(require,module,exports) {
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../node_modules/bootstrap/dist/css/bootstrap.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/NavBar.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+require("bootstrap/dist/css/bootstrap.css");
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+class NavBar extends _react.Component {
+  render() {
+    return _react.default.createElement("nav", {
+      class: "navbar navbar-expand-sm bg-dark navbar-dark"
+    }, _react.default.createElement("ul", {
+      class: "navbar-nav"
+    }, _react.default.createElement("li", {
+      class: "nav-item"
+    }, _react.default.createElement("a", {
+      class: "nav-link",
+      href: "/home"
+    }, "Home")), _react.default.createElement("li", {
+      class: "nav-item"
+    }, _react.default.createElement("a", {
+      class: "nav-link",
+      href: "/login"
+    }, "Login")), _react.default.createElement("li", {
+      class: "nav-item"
+    }, _react.default.createElement("a", {
+      class: "nav-link",
+      href: "/signUp"
+    }, "SignUp")), _react.default.createElement("li", {
+      class: "nav-item"
+    }, _react.default.createElement("a", {
+      class: "nav-link",
+      href: "/payment"
+    }, "Payment")), _react.default.createElement("li", {
+      class: "nav-item"
+    }, _react.default.createElement("a", {
+      class: "nav-link",
+      href: "/payment/result"
+    }, "Payment-Result"))));
+  }
+
+}
+
+var _default = NavBar;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","bootstrap/dist/css/bootstrap.css":"../node_modules/bootstrap/dist/css/bootstrap.css"}],"pages/Payment.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39291,6 +39545,10 @@ var _react = _interopRequireWildcard(require("react"));
 var _axios = _interopRequireDefault(require("axios"));
 
 require("../styles/pages/Map.css");
+
+require("bootstrap/dist/css/bootstrap.css");
+
+var _NavBar = _interopRequireDefault(require("../components/NavBar"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39336,52 +39594,62 @@ class Payment extends _react.Component {
   render() {
     console.log("난 바뀐 API야");
     console.log(this.state);
-    return _react.default.createElement("form", {
-      onSubmit: this.handleSubmit
+    return _react.default.createElement("div", null, _react.default.createElement(_NavBar.default, null), _react.default.createElement("form", {
+      onSubmit: this.handleSubmit,
+      className: "form-group"
     }, _react.default.createElement("label", null, "client(\uC758\uB8B0\uC778):", _react.default.createElement("input", {
       type: "text",
       name: "client",
       value: this.state.client,
-      onChange: this.handleChange
+      onChange: this.handleChange,
+      className: "form-control"
     })), _react.default.createElement("label", null, "transactionDate(\uAC70\uB798\uC77C):", _react.default.createElement("input", {
       type: "text",
       name: "transactionDate",
       value: this.state.transactionDate,
-      onChange: this.handleChange
+      onChange: this.handleChange,
+      className: "form-control"
     })), _react.default.createElement("label", null, "place(\uCDE8\uAE09\uC810):", _react.default.createElement("input", {
       type: "text",
       name: "place",
       value: this.state.place,
-      onChange: this.handleChange
+      onChange: this.handleChange,
+      className: "form-control"
     })), _react.default.createElement("label", null, "cash(\uAC70\uB798\uAE08\uC561):", _react.default.createElement("input", {
       type: "text",
       name: "cash",
       value: this.state.cash,
-      onChange: this.handleChange
+      onChange: this.handleChange,
+      className: "form-control"
     })), _react.default.createElement("label", null, "inputCash(\uC785\uAE08\uAE08\uC561):", _react.default.createElement("input", {
       type: "text",
       name: "inputCash",
       value: this.state.inputCash,
-      onChange: this.handleChange
+      onChange: this.handleChange,
+      className: "form-control"
     })), _react.default.createElement("label", null, "transactionType(\uD1B5\uC7A5\uC801\uC694):", _react.default.createElement("input", {
       type: "text",
       name: "transactionType",
       value: this.state.transactionType,
-      onChange: this.handleChange
+      onChange: this.handleChange,
+      className: "form-control"
     })), _react.default.createElement("label", null, "outputCash(\uC9C0\uAE09\uAE08\uC561):", _react.default.createElement("input", {
       type: "text",
       name: "outputCash",
       value: this.state.outputCash,
-      onChange: this.handleChange
+      onChange: this.handleChange,
+      className: "form-control"
     })), _react.default.createElement("label", null, "originalCash(\uAC70\uB798\uC6D0\uAE08, \uC548\uC368\uB3C4\uB428):", _react.default.createElement("input", {
       type: "text",
       name: "originalCash",
       value: this.state.originalCash,
-      onChange: this.handleChange
+      onChange: this.handleChange,
+      className: "form-control"
     })), _react.default.createElement("input", {
       type: "submit",
-      value: "Submit"
-    }));
+      value: "Submit",
+      className: "btn btn-primary"
+    })));
   }
 
   componentDidMount() {
@@ -39404,7 +39672,7 @@ class Payment extends _react.Component {
 
 var _default = Payment;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","../styles/pages/Map.css":"styles/pages/Map.css"}],"components/PaymentInfo.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","../styles/pages/Map.css":"styles/pages/Map.css","bootstrap/dist/css/bootstrap.css":"../node_modules/bootstrap/dist/css/bootstrap.css","../components/NavBar":"components/NavBar.jsx"}],"components/PaymentInfo.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39492,6 +39760,8 @@ require("../styles/pages/Login.css");
 
 var _axios = _interopRequireDefault(require("axios"));
 
+var _NavBar = _interopRequireDefault(require("../components/NavBar"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
@@ -39543,7 +39813,7 @@ class SignIn extends _react.Component {
   }
 
   render() {
-    return _react.default.createElement("form", {
+    return _react.default.createElement("div", null, _react.default.createElement(_NavBar.default, null), _react.default.createElement("form", {
       className: "login-box"
     }, _react.default.createElement("h1", null, "Login"), _react.default.createElement("input", {
       type: "text",
@@ -39561,14 +39831,14 @@ class SignIn extends _react.Component {
       autoComplete: "off"
     }), _react.default.createElement("button", {
       onClick: this.handleSubmit
-    }, "\uB85C\uADF8\uC778"));
+    }, "\uB85C\uADF8\uC778")));
   }
 
 }
 
 var _default = SignIn;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","../styles/pages/Login.css":"styles/pages/Login.css","axios":"../node_modules/axios/index.js"}],"pages/SignUp.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../styles/pages/Login.css":"styles/pages/Login.css","axios":"../node_modules/axios/index.js","../components/NavBar":"components/NavBar.jsx"}],"pages/SignUp.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39814,7 +40084,7 @@ class ImageStore extends _react.Component {
 
 var _default = ImageStore;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js"}],"components/NavBtn.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js"}],"components/Addition.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39824,74 +40094,137 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
-class NavBtn extends _react.Component {
-  render() {
-    return _react.default.createElement("a", {
-      href: this.props.url
-    }, this.props.name);
-  }
-
-}
-
-var _default = NavBtn;
-exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"styles/components/NavBar.css":[function(require,module,exports) {
-var reloadCSS = require('_css_loader');
-
-module.hot.dispose(reloadCSS);
-module.hot.accept(reloadCSS);
-},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/NavBar.jsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireWildcard(require("react"));
-
-var _NavBtn = _interopRequireDefault(require("./NavBtn"));
-
-require("../styles/components/NavBar.css");
+var _axios = _interopRequireDefault(require("axios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-class NavBar extends _react.Component {
+class Addition extends _react.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleChange = contents => {
+      event => {
+        var targetInput = {};
+        targetInput[contents] = event.target.value;
+        this.setState({
+          targetInput
+        });
+      };
+    };
+
+    this.handleSubmit = async event => {
+      const data = {
+        name: this.state.name,
+        amount: this.state.amount,
+        categoryId: this.state.categoryId
+      };
+      console.log(data);
+      const response = await _axios.default.post("/picture-on-map/v1/accounts/virtualAccounts/", data);
+
+      if (response === 200) {
+        this.props.parent(false);
+      }
+    };
+
+    this.state = {
+      name: "",
+      amount: 0,
+      categoryId: 0
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   render() {
-    return _react.default.createElement("nav", {
-      className: "navigation"
-    }, _react.default.createElement("ul", null, _react.default.createElement("li", null, _react.default.createElement(_NavBtn.default, {
-      url: "/home",
-      name: "Home"
-    })), _react.default.createElement("li", null, _react.default.createElement(_NavBtn.default, {
-      url: "/login",
-      name: "Login"
-    })), _react.default.createElement("li", null, _react.default.createElement(_NavBtn.default, {
-      url: "/signUp",
-      name: "SignUp"
-    })), _react.default.createElement("li", null, _react.default.createElement(_NavBtn.default, {
-      url: "/imageStore",
-      name: "ImageStore"
-    })), _react.default.createElement("li", null, _react.default.createElement(_NavBtn.default, {
-      url: "/payment",
-      name: "Payment"
-    })), _react.default.createElement("li", null, _react.default.createElement(_NavBtn.default, {
-      url: "/payment/result",
-      name: "Payment-Result"
-    }))));
+    return _react.default.createElement("article", {
+      className: "slider"
+    }, _react.default.createElement("div", {
+      className: "top"
+    }, "\uACC4\uC88C\uCD94\uAC00"), _react.default.createElement("form", null, _react.default.createElement("div", {
+      className: "middle"
+    }, _react.default.createElement("label", null, " \uD1B5\uC7A5\uC774\uB984 "), _react.default.createElement("br", null), _react.default.createElement("input", {
+      type: "text",
+      value: this.state.name,
+      onChange: this.handleChange("name")
+    }), _react.default.createElement("br", null), _react.default.createElement("label", null, " \uC124\uC815\uAE08\uC561 "), _react.default.createElement("br", null), _react.default.createElement("input", {
+      type: "text",
+      value: this.state.amount,
+      onChange: this.handleChange("amount")
+    }), _react.default.createElement("br", null), _react.default.createElement("label", null, "\uCE74\uD14C\uACE0\uB9AC"), _react.default.createElement("br", null), _react.default.createElement("select", {
+      value: this.state.categoryId,
+      onChange: this.handleChange
+    }, _react.default.createElement("option", {
+      value: "1"
+    }, "\uC2DD\uBE44"), _react.default.createElement("option", {
+      value: "2"
+    }, "\uCDE8\uBBF8/\uC5EC\uAC00"), _react.default.createElement("option", {
+      value: "3"
+    }, "\uD3B8\uC758\uC810/\uB9C8\uD2B8/\uC7A1\uD654"), _react.default.createElement("option", {
+      value: "4"
+    }, "\uC8FC\uAC70/\uD1B5\uC2E0"), _react.default.createElement("option", {
+      value: "5"
+    }, "\uC1FC\uD551"), _react.default.createElement("option", {
+      value: "6"
+    }, "\uAD50\uC721"))), _react.default.createElement("div", {
+      className: "bottom"
+    }, _react.default.createElement("button", {
+      type: "submit"
+    }, "\uD655\uC778!"))));
   }
 
 }
 
-var _default = NavBar;
+var _default = Addition;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./NavBtn":"components/NavBtn.jsx","../styles/components/NavBar.css":"styles/components/NavBar.css"}],"../public/식비.png":[function(require,module,exports) {
-module.exports = "/식비.c6938a3c.png";
-},{}],"components/Slide.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js"}],"../public/1.png":[function(require,module,exports) {
+module.exports = "/1.23e093b1.png";
+},{}],"../public/2.png":[function(require,module,exports) {
+module.exports = "/2.cca43b76.png";
+},{}],"../public/6.png":[function(require,module,exports) {
+module.exports = "/6.0959276c.png";
+},{}],"../public/7.png":[function(require,module,exports) {
+module.exports = "/7.7f3023c3.png";
+},{}],"../public/3.png":[function(require,module,exports) {
+module.exports = "/3.af6424b7.png";
+},{}],"../public/4.png":[function(require,module,exports) {
+module.exports = "/4.f25cb5a1.png";
+},{}],"../public/5.png":[function(require,module,exports) {
+module.exports = "/5.c645b27e.png";
+},{}],"../public/0.png":[function(require,module,exports) {
+module.exports = "/0.c85bfd3c.png";
+},{}],"module/ImageList.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.lists = lists;
+
+var _ = _interopRequireDefault(require("../../public/1.png"));
+
+var _2 = _interopRequireDefault(require("../../public/2.png"));
+
+var _3 = _interopRequireDefault(require("../../public/6.png"));
+
+var _4 = _interopRequireDefault(require("../../public/7.png"));
+
+var _5 = _interopRequireDefault(require("../../public/3.png"));
+
+var _6 = _interopRequireDefault(require("../../public/4.png"));
+
+var _7 = _interopRequireDefault(require("../../public/5.png"));
+
+var _8 = _interopRequireDefault(require("../../public/0.png"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const category = [_8.default, _.default, _2.default, _5.default, _6.default, _7.default, _3.default, _4.default];
+
+function lists(id) {
+  return category[id];
+}
+},{"../../public/1.png":"../public/1.png","../../public/2.png":"../public/2.png","../../public/6.png":"../public/6.png","../../public/7.png":"../public/7.png","../../public/3.png":"../public/3.png","../../public/4.png":"../public/4.png","../../public/5.png":"../public/5.png","../../public/0.png":"../public/0.png"}],"components/Slide.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39901,9 +40234,7 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _ = _interopRequireDefault(require("../../public/\uC2DD\uBE44.png"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var category = _interopRequireWildcard(require("../module/ImageList"));
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -39912,7 +40243,7 @@ class Slide extends _react.Component {
     return _react.default.createElement("div", {
       className: "cardbox virtual-acc"
     }, _react.default.createElement("img", {
-      src: this.props.index
+      src: category.lists(this.props.categoryId)
     }));
   }
 
@@ -39920,7 +40251,7 @@ class Slide extends _react.Component {
 
 var _default = Slide;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","../../public/식비.png":"../public/식비.png"}],"../public/leftarrow.png":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../module/ImageList":"module/ImageList.js"}],"../public/leftarrow.png":[function(require,module,exports) {
 module.exports = "/leftarrow.ad6d5fa4.png";
 },{}],"../public/rightarrow.png":[function(require,module,exports) {
 module.exports = "/rightarrow.0f241c6d.png";
@@ -39969,7 +40300,7 @@ class RightArrow extends _react.Component {
 }
 
 exports.RightArrow = RightArrow;
-},{"react":"../node_modules/react/index.js","../../public/leftarrow.png":"../public/leftarrow.png","../../public/rightarrow.png":"../public/rightarrow.png"}],"components/Addition.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../../public/leftarrow.png":"../public/leftarrow.png","../../public/rightarrow.png":"../public/rightarrow.png"}],"components/Card.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39979,117 +40310,52 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _axios = _interopRequireDefault(require("axios"));
+var _Slide = _interopRequireDefault(require("./Slide"));
+
+var _Arrow = require("./Arrow");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-class Addition extends _react.Component {
+class Card extends _react.Component {
   constructor(props) {
     super(props);
 
-    this.handleChange = contents => {
-      event => {
-        var targetInput = {};
-        targetInput[contents] = event.target.value;
-        this.setState({});
-      };
+    this.handleonClick = event => {
+      this.props.handleAddAccount(true);
     };
-
-    this.handleSubmit = async event => {
-      const data = {
-        name: this.state.name,
-        amount: this.state.amount
-      };
-      console.log(data);
-      const response = await _axios.default.post("/picture-on-map/v1/accounts/virtualAccounts/add", data);
-
-      if (response === 200) {
-        this.props.parent(false);
-      }
-    };
-
-    this.state = {
-      name: "",
-      amount: ""
-    };
-    this.handleChange = this.handleChange.bind(this);
   }
 
   render() {
+    console.log(this.props.info);
     return _react.default.createElement("article", {
       className: "slider"
     }, _react.default.createElement("div", {
       className: "top"
-    }, "\uACC4\uC88C\uCD94\uAC00"), _react.default.createElement("form", null, _react.default.createElement("div", {
+    }, this.props.category, " \uACC4\uC88C"), _react.default.createElement("div", {
       className: "middle"
-    }, _react.default.createElement("label", null, " \uD1B5\uC7A5\uC774\uB984 "), _react.default.createElement("br", null), _react.default.createElement("input", {
-      type: "text",
-      value: this.state.name,
-      onChange: this.handleChange("name")
-    }), _react.default.createElement("br", null), _react.default.createElement("label", null, " \uC124\uC815\uAE08\uC561 "), _react.default.createElement("br", null), _react.default.createElement("input", {
-      type: "text",
-      value: this.state.amount,
-      onChange: this.handleChange("amount")
-    })), _react.default.createElement("br", null), _react.default.createElement("div", {
+    }, _react.default.createElement(_Arrow.LeftArrow, {
+      handlePreAccount: this.props.handlePreAccount
+    }), _react.default.createElement(_Slide.default, {
+      categoryId: this.props.categoryId
+    }), _react.default.createElement(_Arrow.RightArrow, {
+      handleNextAccount: this.props.handleNextAccount
+    })), _react.default.createElement("div", {
       className: "bottom"
-    }, _react.default.createElement("button", {
-      type: "submit"
-    }, "\uD655\uC778!"))));
+    }, _react.default.createElement("p", null, this.props.amount), _react.default.createElement("button", {
+      className: "btn btn-outline-secondary"
+    }, "\uC870\uD68C"), _react.default.createElement("button", {
+      className: "btn btn-outline-dark",
+      onClick: this.handleonClick.bind(this)
+    }, "\uCD94\uAC00")));
   }
 
 }
 
-var _default = Addition;
+var _default = Card;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js"}],"../public/취미:여가.png":[function(require,module,exports) {
-module.exports = "/취미:여가.12ca083d.png";
-},{}],"../public/쇼핑.png":[function(require,module,exports) {
-module.exports = "/쇼핑.cb45a8a2.png";
-},{}],"../public/교육.png":[function(require,module,exports) {
-module.exports = "/교육.532eff0b.png";
-},{}],"../public/카페:간식.png":[function(require,module,exports) {
-module.exports = "/카페:간식.a224d019.png";
-},{}],"../public/편의점:마트:잡화.png":[function(require,module,exports) {
-module.exports = "/편의점:마트:잡화.6268f6b8.png";
-},{}],"../public/주거:통신.png":[function(require,module,exports) {
-module.exports = "/주거:통신.ae61ab3b.png";
-},{}],"module/ImageList.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.lists = lists;
-
-var _ = _interopRequireDefault(require("../../public/\uC2DD\uBE44.png"));
-
-var _2 = _interopRequireDefault(require("../../public/\uCDE8\uBBF8:\uC5EC\uAC00.png"));
-
-var _3 = _interopRequireDefault(require("../../public/\uC1FC\uD551.png"));
-
-var _4 = _interopRequireDefault(require("../../public/\uAD50\uC721.png"));
-
-var _5 = _interopRequireDefault(require("../../public/\uCE74\uD398:\uAC04\uC2DD.png"));
-
-var _6 = _interopRequireDefault(require("../../public/\uD3B8\uC758\uC810:\uB9C8\uD2B8:\uC7A1\uD654.png"));
-
-var _7 = _interopRequireDefault(require("../../public/\uC8FC\uAC70:\uD1B5\uC2E0.png"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const category = [_.default, _2.default, _3.default, _4.default, _5.default, _6.default, _7.default];
-
-function lists() {
-  return category;
-}
-},{"../../public/식비.png":"../public/식비.png","../../public/취미:여가.png":"../public/취미:여가.png","../../public/쇼핑.png":"../public/쇼핑.png","../../public/교육.png":"../public/교육.png","../../public/카페:간식.png":"../public/카페:간식.png","../../public/편의점:마트:잡화.png":"../public/편의점:마트:잡화.png","../../public/주거:통신.png":"../public/주거:통신.png"}],"styles/pages/home.css":[function(require,module,exports) {
-var reloadCSS = require('_css_loader');
-
-module.hot.dispose(reloadCSS);
-module.hot.accept(reloadCSS);
-},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../node_modules/bootstrap/dist/css/bootstrap.css":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./Slide":"components/Slide.jsx","./Arrow":"components/Arrow.jsx"}],"styles/pages/home.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -40108,13 +40374,9 @@ var _axios = _interopRequireDefault(require("axios"));
 
 var _NavBar = _interopRequireDefault(require("../components/NavBar"));
 
-var _Slide = _interopRequireDefault(require("../components/Slide"));
-
-var _Arrow = require("../components/Arrow");
-
 var _Addition = _interopRequireDefault(require("../components/Addition"));
 
-var category = _interopRequireWildcard(require("../module/ImageList"));
+var _Card = _interopRequireDefault(require("../components/Card"));
 
 require("../styles/pages/home.css");
 
@@ -40128,6 +40390,13 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 class Home extends _react.Component {
   constructor(props) {
     super(props);
+    this.id = 0;
+
+    this.handleAddAccount = CallFromChild => {
+      this.setState({
+        add: CallFromChild
+      });
+    };
 
     this.addCallback = CallFromChild => {
       this.setState({
@@ -40135,57 +40404,72 @@ class Home extends _react.Component {
       });
     };
 
+    this.componentDidMount = async event => {
+      const response = await _axios.default.get("/picture-on-map/v1/accounts/virtualAccounts/");
+      console.log(response.data.data);
+      console.log(response.data.data[0].amount);
+      console.log(response.data.data[0].category.name);
+
+      if (response.status == 200) {
+        this.createAccountObject(response.data.data);
+      }
+    };
+
     this.state = {
-      account: [],
+      accounts: [],
+      categoryId: -1,
+      category: "",
+      amount: 0,
+      totalindex: 0,
       curruntindex: 0,
       add: false
     };
+    this.handleNextAccount = this.handleNextAccount.bind(this);
+    this.handlePreAccount = this.handlePreAccount.bind(this);
+    this.handleAddAccount = this.handleAddAccount.bind(this);
   }
 
   handleNextAccount() {
+    console.log(this.state.totalindex);
     var index = this.state.curruntindex;
+    console.log(index);
+    console.log("다음");
 
-    if (index != 6) {
-      return this.setState({
-        curruntindex: index + 1
+    if (index < this.state.totalindex - 1) {
+      index++;
+      console.log(index);
+      this.setState({
+        curruntindex: index
       });
+      this.componentDidMount();
     }
   }
 
   handlePreAccount() {
+    console.log(this.state.totalindex);
     var index = this.state.curruntindex;
-    console.log;
+    console.log("이전");
 
-    if (index != 0) {
-      return this.setState({
-        curruntindex: index - 1
+    if (index > 0) {
+      index--;
+      console.log(index);
+      this.setState({
+        curruntindex: index
       });
+      this.componentDidMount();
     }
   }
 
-  handleAddAccount() {
+  createAccountObject(obj) {
     this.setState({
-      add: true
-    });
-  }
-
-  componentDidMount() {
-    _axios.default.get("/picture-on-map/v1/accounts/virtualAccounts/").then(res => {
-      console.log("성공");
-      console.log(res);
-      console.log(JSON.parse(res.data));
-      const account = res.data.body;
-      this.setState({
-        account: account.virtualAccount
-      });
-    }).catch(error => {
-      console.log(error);
+      amount: obj[this.state.curruntindex].amount,
+      categoryId: obj[this.state.curruntindex].category.id,
+      category: obj[this.state.curruntindex].category.name,
+      totalindex: obj.length
     });
   }
 
   render() {
-    const item = category.lists();
-    const real_item = this.state.account;
     var template;
 
     if (this.state.add) {
@@ -40193,26 +40477,14 @@ class Home extends _react.Component {
         parent: this.addCallback
       });
     } else {
-      template = _react.default.createElement("article", {
-        className: "slider"
-      }, _react.default.createElement("div", {
-        className: "top"
-      }, real_item[this.state.curruntindex], " \uACC4\uC88C"), _react.default.createElement("div", {
-        className: "middle"
-      }, _react.default.createElement(_Arrow.LeftArrow, {
-        handlePreAccount: this.handlePreAccount.bind(this)
-      }), _react.default.createElement(_Slide.default, {
-        index: item[this.state.curruntindex]
-      }), _react.default.createElement(_Arrow.RightArrow, {
-        handleNextAccount: this.handleNextAccount.bind(this)
-      })), _react.default.createElement("div", {
-        className: "bottom"
-      }, _react.default.createElement("p", null, real_item[this.state.curruntindex]), _react.default.createElement("button", {
-        className: "btn btn-outline-secondary"
-      }, "\uC870\uD68C"), _react.default.createElement("button", {
-        className: "btn btn-outline-dark",
-        onClick: this.handleAddAccount.bind(this)
-      }, "\uCD94\uAC00")));
+      template = _react.default.createElement(_Card.default, {
+        amount: this.state.amount,
+        categoryId: this.state.categoryId,
+        category: this.state.category,
+        handlePreAccount: this.handlePreAccount,
+        handleNextAccount: this.handleNextAccount,
+        handleAddAccount: this.handleAddAccount
+      });
     }
 
     return _react.default.createElement("div", null, _react.default.createElement(_NavBar.default, null), _react.default.createElement("section", null, template));
@@ -40222,7 +40494,7 @@ class Home extends _react.Component {
 
 var _default = Home;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","../components/NavBar":"components/NavBar.jsx","../components/Slide":"components/Slide.jsx","../components/Arrow":"components/Arrow.jsx","../components/Addition":"components/Addition.jsx","../module/ImageList":"module/ImageList.js","../styles/pages/home.css":"styles/pages/home.css","bootstrap/dist/css/bootstrap.css":"../node_modules/bootstrap/dist/css/bootstrap.css"}],"pages/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","../components/NavBar":"components/NavBar.jsx","../components/Addition":"components/Addition.jsx","../components/Card":"components/Card.jsx","../styles/pages/home.css":"styles/pages/home.css","bootstrap/dist/css/bootstrap.css":"../node_modules/bootstrap/dist/css/bootstrap.css"}],"pages/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40528,7 +40800,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60193" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56132" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
