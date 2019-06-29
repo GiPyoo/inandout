@@ -12,6 +12,4 @@ public class DateUtilsTest {
         String latestModificationTimeOfTransactionHistory = "20190628095200";
         assertEquals(true, DateUtils.checkNewModification(latestModificationTimeOfTransactionHistory, latestLoginTimeOfUser));
     }
-
-
 }
