@@ -64,10 +64,11 @@ class Addition extends Component {
             >
               <option value="1">식비</option>
               <option value="2">취미/여가</option>
-              <option value="3">편의점/마트/잡화</option>
-              <option value="4">주거/통신</option>
-              <option value="5">쇼핑</option>
-              <option value="6">교육</option>
+              <option value="3">카페/간식</option>
+              <option value="4">편의점/마트/잡화</option>
+              <option value="5">주거/통신</option>
+              <option value="6">쇼핑</option>
+              <option value="7">교육</option>
             </select>
           </div>
           <div className={"bottom"}>
