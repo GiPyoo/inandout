@@ -20,8 +20,8 @@ public class ApiHackathonController {
     }
 
     @PostMapping("/saveAccountTransactionHistory")
-    public TransactionHistory saveAccountHistory(
-            @ModelAttribute TransactionHistory transactionHistory){
+    public TransactionHistory saveTransactionHistory(
+            @RequestBody TransactionHistory transactionHistory){
         System.out.println("getAccountHistory method : " + transactionHistory);
         return apiHackathonService.saveAccountHistory(transactionHistory);
     }

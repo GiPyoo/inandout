@@ -94,7 +94,7 @@ public class ApiRequestService {
 
         LocalDateTime createdAt = LocalDateTime.parse(apiHistory.getTransactionDate());
 
-        String tmpAccount = account.getGridInfo();
+//        String tmpAccount = account.getGridInfo();
         Long deposit = Long.parseLong(apiHistory.getOutputCash());
         Long withdraw = Long.parseLong(apiHistory.getInputCash());
 
@@ -110,7 +110,8 @@ public class ApiRequestService {
         //카테고리 판단
         // if category 가 나올경우 categoryId = 리턴값으로
 
-        return new AccountHistory(tmpAccount, findVirtualAccount(account, categoryId), createdAt, transaction, deposit, withdraw, amount);
+//        return new AccountHistory(tmpAccount, findVirtualAccount(account, categoryId), createdAt, transaction, deposit, withdraw, amount);
+        return null;
     }
 
     private VirtualAccount findVirtualAccount(Account account, long category) {

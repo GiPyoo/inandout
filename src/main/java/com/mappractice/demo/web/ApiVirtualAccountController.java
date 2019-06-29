@@ -25,7 +25,7 @@ public class ApiVirtualAccountController {
 
     @GetMapping("/")
     public ResponseEntity<RestResponse<List<VirtualAccount>>> getList(HttpSession session) {
-        apiRequestService.updateLocalTransactionHistory();
+        apiRequestService.updateLocalTransactionHistory(session);
         return ResponseGenerator.generateResponseEntity(
                 virtualAccountService.getList(session),
                 HttpStatus.OK);

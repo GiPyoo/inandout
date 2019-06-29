@@ -2,12 +2,14 @@ package com.mappractice.demo.hackaton;
 
 import com.mappractice.demo.hackaton.domain.Account;
 import com.mappractice.demo.hackaton.domain.TransactionHistory;
+import com.mappractice.demo.hackaton.domain.TransactionHistoryRepository;
 import com.mappractice.demo.hackaton.dto.TransactionHistoryResponseDTO;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ApiHackathonService {
 
+    private AccountRepository accountRepository;
     private TransactionHistoryRepository transactionHistoryRepository;
 
     public ApiHackathonService(TransactionHistoryRepository transactionHistoryRepository) {
