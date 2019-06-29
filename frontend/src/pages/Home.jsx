@@ -39,8 +39,8 @@ class Home extends Component {
       index++;
       console.log(index);
       this.setState({ curruntindex: index });
-      this.componentDidMount();
     }
+    this.componentDidMount();
   }
 
   handlePreAccount() {
@@ -51,8 +51,8 @@ class Home extends Component {
       index--;
       console.log(index);
       this.setState({ curruntindex: index });
-      this.componentDidMount();
     }
+    this.componentDidMount();
   }
 
   handleAddAccount = CallFromChild => {
@@ -63,7 +63,6 @@ class Home extends Component {
     this.setState({
       add: CallFromChild
     });
-    this.componentDidMount();
   };
 
   createAccountObject(obj) {
