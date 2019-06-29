@@ -17,9 +17,14 @@ public class DateUtils {
     public static boolean checkNewModification( String LatestModificationTimeOfTransactionHistory, String LatestLoginTimeOfUser) {
         boolean needUpdate = false;
         for (int i = 0; i < LatestLoginTimeOfUser.length(); i++) {
-            if (LatestLoginTimeOfUser.charAt(i) < LatestModificationTimeOfTransactionHistory.charAt(i)) {
-                needUpdate = true;
-                break;
+            if (LatestLoginTimeOfUser.charAt(i) != LatestModificationTimeOfTransactionHistory.charAt(i)) {
+                if(LatestLoginTimeOfUser.charAt(i) < LatestModificationTimeOfTransactionHistory.charAt(i)) {
+                    needUpdate = true;
+                    break;
+                }
+                if(LatestLoginTimeOfUser.charAt(i) > LatestModificationTimeOfTransactionHistory.charAt(i)) {
+                    break;
+                }
             }
         }
         return needUpdate;
