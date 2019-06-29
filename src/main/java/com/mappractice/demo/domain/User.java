@@ -37,7 +37,7 @@ public class User {
     private List<VirtualAccount> virtualAccounts;
 
     @Column(nullable = false)
-    private LocalDateTime userLatestTime = LocalDateTime.now();
+    private LocalDateTime userLatestTime = LocalDateTime.of(2008,10,23,10,23,24);
 
     public User(String account, String password, String name) {
         this.account = account;

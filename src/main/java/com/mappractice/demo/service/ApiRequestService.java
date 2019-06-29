@@ -42,7 +42,8 @@ public class ApiRequestService {
 
         // 그 최신시간과 유저 최신시간 비교
         List<TransactionHistory> apiHistories = response.getDatas();
-        String latestJoinTime = user.getUserLatestTime().toString();
+        String latestJoinTime = user.getUserLatestTime().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+
         int index = getFirstIndexNeedUpdate(apiHistories, latestJoinTime);
 
         // 최신시간 넘는 애들 업데이트
@@ -64,7 +65,7 @@ public class ApiRequestService {
 
         for (int i = 0; i < histories.size(); i++) {
             if (DateUtils.checkNewModification(
-                    histories.get(i).getTransactionDate()
+                    histories.get(i).getTransactionDate().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
                     , userLatestDate)) {
                 return i;
             }
@@ -83,12 +84,11 @@ public class ApiRequestService {
     }
 
     private void updateAccountHistory(AccountHistory accountHistory) {
-        reflectVirtualAccount(accountHistory);
         accountHistoryRepository.save(accountHistory);
     }
 
     private void reflectVirtualAccount(AccountHistory accountHistory) {
-        VirtualAccount virtualAccount = accountHistory.getVirtualAccount();
+      VirtualAccount virtualAccount = accountHistory.getVirtualAccount();
         virtualAccount.reflectHistory(accountHistory);
 
         virtualAccountRepository.save(virtualAccount);
@@ -97,25 +97,23 @@ public class ApiRequestService {
     private AccountHistory makeAccountHistory(TransactionHistory apiHistory, User user) {
 
         int transaction = -1;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        LocalDateTime createdAt = LocalDateTime.parse(apiHistory.getTransactionDate(),formatter);
+        LocalDateTime createdAt = apiHistory.getTransactionDate();
 
-        Long deposit = Long.parseLong(apiHistory.getOutputCash());
-        Long withdraw = Long.parseLong(apiHistory.getInputCash());
+        Long deposit = Long.parseLong(apiHistory.getInputCash());
+        Long withdraw = Long.parseLong(apiHistory.getOutputCash());
 
-        if (deposit > 0) //입금 0 출금 1
-            transaction = 0;
-        else {
-            transaction = 1;
-        }
-        Long amount = Long.parseLong(apiHistory.getAmount());
+        long moneyChange = deposit - withdraw;
+        //Long totleAmount = Long.parseLong(apiHistory.getAmount());
 
         Long categoryId = 0l;
 
         //카테고리 판단
         // if category 가 나올경우 categoryId = 리턴값으로
+        VirtualAccount targetVirtualAccount = findVirtualAccount(user, categoryId);
+        targetVirtualAccount.depositMoney(moneyChange);
 
-        return new AccountHistory(user.getAccount(), findVirtualAccount(user, categoryId), createdAt, transaction, deposit, withdraw, amount);
+        return new AccountHistory(targetVirtualAccount, createdAt, transaction,
+                deposit, withdraw, targetVirtualAccount.getAmount());
     }
 
     private VirtualAccount findVirtualAccount(User user, long category) {

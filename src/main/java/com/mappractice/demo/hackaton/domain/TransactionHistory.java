@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -25,7 +26,7 @@ public class TransactionHistory extends AbstractEntity implements Comparable<Tra
 
     private String client;
 
-    private String transactionDate;
+    private LocalDateTime transactionDate;
 
     private String amount;
 
