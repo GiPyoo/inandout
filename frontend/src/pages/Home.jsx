@@ -16,8 +16,9 @@ class Home extends Component {
 
     this.state = {
       accounts: [],
-      categoryId: -1,
+      categoryId: 0,
       category: "",
+      name: "",
       amount: 0,
       totalindex: 0,
       curruntindex: 0,
@@ -62,6 +63,7 @@ class Home extends Component {
     this.setState({
       add: CallFromChild
     });
+    this.componentDidMount();
   };
 
   createAccountObject(obj) {
@@ -69,6 +71,7 @@ class Home extends Component {
       amount: obj[this.state.curruntindex].amount,
       categoryId: obj[this.state.curruntindex].category.id,
       category: obj[this.state.curruntindex].category.name,
+      name: obj[this.state.curruntindex].name,
       totalindex: obj.length
     });
   }
@@ -95,6 +98,7 @@ class Home extends Component {
           amount={this.state.amount}
           categoryId={this.state.categoryId}
           category={this.state.category}
+          name={this.state.name}
           handlePreAccount={this.handlePreAccount}
           handleNextAccount={this.handleNextAccount}
           handleAddAccount={this.handleAddAccount}

@@ -23,7 +23,7 @@ public class SessionUtils {
     }
 
     public static boolean isLoginUser(HttpSession httpSession, User user){
-        return SessionUtils.getLoginUser(httpSession).getId().equals(user);
+        return SessionUtils.getLoginUser(httpSession).getId().equals(user.getId());
     }
 
 
