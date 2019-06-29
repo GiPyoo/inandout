@@ -102,6 +102,7 @@ public class ApiRequestService {
 
         Long deposit = Long.parseLong(apiHistory.getInputCash());
         Long withdraw = Long.parseLong(apiHistory.getOutputCash());
+        String name = apiHistory.getClient();
 
         long moneyChange = deposit - withdraw;
         //Long totleAmount = Long.parseLong(apiHistory.getAmount());
@@ -113,7 +114,7 @@ public class ApiRequestService {
         VirtualAccount targetVirtualAccount = findVirtualAccount(user, categoryId);
         targetVirtualAccount.depositMoney(moneyChange);
 
-        return new AccountHistory(targetVirtualAccount, createdAt, transaction,
+        return new AccountHistory(name, targetVirtualAccount, createdAt, transaction,
                 deposit, withdraw, targetVirtualAccount.getAmount());
     }
 
