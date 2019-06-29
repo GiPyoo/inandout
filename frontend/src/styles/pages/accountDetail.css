@@ -5,6 +5,15 @@ article {
     position: relative;
 }
 
+@media screen and (max-width: 780px) {
+    article {
+        max-width: 100%;
+        margin: auto;
+        top: 100px;
+        position: relative;
+    }
+}
+
 .card {
     padding: 4px;
     margin: 8px;
@@ -23,13 +32,26 @@ article {
     float: left;
 }
 
-.good.withdraw {
-    text-align: right;
+.good.day {
     color: black;
-    font-size: 3em;
-    line-height: 150px;
-    font-family: happyhappy;
+    text-align: right;
     width: 80%
+}
+
+.day .withdraw {
+    text-align: right;
+    position: relative;
+    top: 40px;
+    font-size: 30px;
+    font-family: happyhappy;
+}
+
+.day .sorrow {
+    text-align: right;
+    font-size: 15px;
+    font-family: happyhappy;
+    position: relative;
+    top: 35px;
 }
 
 .good.side {
@@ -41,7 +63,7 @@ article {
     position: relative;
     top: 40px;
     font-family: happyhappy;
-    font-size: 40px;
+    font-size: 30px;
 }
 
 .side .category {
@@ -51,11 +73,11 @@ article {
     font-size: 15px;
 }
 
-.good.deposit {
+.day .deposit {
     text-align: right;
-    font-size: 3em;
+    position: relative;
     color: blue;
-    width: 80%;
-    line-height: 150px;
+    top: 40px;
+    font-size: 30px;
     font-family: happyhappy;
 }

@@ -19,7 +19,10 @@ class HistoryDetail extends Component {
               <div className={"accountname"}>{accountname}</div>
               <div className={"category"}>{category}</div>
             </div>
-            <div className={"good withdraw"}>- {withdraw} 원 </div>
+            <div className={"good day"}>
+              <div className={"withdraw"}>- {withdraw} 원 </div>
+              <div className={"sorrow"}> 잔액 : {amount} </div>
+            </div>
           </div>
           <div className={"big bottom"}>{createdAt}</div>
         </div>
@@ -32,7 +35,10 @@ class HistoryDetail extends Component {
               <div className={"accountname"}>{accountname}</div>
               <div className={"category"}>{category}</div>
             </div>
-            <div className={"good deposit"}>{deposit} 원 </div>
+            <div className={"good day"}>
+              <div className={"deposit"}> {deposit} 원 </div>
+              <div className={"sorrow"}> 잔액 : {amount} </div>
+            </div>
           </div>
           <div className={"big bottom"}>{createdAt}</div>
         </div>
